@@ -1,31 +1,18 @@
 'use client';
 
 // ============================================================
-// Campus OS — Quote Widget
-// Daily motivational quote for students
+// Campus OS — Quote Widget (Dynamic)
+// Uses ZenQuotes API with 3-min rotation + lock/unlock triggers
 // ============================================================
-import { motion } from 'framer-motion';
-
-const QUOTES = [
-  { quote: 'The expert in anything was once a beginner.', author: 'Helen Hayes' },
-  { quote: 'Push yourself, because no one else is going to do it for you.', author: 'Unknown' },
-  { quote: 'Great things never come from comfort zones.', author: 'Unknown' },
-  { quote: 'Dream it. Wish it. Do it.', author: 'Unknown' },
-  { quote: 'Success doesn\'t just find you. You have to go out and get it.', author: 'Unknown' },
-  { quote: 'Small steps in the right direction can turn out to be the biggest step of your life.', author: 'Unknown' },
-  { quote: 'Believe you can and you\'re halfway there.', author: 'Theodore Roosevelt' },
-];
+import { motion, AnimatePresence } from 'framer-motion';
+import { useQuotes } from '@/hooks/useQuotes';
 
 export default function QuoteWidget() {
-  // Pick a daily quote using day-of-year index
-  const dayOfYear = Math.floor(
-    (Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000
-  );
-  const { quote, author } = QUOTES[dayOfYear % QUOTES.length];
+  const { quote, author, isLoading } = useQuotes();
 
   return (
     <motion.div
-      className="absolute top-4 left-4 glass rounded-2xl p-4 w-64 select-none cursor-default"
+      className="absolute top-4 left-4 glass rounded-2xl p-4 w-72 select-none cursor-default z-10"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1, transition: { delay: 0.6 } }}
       drag
@@ -33,8 +20,29 @@ export default function QuoteWidget() {
       style={{ touchAction: 'none' }}
     >
       <p className="text-[#34d399] text-xs font-medium mb-2 uppercase tracking-wider">💡 Daily Quote</p>
-      <p className="text-[#e2e8f0] text-sm leading-relaxed italic">"{quote}"</p>
-      <p className="text-[#475569] text-xs mt-2">— {author}</p>
+
+      {isLoading ? (
+        <div className="space-y-2 animate-pulse">
+          <div className="h-3 bg-[#1e293b] rounded w-full" />
+          <div className="h-3 bg-[#1e293b] rounded w-3/4" />
+          <div className="h-2 bg-[#1e293b] rounded w-1/3 mt-3" />
+        </div>
+      ) : (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={quote}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <p className="text-[#e2e8f0] text-sm leading-relaxed italic">
+              &ldquo;{quote}&rdquo;
+            </p>
+            <p className="text-[#475569] text-xs mt-2">— {author}</p>
+          </motion.div>
+        </AnimatePresence>
+      )}
     </motion.div>
   );
 }

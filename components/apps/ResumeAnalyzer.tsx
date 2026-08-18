@@ -1,58 +1,138 @@
 'use client';
-// Campus OS — Resume Analyzer App
-import { motion } from 'framer-motion';
-import { FileText, Upload, Zap, Target, CheckCircle } from 'lucide-react';
 
-const FEATURES = [
-  { icon: <Upload size={18} />, title: 'ATS Score Check', desc: 'Analyze your resume against ATS systems', color: '#60a5fa' },
-  { icon: <Target size={18} />, title: 'Job Match %', desc: 'Match resume to specific job descriptions', color: '#a78bfa' },
-  { icon: <Zap size={18} />, title: 'AI Suggestions', desc: 'Get AI-powered improvement suggestions', color: '#34d399' },
-  { icon: <CheckCircle size={18} />, title: 'Format Check', desc: 'Verify formatting and structure quality', color: '#fbbf24' },
-];
+// ============================================================
+// Campus OS — Resume Analyzer App
+// Deep AI semantic analysis and interactive resume editor
+// ============================================================
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
+import { useResumeAnalyzerStore } from '@/stores/useResumeAnalyzerStore';
+import Sidebar from './ResumeAnalyzer/Sidebar';
+import UploadZone from './ResumeAnalyzer/UploadZone';
+import BentoDashboard from './ResumeAnalyzer/BentoDashboard';
+import InteractiveEditor from './ResumeAnalyzer/InteractiveEditor';
+import { ErrorBoundary } from '../ErrorBoundary';
+import { LayoutDashboard, Edit3 } from 'lucide-react';
 
 export default function ResumeAnalyzer() {
+  const { 
+    sessions, 
+    activeSessionId, 
+    showContinueDialog, 
+    dismissContinueDialog, 
+    createNewSession, 
+    loadSession,
+    isAnalyzing,
+    analysisProgress
+  } = useResumeAnalyzerStore();
+  
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'editor'>('dashboard');
+
+  const activeSession = sessions.find(s => s.id === activeSessionId);
+  const hasAnalysis = activeSession && activeSession.analysis;
+
+  // On mount, if there's a recent session, show a dialog (handled via store state)
+  // If no sessions, automatically close dialog and start fresh
+  useEffect(() => {
+    if (sessions.length === 0 && showContinueDialog) {
+      dismissContinueDialog();
+    }
+  }, [sessions, showContinueDialog, dismissContinueDialog]);
+
   return (
-    <div className="h-full bg-[#0a0f1e] text-[#e2e8f0] p-6 overflow-y-auto">
-      <div className="max-w-lg mx-auto">
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-[#60a5fa]/20 flex items-center justify-center mx-auto mb-4">
-            <FileText className="text-[#60a5fa]" size={28} />
+    <MotionConfig reducedMotion="user">
+      <div className="flex h-full bg-[#0a0f1e] text-[#e2e8f0] overflow-hidden">
+        
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col relative">
+          
+          {/* Top Navigation / Tabs (Only if we have an active analysis or are analyzing) */}
+          {(hasAnalysis || isAnalyzing) && (
+            <div className="flex justify-between items-center border-b border-[#1e293b] p-3">
+              <div className="w-[150px]"></div>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => setActiveTab('dashboard')}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors ${activeTab === 'dashboard' ? 'bg-[#60a5fa]/20 text-[#60a5fa]' : 'text-[#94a3b8] hover:bg-[#1e293b]'}`}
+                >
+                  <LayoutDashboard size={16} /> Dashboard
+                </button>
+                <button 
+                  disabled={isAnalyzing}
+                  onClick={() => setActiveTab('editor')}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 transition-colors ${activeTab === 'editor' ? 'bg-[#60a5fa]/20 text-[#60a5fa]' : 'text-[#94a3b8] hover:bg-[#1e293b]'} ${isAnalyzing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <Edit3 size={16} /> Editor
+                </button>
+              </div>
+              <div className="w-[150px] flex justify-end">
+                {hasAnalysis && !isAnalyzing && (
+                  <button 
+                    onClick={() => alert("Save to Interview Prep - Phase 2 Feature stub")}
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#1e293b] text-[#60a5fa] hover:bg-[#334155] transition-colors border border-[#60a5fa]/30 shadow-[0_0_8px_rgba(96,165,250,0.2)]"
+                  >
+                    Save to Interview Prep
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Dynamic Content */}
+          <div className="flex-1 relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              {!hasAnalysis && !isAnalyzing ? (
+                <motion.div key="upload" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
+                  <UploadZone />
+                </motion.div>
+              ) : activeTab === 'dashboard' ? (
+                <motion.div key="dashboard" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
+                  <ErrorBoundary>
+                    <BentoDashboard />
+                  </ErrorBoundary>
+                </motion.div>
+              ) : (
+                <motion.div key="editor" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
+                  <ErrorBoundary>
+                    <InteractiveEditor />
+                  </ErrorBoundary>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <h2 className="text-2xl font-bold text-[#e2e8f0]">Resume Analyzer</h2>
-          <p className="text-[#94a3b8] text-sm mt-2">AI-powered resume analysis and career optimization</p>
-        </div>
 
-        {/* Upload zone */}
-        <div className="glass rounded-2xl p-8 text-center border-2 border-dashed border-[#60a5fa]/30 mb-6 cursor-pointer hover:border-[#60a5fa]/60 transition-colors">
-          <Upload className="text-[#60a5fa]/60 mx-auto mb-3" size={32} />
-          <p className="text-[#e2e8f0] font-medium">Drop your resume here</p>
-          <p className="text-[#475569] text-sm mt-1">PDF, DOCX supported — Max 5MB</p>
-          <button className="mt-4 px-5 py-2 bg-[#60a5fa]/20 text-[#60a5fa] rounded-xl text-sm font-medium hover:bg-[#60a5fa]/30 transition-colors">
-            Browse Files
-          </button>
-        </div>
-
-        {/* Feature grid */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {FEATURES.map((f, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: i * 0.1 } }}
-              className="glass rounded-xl p-4"
-            >
-              <div className="flex items-center gap-2 mb-2" style={{ color: f.color }}>{f.icon}</div>
-              <p className="text-[#e2e8f0] text-sm font-semibold">{f.title}</p>
-              <p className="text-[#475569] text-xs mt-1">{f.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="glass rounded-xl p-4 border border-[#60a5fa]/20 text-center">
-          <p className="text-[#60a5fa] font-semibold">🚀 AI Engine — Phase 2</p>
-          <p className="text-[#475569] text-xs mt-1">Resume parsing and AI analysis coming in Phase 2</p>
+          {/* Session Recovery Dialog */}
+          <AnimatePresence>
+            {showContinueDialog && sessions.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="absolute inset-0 z-[100] bg-black/60 flex items-center justify-center backdrop-blur-md"
+              >
+                <motion.div
+                  initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+                  className="bg-[#0f172a] border border-[#1e293b] p-6 rounded-2xl shadow-2xl max-w-sm text-center"
+                >
+                  <h3 className="text-lg font-bold text-[#e2e8f0] mb-2">Continue Last Session?</h3>
+                  <p className="text-sm text-[#94a3b8] mb-6">You have a previous analysis for <strong className="text-white">{sessions[0].resumeName}</strong>. Do you want to continue where you left off?</p>
+                  
+                  <div className="flex gap-3 justify-center">
+                    <button onClick={createNewSession} className="px-4 py-2 rounded-xl text-sm font-medium bg-[#1e293b] text-[#e2e8f0] hover:bg-[#334155] transition-colors">
+                      Start Fresh
+                    </button>
+                    <button onClick={() => loadSession(sessions[0].id)} className="px-4 py-2 rounded-xl text-sm font-medium bg-[#60a5fa] text-white hover:bg-[#3b82f6] transition-colors shadow">
+                      Continue Analysis
+                    </button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
         </div>
       </div>
-    </div>
+    </MotionConfig>
   );
 }

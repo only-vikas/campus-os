@@ -1,8 +1,9 @@
 'use client';
 
 // ============================================================
-// Campus OS — Window Manager
+// Campus OS — Window Manager (FIXED)
 // Renders all active windows with lazy-loaded app components
+// FIX: Parent container has position: relative + full size
 // ============================================================
 import { lazy, Suspense } from 'react';
 import { useWindowStore } from '@/stores/useWindowStore';
@@ -19,6 +20,7 @@ const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentTyp
   learning:  lazy(() => import('@/components/apps/LearningEngine')),
   campus:    lazy(() => import('@/components/apps/CampusPortal')),
   settings:  lazy(() => import('@/components/apps/Settings')),
+  weather:   lazy(() => import('@/components/apps/WeatherApp')),
 };
 
 function AppSkeleton() {
@@ -33,7 +35,14 @@ export default function WindowManager() {
   const { windows } = useWindowStore();
 
   return (
-    <>
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+      }}
+    >
       {windows.map((win) => {
         const AppComponent = AppComponents[win.appId];
         if (!AppComponent) return null;
@@ -46,6 +55,6 @@ export default function WindowManager() {
           </WindowFrame>
         );
       })}
-    </>
+    </div>
   );
 }

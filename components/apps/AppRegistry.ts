@@ -95,15 +95,26 @@ export const APP_REGISTRY: AppConfig[] = [
     minSize: { width: 580, height: 440 },
   },
   {
+    id: 'weather',
+    name: 'Weather',
+    icon: 'CloudSun',
+    color: '#fbbf24', // amber-400
+    description: 'Real-time weather with city search across India',
+    category: 'utility',
+    defaultSize: { width: 600, height: 560 },
+    defaultPosition: { x: 200, y: 50 },
+    minSize: { width: 420, height: 400 },
+  },
+  {
     id: 'settings',
     name: 'Settings',
     icon: 'Settings',
     color: '#94a3b8', // slate-400
     description: 'Customize your Campus OS experience',
     category: 'system',
-    defaultSize: { width: 680, height: 500 },
+    defaultSize: { width: 720, height: 520 },
     defaultPosition: { x: 200, y: 100 },
-    minSize: { width: 440, height: 360 },
+    minSize: { width: 560, height: 400 },
   },
 ];
 
@@ -120,5 +131,6 @@ export const DOCK_APP_IDS = [
   'finance',
   'learning',
   'campus',
+  'weather',
   'settings',
 ];

@@ -7,17 +7,20 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useDesktopStore } from '@/stores/useDesktopStore';
+import { useWeather } from '@/hooks/useWeather';
 import TopBar from './TopBar';
 import Dock from './Dock';
 import Spotlight from './Spotlight';
 import ContextMenu from './ContextMenu';
+import Toast from './Toast';
 import WindowManager from '@/components/windows/WindowManager';
 import ClockWidget from '@/components/widgets/ClockWidget';
 import WeatherWidget from '@/components/widgets/WeatherWidget';
 import QuoteWidget from '@/components/widgets/QuoteWidget';
 
 export default function Desktop() {
-  const { wallpaper } = useDesktopStore();
+  const { wallpaper, showQuotes, showWeather } = useDesktopStore();
+  const { toast } = useWeather();
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; open: boolean }>({
     x: 0, y: 0, open: false,
@@ -60,10 +63,10 @@ export default function Desktop() {
 
       {/* Desktop content area (below top bar, above dock) */}
       <div className="absolute inset-0 top-7 bottom-20">
-        {/* Desktop Widgets */}
+        {/* Desktop Widgets — conditionally rendered */}
         <ClockWidget />
-        <WeatherWidget />
-        <QuoteWidget />
+        {showWeather && <WeatherWidget />}
+        {showQuotes && <QuoteWidget />}
 
         {/* All open app windows */}
         <WindowManager />
@@ -82,6 +85,9 @@ export default function Desktop() {
         isOpen={contextMenu.open}
         onClose={() => setContextMenu((c) => ({ ...c, open: false }))}
       />
+
+      {/* Toast notifications */}
+      <Toast message={toast} />
 
       {/* Screen-too-small warning */}
       <div className="hidden max-[1280px]:flex fixed inset-0 bg-[#0f172a] z-[9999] items-center justify-center">
