@@ -7,13 +7,25 @@ interface LineOffset {
   delta: number;
 }
 
+export interface AnalysisHistoryEntry {
+  id: string;
+  timestamp: string;
+  code: string;
+  language: string;
+  result: CodeAnalysisResult;
+}
+
 export interface CodeGuardState {
   originalCode: string;
   currentCode: string;
   language: string;
   analysisResult: CodeAnalysisResult | null;
-  isAnalyzing: boolean;
-  viewMode: 'editor' | 'diff';
+  activeTab: 'editor' | 'history';
+  history: AnalysisHistoryEntry[];
+  
+  // Error handling
+  error: string | null;
+  warning: string | null;
   
   // Sets or arrays to track applied fixes and line shifts
   appliedFixes: number[];
@@ -26,6 +38,14 @@ export interface CodeGuardState {
   setAnalysisResult: (result: CodeAnalysisResult | null) => void;
   setIsAnalyzing: (isAnalyzing: boolean) => void;
   setViewMode: (mode: 'editor' | 'diff') => void;
+  setError: (error: string | null) => void;
+  setWarning: (warning: string | null) => void;
+  
+  setActiveTab: (tab: 'editor' | 'history') => void;
+  addToHistory: (entry: AnalysisHistoryEntry) => void;
+  loadFromHistory: (id: string) => void;
+  clearHistory: () => void;
+  startNewAnalysis: () => void;
   
   // Fix Mutation
   applyFix: (lineNumber: number, fixString: string) => void;
@@ -46,6 +66,10 @@ export const useCodeGuardStore = create<CodeGuardState>()(
       viewMode: 'editor',
       appliedFixes: [],
       lineOffsets: [],
+      activeTab: 'editor',
+      history: [],
+      error: null,
+      warning: null,
       
       setOriginalCode: (code) => set({ originalCode: code }),
       setCurrentCode: (code) => set({ currentCode: code }),
@@ -53,10 +77,47 @@ export const useCodeGuardStore = create<CodeGuardState>()(
       setAnalysisResult: (result) => set({ 
         analysisResult: result, 
         appliedFixes: [],
-        lineOffsets: [] 
+        lineOffsets: [],
+        error: null
       }),
       setIsAnalyzing: (isAnalyzing) => set({ isAnalyzing }),
       setViewMode: (mode) => set({ viewMode: mode }),
+      setError: (error) => set({ error }),
+      setWarning: (warning) => set({ warning }),
+      
+      setActiveTab: (tab) => set({ activeTab: tab }),
+      addToHistory: (entry) => set((state) => ({ history: [entry, ...state.history] })),
+      loadFromHistory: (id) => {
+        const state = get();
+        const entry = state.history.find(e => e.id === id);
+        if (entry) {
+          set({
+            currentCode: entry.code,
+            originalCode: entry.code,
+            language: entry.language,
+            analysisResult: entry.result,
+            activeTab: 'editor',
+            viewMode: 'editor',
+            appliedFixes: [],
+            lineOffsets: [],
+            error: null,
+            warning: null
+          });
+        }
+      },
+      clearHistory: () => set({ history: [] }),
+      startNewAnalysis: () => set({
+        currentCode: '',
+        originalCode: '',
+        analysisResult: null,
+        isAnalyzing: false,
+        viewMode: 'editor',
+        appliedFixes: [],
+        lineOffsets: [],
+        activeTab: 'editor',
+        error: null,
+        warning: null
+      }),
       
       applyFix: (originalLineNumber, fixString) => {
         const state = get();

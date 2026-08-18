@@ -18,14 +18,45 @@ export default function CodeEditor() {
   const [progressMsg, setProgressMsg] = useState('');
 
   const handleAnalyze = async () => {
+    // 1. Validation
+    const { validateCode, handleAPIError } = await import('@/services/codeReviewService');
+    const validation = validateCode(currentCode, language);
+    
+    if (!validation.valid) {
+      useCodeGuardStore.getState().setError(validation.message);
+      return;
+    }
+    
+    // Clear previous errors
+    useCodeGuardStore.getState().setError(null);
+    useCodeGuardStore.getState().setWarning(validation.warning || null);
+
     setIsAnalyzing(true);
     setAnalysisResult(null);
     setOriginalCode(currentCode); // Snapshot before analysis
+    
+    // If there's a warning (language mismatch), we can wait a bit to show it
+    if (validation.warning) {
+      setProgressMsg('Language mismatch detected. Proceeding...');
+      await new Promise(r => setTimeout(r, 1000));
+    }
+    
+    // Use detected language or fallback
+    const targetLang = validation.detectedLanguage || language;
+    
     try {
-      const result = await analyzeCode(currentCode, language, (msg) => setProgressMsg(msg));
+      const result = await analyzeCode(currentCode, targetLang, (msg) => setProgressMsg(msg));
       setAnalysisResult(result);
+      
+      useCodeGuardStore.getState().addToHistory({
+        id: Date.now().toString(),
+        timestamp: new Date().toLocaleTimeString(),
+        code: currentCode,
+        language: targetLang,
+        result: result
+      });
     } catch (err: any) {
-      alert(err.message || "Failed to analyze code");
+      useCodeGuardStore.getState().setError(handleAPIError(err));
     } finally {
       setIsAnalyzing(false);
       setProgressMsg('');

@@ -12,7 +12,25 @@ function ShieldIcon(props: any) {
 }
 
 export default function AnalysisPanel() {
-  const { analysisResult, isAnalyzing, viewMode, setViewMode } = useCodeGuardStore();
+  const { analysisResult, isAnalyzing, viewMode, setViewMode, error, warning } = useCodeGuardStore();
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full text-slate-500 p-8 text-center space-y-4">
+        <div className="w-24 h-24 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+          <span className="text-4xl">🚨</span>
+        </div>
+        <h3 className="text-xl font-semibold text-red-400">Analysis Failed</h3>
+        <p className="text-slate-300 max-w-sm">{error}</p>
+        <button 
+          onClick={() => useCodeGuardStore.getState().setError(null)}
+          className="mt-4 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-md transition-colors"
+        >
+          Dismiss
+        </button>
+      </div>
+    );
+  }
 
   if (isAnalyzing) {
     return (
@@ -26,6 +44,11 @@ export default function AnalysisPanel() {
           </div>
         </div>
         <p className="text-lg font-medium animate-pulse">Analyzing Code...</p>
+        {warning && (
+          <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400 text-sm max-w-xs text-center">
+            {warning}
+          </div>
+        )}
       </div>
     );
   }
