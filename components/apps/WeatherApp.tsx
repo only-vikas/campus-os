@@ -8,9 +8,9 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Cloud, Droplets, Wind, Eye, Thermometer, Sunrise, Sunset,
-  MapPin, Search, ArrowUp, Gauge, Navigation
+  MapPin, Search, ArrowUp, Gauge, Navigation, AlertTriangle
 } from 'lucide-react';
-import { useWeather, getWeatherInfo } from '@/hooks/useWeather';
+import { useWeatherStore, getWeatherInfo } from '@/stores/useWeatherStore';
 
 // Popular Indian cities for quick selection
 const POPULAR_CITIES = [
@@ -36,23 +36,31 @@ function timeAgo(timestamp: number): string {
 }
 
 export default function WeatherApp() {
-  const { weather, isLoading, toast, detectedCity, searchCity } = useWeather();
+  const { weather, isLoading, toast, detectedCity, searchCity } = useWeatherStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [showCities, setShowCities] = useState(false);
+  const [pendingCity, setPendingCity] = useState<string | null>(null);
 
-  const handleSearch = useCallback(async () => {
+  const handleSearch = useCallback((e?: React.FormEvent) => {
+    e?.preventDefault();
     if (searchQuery.trim()) {
-      await searchCity(searchQuery.trim());
-      setSearchQuery('');
+      setPendingCity(searchQuery.trim());
       setShowCities(false);
     }
-  }, [searchQuery, searchCity]);
+  }, [searchQuery]);
 
-  const handleCitySelect = useCallback(async (city: string) => {
-    await searchCity(city);
-    setSearchQuery('');
+  const handleCitySelect = useCallback((city: string) => {
+    setPendingCity(city);
     setShowCities(false);
-  }, [searchCity]);
+  }, []);
+
+  const confirmCityChange = async () => {
+    if (pendingCity) {
+      await searchCity(pendingCity);
+      setSearchQuery('');
+      setPendingCity(null);
+    }
+  };
 
   const weatherInfo = weather ? getWeatherInfo(weather.weatherCode) : null;
 
@@ -69,6 +77,46 @@ export default function WeatherApp() {
           >
             {toast}
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Confirmation Modal */}
+      <AnimatePresence>
+        {pendingCity && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="glass rounded-2xl p-6 max-w-sm w-full border border-slate-700/50 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-400 to-amber-600" />
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-amber-400/20 flex items-center justify-center text-amber-400 mb-2">
+                  <MapPin size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-white">Change Location?</h3>
+                <p className="text-slate-300 text-sm">
+                  Are you sure you want to change the weather location to <strong className="text-amber-400">{pendingCity}</strong>? 
+                  This will also update the desktop widget.
+                </p>
+                <div className="flex w-full gap-3 mt-6">
+                  <button
+                    onClick={() => setPendingCity(null)}
+                    className="flex-1 py-2 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmCityChange}
+                    className="flex-1 py-2 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold transition-colors"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 

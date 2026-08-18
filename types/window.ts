@@ -18,6 +18,7 @@ export interface WindowState {
   title: string;
   isMinimized: boolean;
   isMaximized: boolean;
+  isFullMaximized: boolean;
   isFocused: boolean;
   position: WindowPosition;
   size: WindowSize;

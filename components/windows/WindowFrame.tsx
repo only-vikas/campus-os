@@ -6,8 +6,9 @@
 // FIX: Removed motion.div wrapper that was preventing drag
 // ============================================================
 import { useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { Rnd } from 'react-rnd';
-import { Minimize2, Maximize2 } from 'lucide-react';
+import { Minimize2, Maximize2, ArrowUpRight, Shrink } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { WindowState } from '@/types/window';
 import { useWindowStore } from '@/stores/useWindowStore';
@@ -25,10 +26,9 @@ interface WindowFrameProps {
 }
 
 const TOPBAR_HEIGHT = 28;
-const DOCK_HEIGHT = 80;
 
 export default function WindowFrame({ window: win, children }: WindowFrameProps) {
-  const { removeWindow, minimizeWindow, maximizeWindow, focusWindow, updateWindowPosition, updateWindowSize } =
+  const { removeWindow, minimizeWindow, maximizeWindow, fullMaximizeWindow, focusWindow, updateWindowPosition, updateWindowSize } =
     useWindowStore();
 
   const app = APP_MAP.get(win.appId);
@@ -51,34 +51,37 @@ export default function WindowFrame({ window: win, children }: WindowFrameProps)
     maximizeWindow(win.id);
   }, [maximizeWindow, win.id]);
 
+  const handleFullMaximize = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    fullMaximizeWindow(win.id);
+  }, [fullMaximizeWindow, win.id]);
+
   const handleFocus = useCallback(() => {
     focusWindow(win.id);
   }, [focusWindow, win.id]);
 
-  // When maximized, fill desktop area
+  // When maximized, calculate limits
   const maxWidth = typeof globalThis.window !== 'undefined' ? globalThis.window.innerWidth : 1440;
-  const maxHeight =
-    typeof globalThis.window !== 'undefined'
-      ? globalThis.window.innerHeight - TOPBAR_HEIGHT - DOCK_HEIGHT
-      : 900;
-
-  if (win.isMinimized) return null;
+  const maxHeightFull = typeof globalThis.window !== 'undefined' ? globalThis.window.innerHeight : 900;
 
   return (
     <Rnd
-      size={win.isMaximized
-        ? { width: maxWidth, height: maxHeight }
-        : win.size
+      size={
+        win.isFullMaximized ? { width: maxWidth, height: maxHeightFull } :
+        win.isMaximized ? { width: '100%', height: '100%' } :
+        win.size
       }
-      position={win.isMaximized
-        ? { x: 0, y: 0 }
-        : win.position
+      position={
+        win.isFullMaximized ? { x: 0, y: -TOPBAR_HEIGHT } :
+        win.isMaximized ? { x: 0, y: 0 } :
+        win.position
       }
       minWidth={app?.minSize?.width ?? 400}
       minHeight={app?.minSize?.height ?? 300}
-      disableDragging={win.isMaximized}
-      enableResizing={!win.isMaximized}
-      bounds="parent"
+      disableDragging={win.isMaximized || win.isFullMaximized}
+      enableResizing={!win.isMaximized && !win.isFullMaximized}
+      bounds={win.isFullMaximized ? undefined : "parent"}
       dragHandleClassName="window-drag-handle"
       onMouseDown={handleFocus}
       onDragStop={(_e, d) => {
@@ -92,12 +95,33 @@ export default function WindowFrame({ window: win, children }: WindowFrameProps)
         updateWindowPosition(win.id, pos);
       }}
       style={{
-        zIndex: win.zIndex,
+        zIndex: win.isFullMaximized ? 9999 : win.zIndex,
+        pointerEvents: win.isMinimized ? 'none' : 'auto',
         transition: 'box-shadow 0.2s ease',
       }}
       className="campus-os-window"
     >
-      <div
+      <motion.div
+        animate={win.isMinimized ? "minimized" : "visible"}
+        variants={{
+          visible: { 
+            scale: 1, 
+            y: 0, 
+            opacity: 1, 
+            display: 'flex',
+            transformOrigin: 'bottom center',
+            filter: 'blur(0px)',
+          },
+          minimized: { 
+            scale: 0.05, 
+            y: '80vh', 
+            opacity: 0, 
+            transitionEnd: { display: 'none' },
+            transformOrigin: 'bottom center',
+            filter: 'blur(4px)',
+          }
+        }}
+        transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
         className={`flex flex-col w-full h-full rounded-xl overflow-hidden shadow-2xl border ${
           win.isFocused ? 'border-[rgba(51,65,85,0.7)]' : 'border-[rgba(51,65,85,0.3)]'
         }`}
@@ -145,14 +169,14 @@ export default function WindowFrame({ window: win, children }: WindowFrameProps)
             <span className="text-[#94a3b8] text-xs font-medium">{win.title}</span>
           </div>
 
-          {/* Maximize toggle icon */}
+          {/* Full Maximize toggle icon */}
           <button
             onMouseDown={(e) => e.stopPropagation()}
-            onClick={handleMaximize}
+            onClick={handleFullMaximize}
             className="text-[#475569] hover:text-[#94a3b8] transition-colors"
             style={{ cursor: 'pointer' }}
           >
-            {win.isMaximized ? <Minimize2 size={12} /> : <Maximize2 size={12} />}
+            {win.isFullMaximized ? <Shrink size={14} /> : <ArrowUpRight size={14} />}
           </button>
         </div>
 
@@ -160,7 +184,7 @@ export default function WindowFrame({ window: win, children }: WindowFrameProps)
         <div className="flex-1 min-h-0 overflow-auto window-content">
           {children}
         </div>
-      </div>
+      </motion.div>
     </Rnd>
   );
 }

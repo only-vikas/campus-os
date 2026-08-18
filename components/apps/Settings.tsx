@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useDesktopStore, Wallpaper, AccentColor } from '@/stores/useDesktopStore';
 import { useWindowStore } from '@/stores/useWindowStore';
-import { useWeather } from '@/hooks/useWeather';
+import { useWeatherStore } from '@/stores/useWeatherStore';
 import {
   Image, Layout, RefreshCw, Info, MapPin, Palette,
   Power, Trash2, Eye, EyeOff, Monitor, Search, Sun, Moon, CloudSun

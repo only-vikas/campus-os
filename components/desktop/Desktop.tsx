@@ -7,7 +7,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useDesktopStore } from '@/stores/useDesktopStore';
-import { useWeather } from '@/hooks/useWeather';
+import { useWeatherStore } from '@/stores/useWeatherStore';
 import TopBar from './TopBar';
 import Dock from './Dock';
 import Spotlight from './Spotlight';
@@ -20,7 +20,7 @@ import QuoteWidget from '@/components/widgets/QuoteWidget';
 
 export default function Desktop() {
   const { wallpaper, showQuotes, showWeather } = useDesktopStore();
-  const { toast } = useWeather();
+  const { toast, initWeather } = useWeatherStore();
   const [spotlightOpen, setSpotlightOpen] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; open: boolean }>({
     x: 0, y: 0, open: false,
@@ -44,6 +44,10 @@ export default function Desktop() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+
+  useEffect(() => {
+    initWeather();
+  }, [initWeather]);
 
   // Right-click context menu
   const handleContextMenu = (e: React.MouseEvent) => {

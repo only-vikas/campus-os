@@ -6,11 +6,11 @@
 // Click to open Weather App
 // ============================================================
 import { motion } from 'framer-motion';
-import { useWeather, getWeatherInfo } from '@/hooks/useWeather';
+import { useWeatherStore, getWeatherInfo } from '@/stores/useWeatherStore';
 import { useAppStore } from '@/stores/useAppStore';
 
 export default function WeatherWidget() {
-  const { weather, isLoading } = useWeather();
+  const { weather, isLoading } = useWeatherStore();
   const { launchApp } = useAppStore();
 
   const handleClick = () => {

@@ -1,8 +1,4 @@
-// ============================================================
-// Campus OS — useWeather Hook
-// Manages: Open-Meteo API, geolocation, city search, caching
-// ============================================================
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { create } from 'zustand';
 
 // ── Types ────────────────────────────────────────────────────
 export interface WeatherData {
@@ -123,7 +119,6 @@ async function geocodeCity(query: string): Promise<{ lat: number; lon: number; n
     const data = await res.json();
 
     if (data.results && data.results.length > 0) {
-      // Prefer Indian results
       const indianResult = data.results.find(
         (r: { country_code?: string }) => r.country_code === 'IN'
       );
@@ -137,19 +132,6 @@ async function geocodeCity(query: string): Promise<{ lat: number; lon: number; n
     return null;
   } catch {
     return null;
-  }
-}
-
-// ── Reverse geocode lat/lon → city name ──────────────────────
-async function reverseGeocode(lat: number, lon: number): Promise<string> {
-  try {
-    // Use Open-Meteo geocoding to find nearest city
-    const url = `https://geocoding-api.open-meteo.com/v1/search?name=city&count=1&language=en`;
-    // Open-Meteo doesn't have reverse geocoding, so we use a simple heuristic
-    // Just return coordinates-based city or fallback
-    return `${lat.toFixed(2)}°N, ${lon.toFixed(2)}°E`;
-  } catch {
-    return 'Unknown';
   }
 }
 
@@ -179,115 +161,91 @@ function getBrowserLocation(): Promise<{ lat: number; lon: number }> {
   });
 }
 
-// ── The Hook ─────────────────────────────────────────────────
-export function useWeather() {
-  const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [toast, setToast] = useState<string | null>(null);
-  const [detectedCity, setDetectedCity] = useState<string>('');
-  const searchTimeoutRef = useRef<NodeJS.Timeout>();
+// ── Zustand Store ─────────────────────────────────────────────
+interface WeatherStore {
+  weather: WeatherData | null;
+  isLoading: boolean;
+  toast: string | null;
+  detectedCity: string;
+  hasInitialized: boolean;
+  
+  showToast: (msg: string) => void;
+  loadWeather: (lat: number, lon: number, cityName: string) => Promise<void>;
+  searchCity: (query: string) => Promise<void>;
+  initWeather: () => Promise<void>;
+}
 
-  // Show toast briefly
-  const showToast = useCallback((msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 4000);
-  }, []);
+export const useWeatherStore = create<WeatherStore>((set, get) => ({
+  weather: null,
+  isLoading: true,
+  toast: null,
+  detectedCity: '',
+  hasInitialized: false,
 
-  // Load weather for coordinates
-  const loadWeather = useCallback(async (lat: number, lon: number, cityName: string) => {
-    // Check cache first
+  showToast: (msg: string) => {
+    set({ toast: msg });
+    setTimeout(() => {
+      set((state) => (state.toast === msg ? { toast: null } : state));
+    }, 4000);
+  },
+
+  loadWeather: async (lat: number, lon: number, cityName: string) => {
     const cached = getCachedWeather(cityName);
     if (cached) {
-      setWeather(cached);
-      setIsLoading(false);
+      set({ weather: cached, isLoading: false });
       return;
     }
 
-    setIsLoading(true);
+    set({ isLoading: true });
     try {
       const data = await fetchWeatherData(lat, lon, cityName);
-      setWeather(data);
+      set({ weather: data, isLoading: false });
       saveCachedWeather(cityName, data);
     } catch (err) {
       console.error('Weather fetch error:', err);
-      // Try to use any cached data even if expired
       const anyCache = getCachedWeather(cityName);
-      if (anyCache) setWeather(anyCache);
+      if (anyCache) set({ weather: anyCache });
+      set({ isLoading: false });
     }
-    setIsLoading(false);
-  }, []);
+  },
 
-  // Search for a city
-  const searchCity = useCallback(async (query: string) => {
+  searchCity: async (query: string) => {
     if (!query.trim()) return;
+    set({ isLoading: true });
+    const geo = await geocodeCity(query);
 
-    // Debounce
-    if (searchTimeoutRef.current) clearTimeout(searchTimeoutRef.current);
-
-    return new Promise<void>((resolve) => {
-      searchTimeoutRef.current = setTimeout(async () => {
-        setIsLoading(true);
-        const geo = await geocodeCity(query);
-
-        if (geo) {
-          await loadWeather(geo.lat, geo.lon, geo.name);
-          setDetectedCity(geo.name);
-          showToast(`Showing weather for ${geo.name}`);
-        } else {
-          // Fallback to Bengaluru
-          await loadWeather(BENGALURU.lat, BENGALURU.lon, BENGALURU.city);
-          setDetectedCity(BENGALURU.city);
-          showToast(`City not found. Showing weather for ${BENGALURU.city}`);
-        }
-        resolve();
-      }, 300);
-    });
-  }, [loadWeather, showToast]);
-
-  // Initial load — auto-detect location
-  useEffect(() => {
-    async function init() {
-      try {
-        const pos = await getBrowserLocation();
-
-        // Try to find city name via geocoding nearby
-        const nearbySearch = await geocodeCity(`${pos.lat},${pos.lon}`);
-        let cityName = 'Your Location';
-
-        if (nearbySearch) {
-          cityName = nearbySearch.name;
-        }
-
-        // Use a reverse lookup with a more targeted approach
-        // Search for a major city near these coordinates
-        try {
-          const reverseUrl = `https://geocoding-api.open-meteo.com/v1/search?name=a&count=1&language=en`;
-          // Since Open-Meteo doesn't support reverse geocoding directly,
-          // we just use the coordinates and label the location
-          // But let's try a smarter approach: use the coordinates to fetch weather
-          // and use nominatim-style fallback
-        } catch {}
-
-        setDetectedCity(cityName);
-        showToast(`Location detected: ${cityName}`);
-        await loadWeather(pos.lat, pos.lon, cityName);
-      } catch (err) {
-        console.warn('Geolocation failed, using Bengaluru:', err);
-        setDetectedCity(BENGALURU.city);
-        showToast(`Showing weather for ${BENGALURU.city}`);
-        await loadWeather(BENGALURU.lat, BENGALURU.lon, BENGALURU.city);
-      }
+    if (geo) {
+      await get().loadWeather(geo.lat, geo.lon, geo.name);
+      set({ detectedCity: geo.name });
+      get().showToast(`Showing weather for ${geo.name}`);
+    } else {
+      await get().loadWeather(BENGALURU.lat, BENGALURU.lon, BENGALURU.city);
+      set({ detectedCity: BENGALURU.city });
+      get().showToast(`City not found. Showing weather for ${BENGALURU.city}`);
     }
+  },
 
-    init();
-  }, [loadWeather, showToast]);
+  initWeather: async () => {
+    if (get().hasInitialized) return;
+    set({ hasInitialized: true, isLoading: true });
 
-  return {
-    weather,
-    isLoading,
-    toast,
-    detectedCity,
-    searchCity,
-    showToast,
-  };
-}
+    try {
+      const pos = await getBrowserLocation();
+      const nearbySearch = await geocodeCity(`${pos.lat},${pos.lon}`);
+      let cityName = 'Your Location';
+
+      if (nearbySearch) {
+        cityName = nearbySearch.name;
+      }
+
+      set({ detectedCity: cityName });
+      get().showToast(`Location detected: ${cityName}`);
+      await get().loadWeather(pos.lat, pos.lon, cityName);
+    } catch (err) {
+      console.warn('Geolocation failed, using Bengaluru:', err);
+      set({ detectedCity: BENGALURU.city });
+      get().showToast(`Showing weather for ${BENGALURU.city}`);
+      await get().loadWeather(BENGALURU.lat, BENGALURU.lon, BENGALURU.city);
+    }
+  },
+}));

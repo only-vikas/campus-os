@@ -24,7 +24,7 @@ export default function Dock() {
   const { launchApp } = useAppStore();
   const { windows } = useWindowStore();
 
-  const openAppIds = new Set(windows.filter((w) => !w.isMinimized).map((w) => w.appId));
+  const openAppIds = new Set(windows.map((w) => w.appId));
 
   const handleLaunch = (appId: string) => {
     setBouncing(appId);
