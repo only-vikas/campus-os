@@ -2,7 +2,7 @@
 // Campus OS — App Type Definitions
 // ============================================================
 
-export type AppCategory = 'productivity' | 'finance' | 'career' | 'learning' | 'system';
+export type AppCategory = 'productivity' | 'finance' | 'career' | 'learning' | 'system' | 'utility';
 
 export interface AppConfig {
   id: string;

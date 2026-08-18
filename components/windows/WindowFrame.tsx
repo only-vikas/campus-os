@@ -157,7 +157,7 @@ export default function WindowFrame({ window: win, children }: WindowFrameProps)
         </div>
 
         {/* App content */}
-        <div className="flex-1 overflow-hidden window-content">
+        <div className="flex-1 min-h-0 overflow-auto window-content">
           {children}
         </div>
       </div>

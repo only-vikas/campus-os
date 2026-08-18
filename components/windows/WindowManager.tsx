@@ -15,7 +15,7 @@ const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentTyp
   interview: lazy(() => import('@/components/apps/InterviewPrep')),
   expense:   lazy(() => import('@/components/apps/ExpenseTracker')),
   placement: lazy(() => import('@/components/apps/PlacementPortal')),
-  codereview:lazy(() => import('@/components/apps/CodeReview')),
+  'code-guard': lazy(() => import('@/components/apps/CodeGuard/CodeGuard')),
   finance:   lazy(() => import('@/components/apps/FinanceEdu')),
   learning:  lazy(() => import('@/components/apps/LearningEngine')),
   campus:    lazy(() => import('@/components/apps/CampusPortal')),

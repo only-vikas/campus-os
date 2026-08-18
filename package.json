@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@openrouter/sdk": "^1.2.33",
+    "@monaco-editor/react": "^4.7.0",
+    "@openrouter/sdk": "^1.2.42",
     "@react-pdf/renderer": "^4.6.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/uuid": "^10.0.0",
+    "canvas-confetti": "^1.9.4",
     "docx": "^9.7.1",
     "file-saver": "^2.0.5",
     "framer-motion": "^13.1.0",
@@ -21,10 +24,11 @@
     "next": "14.2.35",
     "pdfjs-dist": "^6.2.108",
     "react": "^18",
+    "react-diff-viewer-continued": "^4.4.0",
     "react-dom": "^18",
     "react-rnd": "^10.5.3",
     "uuid": "^14.0.1",
-    "zustand": "^5.0.14"
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.7",

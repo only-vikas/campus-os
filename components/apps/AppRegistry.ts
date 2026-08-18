@@ -51,15 +51,15 @@ export const APP_REGISTRY: AppConfig[] = [
     minSize: { width: 520, height: 400 },
   },
   {
-    id: 'codereview',
-    name: 'Code Review',
-    icon: 'Code2',
-    color: '#f472b6', // pink-400
-    description: 'Peer code review and feedback platform',
+    id: 'code-guard',
+    name: 'CodeGuard',
+    icon: 'Shield',
+    color: '#fbbf24', // amber-400
+    description: 'AI-powered code analysis and automated fixes',
     category: 'productivity',
-    defaultSize: { width: 900, height: 600 },
+    defaultSize: { width: 1200, height: 800 },
     defaultPosition: { x: 70, y: 55 },
-    minSize: { width: 560, height: 420 },
+    minSize: { width: 900, height: 500 },
   },
   {
     id: 'finance',
@@ -127,7 +127,7 @@ export const DOCK_APP_IDS = [
   'interview',
   'expense',
   'placement',
-  'codereview',
+  'code-guard',
   'finance',
   'learning',
   'campus',

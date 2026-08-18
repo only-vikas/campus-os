@@ -1,0 +1,120 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { CodeAnalysisResult } from '@/services/codeReviewService';
+
+interface LineOffset {
+  originalLine: number;
+  delta: number;
+}
+
+export interface CodeGuardState {
+  originalCode: string;
+  currentCode: string;
+  language: string;
+  analysisResult: CodeAnalysisResult | null;
+  isAnalyzing: boolean;
+  viewMode: 'editor' | 'diff';
+  
+  // Sets or arrays to track applied fixes and line shifts
+  appliedFixes: number[];
+  lineOffsets: LineOffset[];
+  
+  // Actions
+  setOriginalCode: (code: string) => void;
+  setCurrentCode: (code: string) => void;
+  setLanguage: (lang: string) => void;
+  setAnalysisResult: (result: CodeAnalysisResult | null) => void;
+  setIsAnalyzing: (isAnalyzing: boolean) => void;
+  setViewMode: (mode: 'editor' | 'diff') => void;
+  
+  // Fix Mutation
+  applyFix: (lineNumber: number, fixString: string) => void;
+  applyAllFixes: () => void;
+  
+  // Reset
+  resetState: () => void;
+}
+
+export const useCodeGuardStore = create<CodeGuardState>()(
+  persist(
+    (set, get) => ({
+      originalCode: '// Paste or upload your code here\n',
+      currentCode: '// Paste or upload your code here\n',
+      language: 'javascript',
+      analysisResult: null,
+      isAnalyzing: false,
+      viewMode: 'editor',
+      appliedFixes: [],
+      lineOffsets: [],
+      
+      setOriginalCode: (code) => set({ originalCode: code }),
+      setCurrentCode: (code) => set({ currentCode: code }),
+      setLanguage: (lang) => set({ language: lang }),
+      setAnalysisResult: (result) => set({ 
+        analysisResult: result, 
+        appliedFixes: [],
+        lineOffsets: [] 
+      }),
+      setIsAnalyzing: (isAnalyzing) => set({ isAnalyzing }),
+      setViewMode: (mode) => set({ viewMode: mode }),
+      
+      applyFix: (originalLineNumber, fixString) => {
+        const state = get();
+        if (state.appliedFixes.includes(originalLineNumber)) return; // Already applied
+        
+        const lines = state.currentCode.split('\n');
+        
+        // Calculate the current line number accounting for previous multi-line shifts
+        let currentLine = originalLineNumber;
+        for (const offset of state.lineOffsets) {
+          if (offset.originalLine < originalLineNumber) {
+            currentLine += offset.delta;
+          }
+        }
+
+        if (currentLine > 0 && currentLine <= lines.length) {
+          const fixLines = fixString.split('\n');
+          // A single line is replaced by fixLines.length lines
+          const delta = fixLines.length - 1;
+          
+          lines.splice(currentLine - 1, 1, ...fixLines);
+          
+          set({ 
+            currentCode: lines.join('\n'),
+            appliedFixes: [...state.appliedFixes, originalLineNumber],
+            lineOffsets: [...state.lineOffsets, { originalLine: originalLineNumber, delta }],
+            viewMode: 'diff'
+          });
+        }
+      },
+      
+      applyAllFixes: () => {
+        const state = get();
+        if (state.analysisResult?.improvedCode) {
+          set({
+            currentCode: state.analysisResult.improvedCode,
+            viewMode: 'editor',
+            appliedFixes: state.analysisResult.issues.map(i => i.line),
+            lineOffsets: [] // Reset offsets since we replaced everything at once
+          });
+        }
+      },
+      
+      resetState: () => set({
+        analysisResult: null,
+        isAnalyzing: false,
+        viewMode: 'editor',
+        appliedFixes: [],
+        lineOffsets: []
+      })
+    }),
+    {
+      name: 'code-guard-state',
+      partialize: (state) => ({ 
+        originalCode: state.originalCode, 
+        currentCode: state.currentCode, 
+        language: state.language 
+      }) // Persist only code
+    }
+  )
+);

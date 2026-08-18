@@ -82,7 +82,7 @@ export default function ResumeAnalyzer() {
           )}
 
           {/* Dynamic Content */}
-          <div className="flex-1 relative overflow-hidden">
+          <div className="flex-1 relative h-full overflow-y-auto p-6">
             <AnimatePresence mode="wait">
               {!hasAnalysis && !isAnalyzing ? (
                 <motion.div key="upload" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="h-full">
