@@ -323,7 +323,7 @@ Vikas Kannur 2BA23IS120 Lead Developer, AI Integration
 Subhoday Kulkarni 2BA23IS101 Frontend & UI/UX
 Omkar Tatuskar 2BA22IS053 Backend & Database Architecture
 
-Project Guide: Prof. S. S. Guttannavar, Assistant Professor, Department of Information Science and Engineering, Bapuji Institute of Engineering and Technology, Davangere.
+Project Guide: Prof. S. S. Guttannavar, Assistant Professor, Department of Information Science and Engineering
 
 ---
 
