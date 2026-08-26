@@ -5,8 +5,10 @@
 // Full-screen clock with "click to unlock" transition
 // ============================================================
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useDesktopStore } from '@/stores/useDesktopStore';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -23,7 +25,10 @@ function formatTime(date: Date) {
 export default function LockScreen() {
   const [now, setNow] = useState(new Date());
   const [unlocking, setUnlocking] = useState(false);
+  const [showAuthOptions, setShowAuthOptions] = useState(false);
   const { unlock, wallpaper } = useDesktopStore();
+  const { isSignedIn, isLoaded } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000);
@@ -34,9 +39,25 @@ export default function LockScreen() {
   const dateStr = `${DAYS[now.getDay()]}, ${MONTHS[now.getMonth()]} ${now.getDate()}`;
 
   const handleUnlock = () => {
-    if (unlocking) return;
+    if (unlocking || !isLoaded) return;
+    
+    if (isSignedIn) {
+      setUnlocking(true);
+      setTimeout(unlock, 600);
+    } else {
+      setShowAuthOptions(true);
+    }
+  };
+
+  const handleGuest = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setUnlocking(true);
     setTimeout(unlock, 600);
+  };
+
+  const handleSignIn = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push('/sign-in');
   };
 
   return (
@@ -70,17 +91,43 @@ export default function LockScreen() {
           </div>
         </div>
 
-        {/* Unlock hint */}
-        <motion.div
-          className="mt-8 flex flex-col items-center gap-3"
-          animate={{ y: [0, -6, 0] }}
-          transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-        >
-          <div className="w-8 h-12 rounded-full border-2 border-[#e2e8f0]/40 flex items-start justify-center p-1">
-            <div className="w-1.5 h-3 bg-[#e2e8f0]/70 rounded-full" />
-          </div>
-          <p className="text-[#e2e8f0]/60 text-sm tracking-widest uppercase">Click to unlock</p>
-        </motion.div>
+        {/* Unlock hint or Auth Options */}
+        <AnimatePresence mode="wait">
+          {!showAuthOptions ? (
+            <motion.div
+              key="hint"
+              className="mt-8 flex flex-col items-center gap-3"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+            >
+              <div className="w-8 h-12 rounded-full border-2 border-[#e2e8f0]/40 flex items-start justify-center p-1">
+                <div className="w-1.5 h-3 bg-[#e2e8f0]/70 rounded-full" />
+              </div>
+              <p className="text-[#e2e8f0]/60 text-sm tracking-widest uppercase">Click to unlock</p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="options"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="mt-8 flex flex-col items-center gap-4"
+            >
+              <button
+                onClick={handleSignIn}
+                className="px-8 py-3 rounded-xl bg-[#60a5fa] text-white font-semibold hover:bg-[#3b82f6] transition-colors w-64 shadow-lg shadow-[#60a5fa]/20"
+              >
+                Sign In / Create Account
+              </button>
+              <button
+                onClick={handleGuest}
+                className="px-8 py-3 rounded-xl bg-white/10 text-white font-medium hover:bg-white/20 transition-colors w-64 backdrop-blur-md border border-white/10"
+              >
+                Explore as Guest
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
 
       {/* Bottom left: Status icons */}

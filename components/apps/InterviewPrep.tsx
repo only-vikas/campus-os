@@ -2,7 +2,8 @@
 // Campus OS — Interview Prep App
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, ChevronRight, Brain, Code2, Users } from 'lucide-react';
+import { MessageSquare, ChevronRight, Brain, Code2, Users, Cloud, Server, RefreshCw } from 'lucide-react';
+import { useOllamaStatus } from '@/hooks/useOllamaStatus';
 
 const CATEGORIES = [
   { label: 'DSA & Coding', icon: <Code2 size={16} />, count: 120, color: '#60a5fa' },
@@ -20,15 +21,34 @@ const SAMPLE_QS = [
 const LEVEL_COLOR: Record<string, string> = { Easy: '#34d399', Medium: '#fbbf24', Hard: '#f472b6' };
 
 export default function InterviewPrep() {
+  const ollamaStatus = useOllamaStatus();
+
   return (
     <div className="h-full bg-[#0a0f1e] text-[#e2e8f0] p-6 overflow-y-auto">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 rounded-xl bg-[#a78bfa]/20 flex items-center justify-center">
-          <MessageSquare className="text-[#a78bfa]" size={20} />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#a78bfa]/20 flex items-center justify-center">
+            <MessageSquare className="text-[#a78bfa]" size={20} />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold">Interview Prep</h2>
+            <p className="text-[#475569] text-xs">Mock interviews and Q&A bank</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold">Interview Prep</h2>
-          <p className="text-[#475569] text-xs">Mock interviews and Q&A bank</p>
+        
+        {/* Ollama Status Badge */}
+        <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
+          ollamaStatus === 'connected' ? 'bg-[#34d399]/10 text-[#34d399] border-[#34d399]/20' :
+          ollamaStatus === 'disconnected' ? 'bg-[#fbbf24]/10 text-[#fbbf24] border-[#fbbf24]/20' :
+          'bg-[#94a3b8]/10 text-[#94a3b8] border-[#94a3b8]/20'
+        }`}>
+          {ollamaStatus === 'connected' ? (
+            <><Server size={12} /> Local AI</>
+          ) : ollamaStatus === 'disconnected' ? (
+            <><Cloud size={12} /> Cloud Fallback</>
+          ) : (
+            <><RefreshCw size={12} className="animate-spin" /> Checking AI...</>
+          )}
         </div>
       </div>
 

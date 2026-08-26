@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { AnalysisResult } from '@/services/aiService';
 
 export interface ResumeFile {
@@ -195,7 +195,8 @@ export const useResumeAnalyzerStore = create<ResumeAnalyzerState>()(
       dismissContinueDialog: () => set({ showContinueDialog: false }),
     }),
     {
-      name: 'campus-os-resume-analyzer',
+      name: 'campus-os-resume-cache',
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         resumes: state.resumes,
         activeResumeId: state.activeResumeId,

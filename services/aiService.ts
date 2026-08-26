@@ -1,5 +1,7 @@
 import { OpenRouter } from "@openrouter/sdk";
 import { jsonrepair } from 'jsonrepair';
+import { queryOllama } from './ollamaService';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 
 interface AIConfig {
   apiKey: string;
@@ -7,7 +9,7 @@ interface AIConfig {
   name: string;
 }
 
-const AI_CONFIGS: AIConfig[] = [
+export const AI_CONFIGS: AIConfig[] = [
   {
     apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 || "",
     model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
@@ -42,7 +44,7 @@ export interface AnalysisResult {
   summary: string;
 }
 
-function extractJSON(response: string): any {
+export function extractJSON(response: string): any {
   // Try markdown code block first
   const mdMatch = response.match(/```json\s*([\s\S]*?)\s*```/);
   if (mdMatch) return JSON.parse(jsonrepair(mdMatch[1]));
@@ -83,63 +85,8 @@ ${resumeText.slice(0, 8000)}
 JOB DESCRIPTION:
 ${jdText.slice(0, 8000)}`;
 
-  // Try Ollama first (local, unlimited)
-  try {
-    onProgress?.(`Trying AI model 0/4: Ollama (llama3.1)...`);
-    const res = await fetch('http://localhost:11434/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama3.1',
-        prompt: prompt,
-        stream: false,
-        format: 'json'
-      })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      const parsed = extractJSON(data.response);
-      onProgress?.(`Success with Ollama!`);
-      return parsed as AnalysisResult;
-    }
-  } catch { /* Ollama not running */ }
-
-  for (let i = 0; i < AI_CONFIGS.length; i++) {
-    const config = AI_CONFIGS[i];
-    try {
-      onProgress?.(`Trying AI model ${i + 1}/4: ${config.name}...`);
-      
-      const openrouter = new OpenRouter({ apiKey: config.apiKey });
-      const stream = await openrouter.chat.send({
-        chatRequest: {
-          model: config.model,
-          messages: [{ role: "user", content: prompt }],
-          stream: true
-        }
-      });
-
-      let response = "";
-      for await (const chunk of stream) {
-        const content = chunk.choices[0]?.delta?.content;
-        if (content) response += content;
-      }
-
-      const parsed = extractJSON(response);
-      onProgress?.(`Success with ${config.name}!`);
-      return parsed as AnalysisResult;
-      
-    } catch (err: any) {
-      if (err.status === 429 || err.message?.includes('rate limit')) {
-        const delay = Math.min(1000 * Math.pow(2, i), 8000); // max 8s
-        await new Promise(r => setTimeout(r, delay));
-      }
-      console.warn(`AI ${config.name} failed:`, err);
-      onProgress?.(`${config.name} failed, trying next...`);
-      continue;
-    }
-  }
-
-  throw new Error("All 4 AI models failed. Please try again later.");
+  const model = useDesktopStore.getState().ollamaModel || 'deepseek-r1:1.5b';
+  return queryOllama(prompt, model, onProgress, true) as Promise<AnalysisResult>;
 }
 
 export async function enhanceBullet(
@@ -147,27 +94,12 @@ export async function enhanceBullet(
   missingKeywords: string[],
   keyIndex: number = 0
 ): Promise<string> {
-  const config = AI_CONFIGS[keyIndex % AI_CONFIGS.length];
   const prompt = `Enhance this resume bullet point by naturally incorporating these missing keywords: ${missingKeywords.join(", ")}. Keep it realistic and professional.
 
 Bullet: "${bulletText}"
 
 Return ONLY the enhanced bullet, no explanation.`;
 
-  const openrouter = new OpenRouter({ apiKey: config.apiKey });
-  const stream = await openrouter.chat.send({
-    chatRequest: {
-      model: config.model,
-      messages: [{ role: "user", content: prompt }],
-      stream: true
-    }
-  });
-
-  let response = "";
-  for await (const chunk of stream) {
-    const content = chunk.choices[0]?.delta?.content;
-    if (content) response += content;
-  }
-
-  return response.trim();
+  const model = useDesktopStore.getState().ollamaModel || 'deepseek-r1:1.5b';
+  return queryOllama(prompt, model, undefined, false) as Promise<string>;
 }

@@ -11,15 +11,16 @@ import { useWindowStore } from '@/stores/useWindowStore';
 import { useWeatherStore } from '@/stores/useWeatherStore';
 import {
   Image, Layout, RefreshCw, Info, MapPin, Palette,
-  Power, Trash2, Eye, EyeOff, Monitor, Search, Sun, Moon, CloudSun
+  Power, Trash2, Eye, EyeOff, Monitor, Search, Sun, Moon, CloudSun, Brain
 } from 'lucide-react';
 
-type SettingsTab = 'desktop' | 'location' | 'appearance' | 'system';
+type SettingsTab = 'desktop' | 'location' | 'appearance' | 'system' | 'ai';
 
 const TABS: { id: SettingsTab; label: string; icon: React.ReactNode }[] = [
   { id: 'desktop', label: 'Desktop', icon: <Monitor size={15} /> },
   { id: 'location', label: 'Location', icon: <MapPin size={15} /> },
   { id: 'appearance', label: 'Appearance', icon: <Palette size={15} /> },
+  { id: 'ai', label: 'AI Settings', icon: <Brain size={15} /> },
   { id: 'system', label: 'System', icon: <RefreshCw size={15} /> },
 ];
 
@@ -51,10 +52,11 @@ export default function Settings() {
     showQuotes, setShowQuotes,
     showWeather, setShowWeather,
     accentColor, setAccentColor,
+    ollamaModel, setOllamaModel,
     restart, shutdown, clearAllData,
   } = useDesktopStore();
   const { removeAllWindows } = useWindowStore();
-  const { detectedCity, searchCity } = useWeather();
+  const { detectedCity, searchCity } = useWeatherStore();
 
   const handleCitySearch = async () => {
     if (citySearch.trim()) {
@@ -307,6 +309,42 @@ export default function Settings() {
                       {ac.label}
                     </p>
                   </motion.button>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {/* ── SYSTEM ──────────────────────────────── */}
+        {tab === 'ai' && (
+          <>
+            <h2 className="text-lg font-bold">AI Settings</h2>
+            
+            <section className="glass rounded-2xl p-5 space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="text-[#a78bfa]" size={18} />
+                <h3 className="font-semibold">Local AI Model (Ollama)</h3>
+              </div>
+              <p className="text-xs text-[#475569] mb-4">
+                Select the local AI model you want to use. If it fails, Campus OS will automatically fall back to cloud AI.
+              </p>
+              
+              <div className="flex flex-col gap-2">
+                {[
+                  { id: 'deepseek-r1:1.5b', label: 'DeepSeek-R1 (1.5b)' },
+                  { id: 'mistral', label: 'Mistral (7b)' },
+                  { id: 'llama3.1', label: 'Llama 3.1 (8b)' }
+                ].map(model => (
+                  <button
+                    key={model.id}
+                    onClick={() => setOllamaModel(model.id as any)}
+                    className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                      ollamaModel === model.id ? 'bg-[#60a5fa]/20 border border-[#60a5fa]/50' : 'glass hover:bg-[rgba(51,65,85,0.3)] border border-transparent'
+                    }`}
+                  >
+                    <span className={`text-sm ${ollamaModel === model.id ? 'text-[#60a5fa] font-medium' : 'text-[#e2e8f0]'}`}>{model.label}</span>
+                    {ollamaModel === model.id && <div className="w-2 h-2 rounded-full bg-[#60a5fa]" />}
+                  </button>
                 ))}
               </div>
             </section>

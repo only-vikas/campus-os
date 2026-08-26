@@ -6,10 +6,12 @@
 // ============================================================
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wifi, Battery, ChevronDown } from 'lucide-react';
+import { Wifi, Battery, ChevronDown, UserCircle2 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/useDesktopStore';
 import { useWindowStore } from '@/stores/useWindowStore';
 import { APP_MAP } from '@/components/apps/AppRegistry';
+import { UserButton, useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 export default function TopBar() {
   const [time, setTime] = useState('');
@@ -17,6 +19,8 @@ export default function TopBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { lock, restart } = useDesktopStore();
   const { windows, activeWindowId } = useWindowStore();
+  const { isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
 
   // Live clock
   useEffect(() => {
@@ -99,8 +103,19 @@ export default function TopBar() {
         <Battery className="w-3.5 h-3.5" />
         <span className="text-xs font-medium text-[#e2e8f0]">{date}</span>
         <span className="text-xs font-medium text-[#e2e8f0]">{time}</span>
-        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#60a5fa] to-[#a78bfa] flex items-center justify-center text-white text-[8px] font-bold">
-          S
+        
+        <div className="ml-2 flex items-center justify-center">
+          {isLoaded && isSignedIn ? (
+            <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-6 h-6" } }} />
+          ) : (
+            <button 
+              onClick={() => router.push('/sign-in')}
+              title="Sign In / Create Account"
+              className="flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-br from-[#94a3b8] to-[#475569] text-white hover:ring-2 ring-white/20 transition-all"
+            >
+              <UserCircle2 size={14} />
+            </button>
+          )}
         </div>
       </div>
     </div>

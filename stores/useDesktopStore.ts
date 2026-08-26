@@ -3,7 +3,7 @@
 // Manages: booting, lock screen, wallpaper, widgets, settings
 // ============================================================
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export type Wallpaper =
   | 'default'
@@ -14,6 +14,8 @@ export type Wallpaper =
 
 export type AccentColor = 'blue' | 'purple' | 'emerald';
 
+export type OllamaModel = 'deepseek-r1:1.5b' | 'mistral' | 'llama3.1';
+
 interface DesktopState {
   isBooting: boolean;
   isLocked: boolean;
@@ -23,6 +25,7 @@ interface DesktopState {
   accentColor: AccentColor;
   quoteVersion: number;       // Incremented on lock/unlock/restart to trigger new quote
   weatherCity: string | null; // null = auto-detect
+  ollamaModel: OllamaModel;
   // Actions
   finishBoot: () => void;
   unlock: () => void;
@@ -35,6 +38,7 @@ interface DesktopState {
   setAccentColor: (c: AccentColor) => void;
   bumpQuoteVersion: () => void;
   setWeatherCity: (city: string | null) => void;
+  setOllamaModel: (model: OllamaModel) => void;
   clearAllData: () => void;
 }
 
@@ -49,6 +53,7 @@ export const useDesktopStore = create<DesktopState>()(
       accentColor: 'blue',
       quoteVersion: 0,
       weatherCity: null,
+      ollamaModel: 'deepseek-r1:1.5b',
 
       finishBoot: () => set({ isBooting: false }),
       unlock: () => {
@@ -69,6 +74,7 @@ export const useDesktopStore = create<DesktopState>()(
       setAccentColor: (accentColor) => set({ accentColor }),
       bumpQuoteVersion: () => set((s) => ({ quoteVersion: s.quoteVersion + 1 })),
       setWeatherCity: (weatherCity) => set({ weatherCity }),
+      setOllamaModel: (ollamaModel) => set({ ollamaModel }),
       clearAllData: () => {
         // Wipe all localStorage keys used by the app
         if (typeof window !== 'undefined') {
@@ -86,17 +92,20 @@ export const useDesktopStore = create<DesktopState>()(
           accentColor: 'blue',
           quoteVersion: 0,
           weatherCity: null,
+          ollamaModel: 'deepseek-r1:1.5b',
         });
       },
     }),
     {
       name: 'campus-os-desktop',
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({
         wallpaper: state.wallpaper,
         showQuotes: state.showQuotes,
         showWeather: state.showWeather,
         accentColor: state.accentColor,
         weatherCity: state.weatherCity,
+        ollamaModel: state.ollamaModel,
       }),
     }
   )

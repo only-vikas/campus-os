@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { CodeAnalysisResult } from '@/services/codeReviewService';
 
 interface LineOffset {
@@ -170,7 +170,8 @@ export const useCodeGuardStore = create<CodeGuardState>()(
       })
     }),
     {
-      name: 'code-guard-state',
+      name: 'campus-os-codeguard-cache',
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({ 
         originalCode: state.originalCode, 
         currentCode: state.currentCode, 

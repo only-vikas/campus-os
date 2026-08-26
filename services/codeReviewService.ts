@@ -1,5 +1,7 @@
 import { OpenRouter } from "@openrouter/sdk";
 import { jsonrepair } from 'jsonrepair';
+import { queryOllama } from './ollamaService';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 
 interface AIConfig {
   apiKey: string;
@@ -114,40 +116,6 @@ export async function analyzeCode(
 ): Promise<CodeAnalysisResult> {
   const prompt = `Analyze this ${language} code for bugs, security vulnerabilities, performance issues, code smells, and best practice violations. Return STRICT JSON with: overallScore (0-100), issues array (line, severity, category, title, description, fix, explanation, cweId, learnMore), summary, improvedCode. CODE: \n\n${code}`;
 
-  let lastError: Error | null = null;
-
-  for (let i = 0; i < AI_CONFIGS.length; i++) {
-    const config = AI_CONFIGS[i];
-    try {
-      onProgress?.(`Analyzing via ${config.name}...`);
-      const openrouter = new OpenRouter({ apiKey: config.apiKey });
-      const stream = await openrouter.chat.send({
-        chatRequest: {
-          model: config.model,
-          messages: [{ role: "user", content: prompt }],
-          stream: true
-        }
-      });
-      
-      let responseText = "";
-      for await (const chunk of stream as any) {
-        const content = chunk.choices[0]?.delta?.content;
-        if (content) responseText += content;
-      }
-      
-      const parsed = extractJSON(responseText);
-      onProgress?.(`Success!`);
-      return parsed as CodeAnalysisResult;
-      
-    } catch (err: any) {
-      console.warn(`AI ${config.name} failed:`, err);
-      lastError = err;
-      if (err.status === 429 || err.message?.includes('rate limit')) {
-        await new Promise(r => setTimeout(r, Math.min(1000 * Math.pow(2, i), 8000)));
-      }
-      continue;
-    }
-  }
-  
-  throw lastError || new Error("All 4 AI models failed. Please try again later.");
+  const model = useDesktopStore.getState().ollamaModel || 'deepseek-r1:1.5b';
+  return queryOllama(prompt, model, onProgress, true) as Promise<CodeAnalysisResult>;
 }
