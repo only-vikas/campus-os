@@ -20,13 +20,13 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'interview',
     name: 'Interview Prep',
-    icon: 'MessageSquare',
-    color: '#a78bfa', // purple-400
-    description: 'AI mock interviews and feedback',
+    icon: 'Mic',
+    color: '#60a5fa', // blue-400
+    description: 'AI-powered mock interviews with real-time feedback',
     category: 'career',
-    defaultSize: { width: 760, height: 540 },
-    defaultPosition: { x: 100, y: 70 },
-    minSize: { width: 480, height: 380 },
+    defaultSize: { width: 1200, height: 800 },
+    defaultPosition: { x: 60, y: 40 },
+    minSize: { width: 1000, height: 700 },
   },
   {
     id: 'expense',

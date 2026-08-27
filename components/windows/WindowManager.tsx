@@ -12,7 +12,7 @@ import WindowFrame from './WindowFrame';
 // Lazy-load all app components for performance
 const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
   resume:    lazy(() => import('@/components/apps/ResumeAnalyzer')),
-  interview: lazy(() => import('@/components/apps/InterviewPrep')),
+  interview: lazy(() => import('@/components/apps/InterviewPrep/InterviewPrep')),
   expense:   lazy(() => import('@/components/apps/ExpenseTracker')),
   placement: lazy(() => import('@/components/apps/PlacementPortal')),
   'code-guard': lazy(() => import('@/components/apps/CodeGuard/CodeGuard')),
