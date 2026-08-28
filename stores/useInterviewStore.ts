@@ -16,6 +16,12 @@ export type InterviewStatus =
   | 'evaluating'
   | 'completed';
 
+// Speech vs writing-only
+export type InterviewMode = 'speech' | 'writing';
+
+// Interviewer persona
+export type InterviewerPersona = 'alex' | 'raj' | 'sofia' | 'priya';
+
 export interface QAPair {
   question: string;
   answer: string;
@@ -58,6 +64,14 @@ interface InterviewState {
   interviewType: InterviewType | null;
   company: string | null;
 
+  // NEW: Document context
+  jdText: string;         // Job description (pasted or extracted)
+  resumeText: string;     // Resume text (pasted or extracted)
+
+  // NEW: Mode + persona
+  interviewMode: InterviewMode;
+  interviewerPersona: InterviewerPersona;
+
   // Live interview data
   currentQuestion: string;
   currentAnswer: string;
@@ -82,7 +96,7 @@ interface InterviewState {
   // Results
   finalReport: FinalReport | null;
 
-  // Resume data (fetched from API)
+  // Resume structured data (fetched from API)
   resumeData: any | null;
 
   // Loading states
@@ -103,6 +117,10 @@ interface InterviewState {
   toggleVoice: () => void;
   toggleTTS: () => void;
   setResumeData: (data: any) => void;
+  setJdText: (text: string) => void;
+  setResumeText: (text: string) => void;
+  setInterviewMode: (mode: InterviewMode) => void;
+  setInterviewerPersona: (persona: InterviewerPersona) => void;
   setIsGenerating: (v: boolean) => void;
   setIsEvaluating: (v: boolean) => void;
   setAiStatus: (s: string) => void;
@@ -135,6 +153,10 @@ export const useInterviewStore = create<InterviewState>()(
       status: 'idle',
       interviewType: null,
       company: null,
+      jdText: '',
+      resumeText: '',
+      interviewMode: 'speech',
+      interviewerPersona: 'alex',
       currentQuestion: '',
       currentAnswer: '',
       questionHistory: [],
@@ -208,6 +230,10 @@ export const useInterviewStore = create<InterviewState>()(
       toggleVoice: () => set((s) => ({ voiceEnabled: !s.voiceEnabled })),
       toggleTTS: () => set((s) => ({ ttsEnabled: !s.ttsEnabled })),
       setResumeData: (data) => set({ resumeData: data }),
+      setJdText: (text) => set({ jdText: text }),
+      setResumeText: (text) => set({ resumeText: text }),
+      setInterviewMode: (mode) => set({ interviewMode: mode }),
+      setInterviewerPersona: (persona) => set({ interviewerPersona: persona }),
       setIsGenerating: (v) => set({ isGenerating: v }),
       setIsEvaluating: (v) => set({ isEvaluating: v }),
       setAiStatus: (s) => set({ aiStatus: s }),
@@ -223,6 +249,10 @@ export const useInterviewStore = create<InterviewState>()(
           status: 'idle',
           interviewType: null,
           company: null,
+          jdText: '',
+          resumeText: '',
+          interviewMode: 'speech',
+          interviewerPersona: 'alex',
           currentQuestion: '',
           currentAnswer: '',
           questionHistory: [],
@@ -252,6 +282,10 @@ export const useInterviewStore = create<InterviewState>()(
         status: state.status,
         interviewType: state.interviewType,
         company: state.company,
+        jdText: state.jdText,
+        resumeText: state.resumeText,
+        interviewMode: state.interviewMode,
+        interviewerPersona: state.interviewerPersona,
         questionHistory: state.questionHistory,
         questionNumber: state.questionNumber,
         runningScore: state.runningScore,

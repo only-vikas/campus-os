@@ -1,11 +1,16 @@
 // ============================================================
 // Campus OS — useInterview Hook
 // Orchestrates: Store + AI Service + Voice + API persistence
+// Handles Internshala-style auto-submit on silence
 // ============================================================
 import { useCallback, useEffect, useRef } from 'react';
 import { useInterviewStore } from '@/stores/useInterviewStore';
 import { generateQuestion, evaluateAnswer, generateFinalReport } from '@/services/interviewService';
-import { speak, stopSpeaking, startListening, stopListening, isSTTSupported } from '@/services/voiceService';
+import {
+  speak, stopSpeaking, startListening, stopListening,
+  isSTTSupported, startAudioAnalyzer, stopAudioAnalyzer
+} from '@/services/voiceService';
+import { PERSONAS } from '@/components/apps/InterviewPrep/AvatarDisplay';
 
 export function useInterview() {
   const store = useInterviewStore();
@@ -20,9 +25,7 @@ export function useInterview() {
         store.setDuration(elapsed);
       }, 1000);
     }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [store.status, store.startTime]);
 
   // ---- Auto-save to MongoDB every 30 seconds ----
@@ -37,6 +40,8 @@ export function useInterview() {
               sessionId: store.sessionId,
               interviewType: store.interviewType,
               company: store.company,
+              interviewerPersona: store.interviewerPersona,
+              interviewMode: store.interviewMode,
               questionHistory: store.questionHistory,
               dimensions: store.dimensions,
               fillerWords: store.fillerWords,
@@ -51,22 +56,57 @@ export function useInterview() {
         }
       }, 30000);
     }
-    return () => {
-      if (autoSaveRef.current) clearInterval(autoSaveRef.current);
-    };
+    return () => { if (autoSaveRef.current) clearInterval(autoSaveRef.current); };
   }, [store.status, store.sessionId]);
 
-  // ---- Fetch resume data on interview start ----
+  // ---- Fetch resume on interview start ----
   const fetchResume = useCallback(async () => {
     try {
       const res = await fetch('/api/resume/latest');
       if (res.ok) {
         const data = await res.json();
-        store.setResumeData(data.resume);
+        if (data.resume) store.setResumeData(data.resume);
       }
     } catch {
       console.warn('Could not fetch resume data');
     }
+  }, []);
+
+  // ---- Start voice listening after AI speaks ----
+  const startSpeechListening = useCallback(async () => {
+    if (!isSTTSupported()) return;
+    store.setStatus('user-speaking');
+    store.setAiStatus('Listening...');
+
+    await startAudioAnalyzer();
+
+    startListening({
+      onResult: (transcript, isFinal) => {
+        if (isFinal) {
+          useInterviewStore.setState((s) => ({
+            currentAnswer: (s.currentAnswer ? s.currentAnswer + ' ' : '') + transcript,
+          }));
+        }
+      },
+      onSilence: () => {
+        // User stopped for 8s — auto-submit
+        submitAnswer();
+      },
+      onEnd: () => {
+        stopAudioAnalyzer();
+      },
+      onError: (error) => {
+        console.warn('Voice error:', error);
+        stopAudioAnalyzer();
+      },
+      onSpeechStart: () => {
+        // User has started speaking — show mic active
+        store.setAiStatus('');
+      },
+      onFillerWord: (word) => {
+        store.incrementFiller(word as any);
+      },
+    });
   }, []);
 
   // ---- Generate the next question ----
@@ -82,6 +122,9 @@ export function useInterview() {
         store.questionHistory,
         store.difficulty,
         store.company,
+        store.interviewerPersona,
+        store.jdText,
+        store.resumeText,
         (msg) => store.setAiStatus(msg)
       );
 
@@ -89,44 +132,63 @@ export function useInterview() {
       store.setAiStatus('');
       store.setIsGenerating(false);
 
-      // TTS: read question aloud
-      if (store.ttsEnabled) {
-        speak(question, () => {
-          store.setStatus('user-speaking');
-        });
+      // Speech mode: TTS reads question then start listening
+      if (store.interviewMode === 'speech' && store.ttsEnabled) {
+        const persona = PERSONAS[store.interviewerPersona];
+        speak(
+          question,
+          { rate: persona.voiceRate, pitch: persona.voicePitch },
+          () => {
+            // After AI finishes speaking, start listening
+            startSpeechListening();
+          }
+        );
       } else {
+        // Writing mode: just show question, wait for text input
         store.setStatus('user-speaking');
       }
     } catch (err) {
       console.error('Failed to generate question:', err);
-      store.setAiStatus('Failed to generate question. Retrying...');
+      store.setAiStatus('');
       store.setIsGenerating(false);
       store.setStatus('user-speaking');
     }
-  }, [store.interviewType, store.resumeData, store.questionHistory, store.difficulty, store.company, store.ttsEnabled]);
+  }, [
+    store.interviewType, store.resumeData, store.questionHistory,
+    store.difficulty, store.company, store.interviewerPersona,
+    store.jdText, store.resumeText, store.interviewMode, store.ttsEnabled
+  ]);
 
   // ---- Submit the current answer ----
   const submitAnswer = useCallback(async () => {
-    const answer = store.currentAnswer.trim();
-    if (!answer || !store.currentQuestion) return;
+    const answer = useInterviewStore.getState().currentAnswer.trim();
+    if (!answer || !useInterviewStore.getState().currentQuestion) return;
 
     stopSpeaking();
     stopListening();
+    stopAudioAnalyzer();
+
     store.setStatus('evaluating');
     store.setIsEvaluating(true);
-    store.setAiStatus('Evaluating your answer...');
+    store.setAiStatus('AI is evaluating your answer...');
+
+    const question = useInterviewStore.getState().currentQuestion;
+    const currentHistory = useInterviewStore.getState().questionHistory;
 
     try {
       const evaluation = await evaluateAnswer(
-        store.currentQuestion,
+        question,
         answer,
-        store.interviewType!,
-        store.resumeData,
+        useInterviewStore.getState().interviewType!,
+        useInterviewStore.getState().resumeData,
+        useInterviewStore.getState().interviewerPersona,
+        useInterviewStore.getState().jdText,
+        useInterviewStore.getState().resumeText,
         (msg) => store.setAiStatus(msg)
       );
 
       const pair = {
-        question: store.currentQuestion,
+        question,
         answer,
         score: evaluation.score,
         feedback: evaluation.feedback,
@@ -137,31 +199,26 @@ export function useInterview() {
       store.addQAPair(pair);
       store.updateDimensions(evaluation.dimensions);
 
-      // Adjust difficulty based on score
-      if (evaluation.score > 80) {
-        store.setDifficulty(store.difficulty + 1);
-      } else if (evaluation.score < 40) {
-        store.setDifficulty(store.difficulty - 1);
-      }
+      // Adaptive difficulty
+      if (evaluation.score > 80) store.setDifficulty(useInterviewStore.getState().difficulty + 1);
+      else if (evaluation.score < 40) store.setDifficulty(useInterviewStore.getState().difficulty - 1);
 
       store.setIsEvaluating(false);
       store.setAiStatus('');
 
-      // Check if interview should end (10 questions default)
-      if (store.questionHistory.length + 1 >= store.totalQuestions) {
+      // Check if interview should end
+      if (currentHistory.length + 1 >= useInterviewStore.getState().totalQuestions) {
         await finishInterview();
       } else {
-        // Next question
         await askNextQuestion();
       }
     } catch (err) {
       console.error('Failed to evaluate answer:', err);
       store.setIsEvaluating(false);
-      store.setAiStatus('Evaluation failed. Moving to next question...');
-      
-      // Still record the Q&A pair with a default score
+      store.setAiStatus('');
+
       store.addQAPair({
-        question: store.currentQuestion,
+        question,
         answer,
         score: 50,
         feedback: 'AI evaluation unavailable.',
@@ -171,54 +228,60 @@ export function useInterview() {
 
       await askNextQuestion();
     }
-  }, [store.currentAnswer, store.currentQuestion, store.interviewType, store.resumeData, store.difficulty, store.totalQuestions]);
+  }, [askNextQuestion]);
 
   // ---- Finish interview and generate report ----
   const finishInterview = useCallback(async () => {
     stopSpeaking();
     stopListening();
+    stopAudioAnalyzer();
     store.setAiStatus('Generating your interview report...');
     store.setIsGenerating(true);
 
+    const state = useInterviewStore.getState();
+
     try {
       const report = await generateFinalReport(
-        store.questionHistory,
-        store.interviewType!,
-        store.dimensions,
-        store.company,
+        state.questionHistory,
+        state.interviewType!,
+        state.dimensions,
+        state.company,
+        state.interviewerPersona,
+        state.jdText,
+        state.resumeText,
         (msg) => store.setAiStatus(msg)
       );
 
       store.setFinalReport(report);
 
-      // Save final session to MongoDB
       try {
         await fetch('/api/interview/session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            sessionId: store.sessionId,
-            interviewType: store.interviewType,
-            company: store.company,
-            questionHistory: store.questionHistory,
+            sessionId: state.sessionId,
+            interviewType: state.interviewType,
+            company: state.company,
+            interviewerPersona: state.interviewerPersona,
+            interviewMode: state.interviewMode,
+            questionHistory: state.questionHistory,
             dimensions: report.dimensions,
-            fillerWords: store.fillerWords,
-            difficulty: store.difficulty,
-            duration: store.duration,
+            fillerWords: state.fillerWords,
+            difficulty: state.difficulty,
+            duration: state.duration,
             runningScore: report.overallScore,
             finalReport: report,
             status: 'completed',
           }),
         });
-      } catch { /* save failed, not critical */ }
+      } catch { /* not critical */ }
     } catch {
-      // Fallback report
       const avgScore = Math.round(
-        store.questionHistory.reduce((s, q) => s + q.score, 0) / Math.max(store.questionHistory.length, 1)
+        state.questionHistory.reduce((s, q) => s + q.score, 0) / Math.max(state.questionHistory.length, 1)
       );
       store.setFinalReport({
         overallScore: avgScore,
-        dimensions: store.dimensions,
+        dimensions: state.dimensions,
         strengths: ['Completed the interview'],
         weaknesses: ['Report generation failed'],
         improvements: [{ title: 'Try again', description: 'Redo the interview for a full report' }],
@@ -229,36 +292,20 @@ export function useInterview() {
     store.setIsGenerating(false);
     store.setAiStatus('');
     store.endInterview();
-  }, [store.questionHistory, store.interviewType, store.dimensions, store.company, store.fillerWords, store.difficulty, store.duration, store.sessionId]);
-
-  // ---- Voice controls ----
-  const startVoiceInput = useCallback(() => {
-    if (!isSTTSupported()) return;
-
-    startListening({
-      onResult: (transcript, isFinal) => {
-        if (isFinal) {
-          useInterviewStore.setState((s) => ({
-            currentAnswer: s.currentAnswer + (s.currentAnswer ? ' ' : '') + transcript,
-          }));
-        }
-      },
-      onEnd: () => { /* user stopped speaking */ },
-      onError: (error) => console.warn('Voice error:', error),
-      onFillerWord: (word) => {
-        store.incrementFiller(word as any);
-      },
-    });
   }, []);
+
+  // ---- Manual voice controls (for writing-mode or toggle) ----
+  const startVoiceInput = useCallback(() => {
+    startSpeechListening();
+  }, [startSpeechListening]);
 
   const stopVoiceInput = useCallback(() => {
     stopListening();
+    stopAudioAnalyzer();
   }, []);
 
   return {
-    // State
     ...store,
-    // Actions
     fetchResume,
     askNextQuestion,
     submitAnswer,

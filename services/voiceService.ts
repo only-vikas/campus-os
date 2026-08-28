@@ -1,24 +1,48 @@
 // ============================================================
 // Campus OS — Voice Service
 // Web Speech API wrapper: STT (SpeechRecognition) + TTS (SpeechSynthesis)
+// Internshala-style silence detection: auto-submit after 7-10s of silence
 // Zero cost, browser-native, no external API required
 // ============================================================
 
 export interface VoiceCallbacks {
   onResult: (transcript: string, isFinal: boolean) => void;
+  onSilence: () => void;          // Triggered after silence threshold — caller should submit answer
   onEnd: () => void;
   onError: (error: string) => void;
   onFillerWord?: (word: string) => void;
+  onSpeechStart?: () => void;     // Called when user actually starts speaking
 }
 
 const FILLER_WORDS = ['um', 'uh', 'like', 'basically', 'actually'];
+const SILENCE_THRESHOLD_MS = 8000; // 8 seconds of silence = auto-submit
 
 // ---- Speech-to-Text ----
 let recognition: any = null;
+let silenceTimer: NodeJS.Timeout | null = null;
+let hasSpokeAtLeastOnce = false;
 
 export function isSTTSupported(): boolean {
   if (typeof window === 'undefined') return false;
-  return !!(window.SpeechRecognition || (window as any).webkitSpeechRecognition);
+  return !!((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+}
+
+function clearSilenceTimer() {
+  if (silenceTimer) {
+    clearTimeout(silenceTimer);
+    silenceTimer = null;
+  }
+}
+
+function startSilenceTimer(callbacks: VoiceCallbacks) {
+  clearSilenceTimer();
+  silenceTimer = setTimeout(() => {
+    // Only fire if user has spoken at least once (prevents instant trigger)
+    if (hasSpokeAtLeastOnce) {
+      stopListening();
+      callbacks.onSilence();
+    }
+  }, SILENCE_THRESHOLD_MS);
 }
 
 export function startListening(callbacks: VoiceCallbacks): boolean {
@@ -27,11 +51,17 @@ export function startListening(callbacks: VoiceCallbacks): boolean {
     return false;
   }
 
-  const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+  hasSpokeAtLeastOnce = false;
+  const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   recognition = new SpeechRecognition();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = 'en-US';
+
+  // Start the initial silence timer — if user never speaks for 30s, stop
+  silenceTimer = setTimeout(() => {
+    if (!hasSpokeAtLeastOnce) stopListening();
+  }, 30000);
 
   recognition.onresult = (event: any) => {
     let interimTranscript = '';
@@ -41,7 +71,7 @@ export function startListening(callbacks: VoiceCallbacks): boolean {
       const transcript = event.results[i][0].transcript;
       if (event.results[i].isFinal) {
         finalTranscript += transcript;
-        // Check for filler words in final transcript
+        // Check for filler words
         const words = transcript.toLowerCase().split(/\s+/);
         for (const word of words) {
           const cleanWord = word.replace(/[^a-z]/g, '');
@@ -54,6 +84,15 @@ export function startListening(callbacks: VoiceCallbacks): boolean {
       }
     }
 
+    if (finalTranscript || interimTranscript) {
+      if (!hasSpokeAtLeastOnce) {
+        hasSpokeAtLeastOnce = true;
+        callbacks.onSpeechStart?.();
+      }
+      // Reset silence timer every time we get new speech
+      startSilenceTimer(callbacks);
+    }
+
     if (finalTranscript) {
       callbacks.onResult(finalTranscript, true);
     } else if (interimTranscript) {
@@ -62,13 +101,25 @@ export function startListening(callbacks: VoiceCallbacks): boolean {
   };
 
   recognition.onerror = (event: any) => {
-    if (event.error !== 'no-speech' && event.error !== 'aborted') {
+    if (event.error === 'no-speech') {
+      // "no-speech" means SpeechRecognition timed out its own window — restart it
+      if (recognition) {
+        try { recognition.start(); } catch { /* already started */ }
+      }
+      return;
+    }
+    if (event.error !== 'aborted') {
       callbacks.onError(`Speech recognition error: ${event.error}`);
     }
   };
 
   recognition.onend = () => {
-    callbacks.onEnd();
+    // If recognition ends unexpectedly (browser timeout), restart if still wanted
+    if (recognition && hasSpokeAtLeastOnce) {
+      try { recognition.start(); } catch { /* already started */ }
+    } else {
+      callbacks.onEnd();
+    }
   };
 
   try {
@@ -81,12 +132,16 @@ export function startListening(callbacks: VoiceCallbacks): boolean {
 }
 
 export function stopListening(): void {
+  clearSilenceTimer();
   if (recognition) {
-    try {
-      recognition.stop();
-    } catch { /* already stopped */ }
+    try { recognition.stop(); } catch { /* already stopped */ }
     recognition = null;
   }
+  hasSpokeAtLeastOnce = false;
+}
+
+export function isListening(): boolean {
+  return recognition !== null;
 }
 
 // ---- Text-to-Speech ----
@@ -97,28 +152,42 @@ export function isTTSSupported(): boolean {
   return !!window.speechSynthesis;
 }
 
-export function speak(text: string, onEnd?: () => void): void {
-  if (!isTTSSupported()) return;
+export function speak(
+  text: string,
+  options?: { rate?: number; pitch?: number; voiceName?: string },
+  onEnd?: () => void
+): void {
+  if (!isTTSSupported()) {
+    onEnd?.();
+    return;
+  }
 
-  // Cancel any ongoing speech
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.95;
-  utterance.pitch = 1.0;
+  utterance.rate = options?.rate ?? 0.95;
+  utterance.pitch = options?.pitch ?? 1.0;
   utterance.volume = 0.9;
 
-  // Try to get a natural-sounding English voice
   const voices = window.speechSynthesis.getVoices();
-  const preferredVoice = voices.find(
-    (v) => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha'))
-  ) || voices.find((v) => v.lang.startsWith('en'));
+  if (options?.voiceName) {
+    const preferred = voices.find((v) => v.name.includes(options.voiceName!));
+    if (preferred) utterance.voice = preferred;
+  }
 
-  if (preferredVoice) {
-    utterance.voice = preferredVoice;
+  if (!utterance.voice) {
+    const fallback = voices.find(
+      (v) => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Samantha'))
+    ) || voices.find((v) => v.lang.startsWith('en'));
+    if (fallback) utterance.voice = fallback;
   }
 
   utterance.onend = () => {
+    currentUtterance = null;
+    onEnd?.();
+  };
+
+  utterance.onerror = () => {
     currentUtterance = null;
     onEnd?.();
   };
@@ -128,9 +197,7 @@ export function speak(text: string, onEnd?: () => void): void {
 }
 
 export function stopSpeaking(): void {
-  if (typeof window !== 'undefined') {
-    window.speechSynthesis.cancel();
-  }
+  if (typeof window !== 'undefined') window.speechSynthesis.cancel();
   currentUtterance = null;
 }
 
@@ -150,10 +217,8 @@ export async function startAudioAnalyzer(): Promise<AnalyserNode | null> {
     audioContext = new AudioContext();
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 256;
-
     const source = audioContext.createMediaStreamSource(mediaStream);
     source.connect(analyser);
-
     return analyser;
   } catch {
     return null;
@@ -162,7 +227,7 @@ export async function startAudioAnalyzer(): Promise<AnalyserNode | null> {
 
 export function stopAudioAnalyzer(): void {
   if (mediaStream) {
-    mediaStream.getTracks().forEach((track) => track.stop());
+    mediaStream.getTracks().forEach((t) => t.stop());
     mediaStream = null;
   }
   if (audioContext) {
