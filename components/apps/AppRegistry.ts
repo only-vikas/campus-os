@@ -29,15 +29,15 @@ export const APP_REGISTRY: AppConfig[] = [
     minSize: { width: 1000, height: 700 },
   },
   {
-    id: 'expense',
-    name: 'Expense Tracker',
-    icon: 'Wallet',
+    id: 'edu-vault',
+    name: 'EduVault',
+    icon: 'Landmark',
     color: '#34d399', // emerald-400
-    description: 'Track and manage your student expenses',
+    description: 'Track. Learn. Grow. Your AI-powered financial companion.',
     category: 'finance',
-    defaultSize: { width: 720, height: 520 },
-    defaultPosition: { x: 120, y: 80 },
-    minSize: { width: 460, height: 360 },
+    defaultSize: { width: 1100, height: 750 },
+    defaultPosition: { x: 100, y: 50 },
+    minSize: { width: 900, height: 600 },
   },
   {
     id: 'placement',
@@ -125,7 +125,7 @@ export const APP_MAP = new Map(APP_REGISTRY.map((a) => [a.id, a]));
 export const DOCK_APP_IDS = [
   'resume',
   'interview',
-  'expense',
+  'edu-vault',
   'placement',
   'code-guard',
   'finance',

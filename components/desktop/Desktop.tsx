@@ -17,6 +17,7 @@ import WindowManager from '@/components/windows/WindowManager';
 import ClockWidget from '@/components/widgets/ClockWidget';
 import WeatherWidget from '@/components/widgets/WeatherWidget';
 import QuoteWidget from '@/components/widgets/QuoteWidget';
+import EduVaultWidget from '@/components/widgets/EduVaultWidget';
 
 export default function Desktop() {
   const { wallpaper, showQuotes, showWeather } = useDesktopStore();
@@ -71,6 +72,9 @@ export default function Desktop() {
         <ClockWidget />
         {showWeather && <WeatherWidget />}
         {showQuotes && <QuoteWidget />}
+        <div className="absolute left-8 top-32 z-0 hidden lg:block">
+          <EduVaultWidget />
+        </div>
 
         {/* All open app windows */}
         <WindowManager />

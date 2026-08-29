@@ -13,7 +13,7 @@ import WindowFrame from './WindowFrame';
 const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentType>> = {
   resume:    lazy(() => import('@/components/apps/ResumeAnalyzer')),
   interview: lazy(() => import('@/components/apps/InterviewPrep/InterviewPrep')),
-  expense:   lazy(() => import('@/components/apps/ExpenseTracker')),
+  'edu-vault': lazy(() => import('@/components/apps/EduVault/EduVault')),
   placement: lazy(() => import('@/components/apps/PlacementPortal')),
   'code-guard': lazy(() => import('@/components/apps/CodeGuard/CodeGuard')),
   finance:   lazy(() => import('@/components/apps/FinanceEdu')),
