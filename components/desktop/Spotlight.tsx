@@ -13,8 +13,8 @@ import { useAppStore } from '@/stores/useAppStore';
 import { AppConfig } from '@/types/app';
 
 function AppIcon({ iconName }: { iconName: string }) {
-  const Icon = (LucideIcons as Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>>)[iconName];
-  if (!Icon) return <span>📦</span>;
+  const Icon = (LucideIcons as any)[iconName] as React.ElementType;
+  if (!Icon) return <span style={{ fontSize: 18 }}>{iconName}</span>;
   return <Icon size={18} strokeWidth={1.5} />;
 }
 

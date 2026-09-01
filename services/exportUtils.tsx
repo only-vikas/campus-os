@@ -124,6 +124,6 @@ const PdfTemplate = ({ lines }: { lines: string[] }) => {
 };
 
 export async function exportToPdf(lines: string[], fileName: string) {
-  const blob = await pdf(React.createElement(PdfTemplate, { lines })).toBlob();
+  const blob = await pdf(<PdfTemplate lines={lines} />).toBlob();
   saveAs(blob, `${fileName}.pdf`);
 }

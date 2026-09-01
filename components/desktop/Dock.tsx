@@ -13,8 +13,8 @@ import { DOCK_APP_IDS, APP_MAP } from '@/components/apps/AppRegistry';
 
 // Dynamic Lucide icon renderer
 function AppIcon({ iconName, size = 28 }: { iconName: string; size?: number }) {
-  const Icon = (LucideIcons as Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>>)[iconName];
-  if (!Icon) return <span className="text-2xl">📦</span>;
+  const Icon = (LucideIcons as any)[iconName] as React.ElementType;
+  if (!Icon) return <span className="text-2xl" style={{ fontSize: size ? size - 4 : undefined }}>{iconName}</span>;
   return <Icon size={size} strokeWidth={1.5} />;
 }
 

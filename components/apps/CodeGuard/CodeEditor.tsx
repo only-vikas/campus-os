@@ -23,7 +23,7 @@ export default function CodeEditor() {
     const validation = validateCode(currentCode, language);
     
     if (!validation.valid) {
-      useCodeGuardStore.getState().setError(validation.message);
+      useCodeGuardStore.getState().setError(validation.message || null);
       return;
     }
     
@@ -93,7 +93,7 @@ export default function CodeEditor() {
         )}
         <button
           onClick={handleAnalyze}
-          disabled={isAnalyzing || !currentCode.trim()}
+          disabled={isAnalyzing || !(currentCode || '').trim()}
           className="flex items-center space-x-2 px-6 py-2 bg-amber-500 hover:bg-amber-400 disabled:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-semibold rounded-lg transition-colors"
         >
           <Play size={18} fill="currentColor" />

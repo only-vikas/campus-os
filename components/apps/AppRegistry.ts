@@ -31,7 +31,7 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'edu-vault',
     name: 'EduVault',
-    icon: 'Landmark',
+    icon: '🏗️',
     color: '#34d399', // emerald-400
     description: 'Track. Learn. Grow. Your AI-powered financial companion.',
     category: 'finance',
@@ -62,15 +62,15 @@ export const APP_REGISTRY: AppConfig[] = [
     minSize: { width: 900, height: 500 },
   },
   {
-    id: 'finance',
-    name: 'Finance Edu',
-    icon: 'TrendingUp',
-    color: '#34d399', // emerald-400
-    description: 'Financial education, markets and investment basics',
+    id: 'finsack',
+    name: 'FinSack',
+    icon: 'Landmark',
+    color: '#10b981', // emerald-500
+    description: 'Learn. Simulate. Trade. The complete financial literacy OS.',
     category: 'finance',
-    defaultSize: { width: 860, height: 580 },
+    defaultSize: { width: 1200, height: 800 },
     defaultPosition: { x: 110, y: 75 },
-    minSize: { width: 540, height: 400 },
+    minSize: { width: 1000, height: 700 },
   },
   {
     id: 'learning',
@@ -128,7 +128,7 @@ export const DOCK_APP_IDS = [
   'edu-vault',
   'placement',
   'code-guard',
-  'finance',
+  'finsack',
   'learning',
   'campus',
   'weather',

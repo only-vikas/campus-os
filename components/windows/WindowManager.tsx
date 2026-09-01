@@ -16,7 +16,7 @@ const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentTyp
   'edu-vault': lazy(() => import('@/components/apps/EduVault/EduVault')),
   placement: lazy(() => import('@/components/apps/PlacementPortal')),
   'code-guard': lazy(() => import('@/components/apps/CodeGuard/CodeGuard')),
-  finance:   lazy(() => import('@/components/apps/FinanceEdu')),
+  finsack:   lazy(() => import('@/components/apps/FinSack/FinSack')),
   learning:  lazy(() => import('@/components/apps/LearningEngine')),
   campus:    lazy(() => import('@/components/apps/CampusPortal')),
   settings:  lazy(() => import('@/components/apps/Settings')),

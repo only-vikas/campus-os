@@ -40,7 +40,7 @@ export async function queryOllama(
       onProgress?.(`Falling back to Cloud AI (${config.name})...`);
       
       const openrouter = new OpenRouter({ apiKey: config.apiKey });
-      const stream = await openrouter.chat.send({
+      const stream: any = await openrouter.chat.send({
         chatRequest: {
           model: config.model,
           messages: [{ role: "user", content: prompt }],

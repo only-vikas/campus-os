@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useResumeAnalyzerStore } from '@/stores/useResumeAnalyzerStore';
 import { Target, AlertTriangle, CheckCircle, Brain, LayoutDashboard } from 'lucide-react';
 
-const containerVariants = {
+const containerVariants: any = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -10,7 +10,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, scale: 0.95, y: 10 },
   show: { opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 250, damping: 20 } }
 };

@@ -101,7 +101,7 @@ export default function CodeGuard() {
                     activeTab === 'history' ? 'bg-amber-500/20 text-amber-400' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700'
                   }`}
                 >
-                  📜 History ({history.length})
+                  📜 History ({(history || []).length})
                 </button>
               </div>
               <button 
@@ -138,7 +138,7 @@ export default function CodeGuard() {
 function HistoryPanel() {
   const { history, loadFromHistory, clearHistory } = useCodeGuardStore();
 
-  if (history.length === 0) {
+  if ((history || []).length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full text-slate-500 p-8 text-center space-y-4">
         <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center">
@@ -157,7 +157,7 @@ function HistoryPanel() {
         </button>
       </div>
       <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
-        {history.map((entry) => (
+        {(history || []).map((entry) => (
           <div 
             key={entry.id} 
             onClick={() => loadFromHistory(entry.id)}
@@ -168,11 +168,11 @@ function HistoryPanel() {
               <span className="text-slate-500 text-xs">{entry.timestamp}</span>
             </div>
             <pre className="text-slate-300 text-xs font-mono bg-slate-950 p-2 rounded overflow-hidden text-ellipsis max-h-16">
-              {entry.code.substring(0, 150) + (entry.code.length > 150 ? '...' : '')}
+              {(entry.code || '').substring(0, 150) + ((entry.code || '').length > 150 ? '...' : '')}
             </pre>
             <div className="mt-3 flex items-center space-x-4 text-xs text-slate-400">
-              <span>Score: <strong className={entry.result.overallScore >= 80 ? 'text-green-400' : 'text-amber-400'}>{entry.result.overallScore}</strong></span>
-              <span>Issues: {entry.result.issues.length}</span>
+              <span>Score: <strong className={entry.result?.overallScore >= 80 ? 'text-green-400' : 'text-amber-400'}>{entry.result?.overallScore}</strong></span>
+              <span>Issues: {entry.result?.issues?.length || 0}</span>
             </div>
           </div>
         ))}

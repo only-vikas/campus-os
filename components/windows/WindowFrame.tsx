@@ -15,8 +15,8 @@ import { useWindowStore } from '@/stores/useWindowStore';
 import { APP_MAP } from '@/components/apps/AppRegistry';
 
 function AppIcon({ iconName, color }: { iconName: string; color: string }) {
-  const Icon = (LucideIcons as Record<string, React.ComponentType<{ size?: number; strokeWidth?: number }>>)[iconName];
-  if (!Icon) return null;
+  const Icon = (LucideIcons as any)[iconName] as React.ElementType;
+  if (!Icon) return <span style={{ fontSize: 14 }}>{iconName}</span>;
   return <Icon size={14} strokeWidth={1.5} style={{ color }} />;
 }
 

@@ -296,9 +296,9 @@ export default function Settings() {
                       accentColor === ac.id ? 'ring-2 ring-offset-2 ring-offset-[#0a0f1e]' : 'glass'
                     }`}
                     style={{
-                      ringColor: accentColor === ac.id ? ac.color : undefined,
+                      '--tw-ring-color': accentColor === ac.id ? ac.color : undefined,
                       borderColor: accentColor === ac.id ? ac.color : 'transparent',
-                    }}
+                    } as any}
                     whileTap={{ scale: 0.96 }}
                   >
                     <div

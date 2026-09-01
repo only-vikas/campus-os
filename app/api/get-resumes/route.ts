@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 
 export async function GET() {
-  const { userId } = auth()
+  const { userId } = await auth()
   
   if (!userId) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

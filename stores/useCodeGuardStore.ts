@@ -22,6 +22,8 @@ export interface CodeGuardState {
   analysisResult: CodeAnalysisResult | null;
   activeTab: 'editor' | 'history';
   history: AnalysisHistoryEntry[];
+  isAnalyzing: boolean;
+  viewMode: 'editor' | 'diff';
   
   // Error handling
   error: string | null;
