@@ -1,5 +1,18 @@
 <div align="center">
-  <img src="./docs/media/desktop.png" alt="Campus OS Desktop" width="100%" />
+<img width="1335" height="627" alt="Screenshot 2026-09-02 105936" src="https://github.com/user-attachments/assets/eef682fe-d752-45ea-85bb-5567f01fffd6" />
+
+  <img width="1331" height="600" alt="Screenshot 2026-09-02 110007" src="https://github.com/user-attachments/assets/0750cb20-e8a7-473e-a2e2-5d40e54a3386" />
+  <img width="1915" height="665" alt="Screenshot 2026-08-14 015919" src="https://github.com/user-attachments/assets/41284f6e-6cb6-424f-afbb-5e8a80f98286" />
+  <img width="1343" height="627" alt="Screenshot 2026-09-02 105841" src="https://github.com/user-attachments/assets/c0832b64-ab21-46e5-adab-986a0f4554b9" />
+  <img width="1337" height="600" alt="Screenshot 2026-09-02 110103" src="https://github.com/user-attachments/assets/e6f0e2bf-77a2-4e26-9784-19e27f9022ae" />
+  <img width="1347" height="605" alt="Screenshot 2026-09-02 110126" src="https://github.com/user-attachments/assets/5958d99f-3639-48e1-b600-41f8c12c6b33" />
+  <img width="1337" height="607" alt="Screenshot 2026-09-02 110201" src="https://github.com/user-attachments/assets/2a05fbb5-6d1e-4ca6-b89f-01ab8cc9faac" />
+
+
+
+
+
+
   
   <h1>🎓 Campus OS</h1>
   <p><strong>A Unified, Browser-Based Operating System for Student Lifecycle Management</strong></p>
