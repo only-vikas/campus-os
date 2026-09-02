@@ -14,31 +14,69 @@
 
 ## 📖 Overview
 
-Campus OS recreates a native desktop experience inside the browser and unifies key student tools — learning, career preparation, finance, and campus services — under a single windowed UI with a dock and unified file system.
+Campus OS recreates a native desktop experience inside the browser and unifies key student tools — learning, career preparation, finance, and campus services — under a single windowed UI with [...]
 
-This README has been reorganized so each feature is explained and immediately followed by its screenshots and captions. All original screenshots are preserved and placed where they provide the best contextual meaning.
+This README has been reorganized so each feature is explained and immediately followed by its screenshots and captions. All original screenshots are preserved and placed where they provide the bes[...]
 
 ---
 
 ## 🎯 Showcase
 
-A quick visual tour of Campus OS — untrimmed screenshots captured from the running UI. Each image is the original capture and is shown here to give an immediate sense of the overall environment and look-and-feel.
+A quick visual tour of Campus OS — untrimmed screenshots captured from the running UI. Each image is the original capture and is shown here to give an immediate sense of the overall environment [...]
+
+### Main Desktop Shell & Window Manager
 
 <img width="1335" height="627" alt="Screenshot 2026-09-02 105936" src="https://github.com/user-attachments/assets/eef682fe-d752-45ea-85bb-5567f01fffd6" />
 
+*The main Campus OS desktop with windowed applications, taskbar, and system UI elements.*
+
+---
+
+### Dashboard & System Overview
+
 <img width="1331" height="600" alt="Screenshot 2026-09-02 110007" src="https://github.com/user-attachments/assets/0750cb20-e8a7-473e-a2e2-5d40e54a3386" />
+
+*Dashboard view showing widgets, quick access apps, and system status information.*
+
+---
+
+### Full-Screen Application View
 
 <img width="1915" height="665" alt="Screenshot 2026-08-14 015919" src="https://github.com/user-attachments/assets/41284f6e-6cb6-424f-afbb-5e8a80f98286" />
 
+*An application in full-screen mode with expanded workspace and detailed content area.*
+
+---
+
+### Dock & Application Launcher
+
 <img width="1343" height="627" alt="Screenshot 2026-09-02 105841" src="https://github.com/user-attachments/assets/c0832b64-ab21-46e5-adab-986a0f4554b9" />
+
+*The dock at the bottom displaying active apps, pinned shortcuts, and quick launch menu.*
+
+---
+
+### Multi-Window Workspace
 
 <img width="1337" height="600" alt="Screenshot 2026-09-02 110103" src="https://github.com/user-attachments/assets/e6f0e2bf-77a2-4e26-9784-19e27f9022ae" />
 
+*Multiple windows open simultaneously, demonstrating window management and multitasking capabilities.*
+
+---
+
+### Application Details & Notifications
+
 <img width="1347" height="605" alt="Screenshot 2026-09-02 110126" src="https://github.com/user-attachments/assets/5958d99f-3639-48e1-b600-41f8c12c6b33" />
+
+*Detailed view of an application interface with notification panel and system alerts.*
+
+---
+
+### Global Search & Navigation
 
 <img width="1337" height="607" alt="Screenshot 2026-09-02 110201" src="https://github.com/user-attachments/assets/2a05fbb5-6d1e-4ca6-b89f-01ab8cc9faac" />
 
-Caption: Visual tour — main desktop shell, window manager, dock, and sample apps open.
+*Global search functionality in action, showing unified search across all apps and services.*
 
 ---
 
@@ -48,7 +86,7 @@ Each app section below contains a short description, key capabilities, and the p
 
 ### 🧠 NovaMind — Learning Engine
 
-NovaMind is a personalized learning and career intelligence engine that uses Bayesian Knowledge Tracing (BKT) to adapt content to each student's gaps. It provides an AI tutor, mastery tracking, and recommended learning paths.
+NovaMind is a personalized learning and career intelligence engine that uses Bayesian Knowledge Tracing (BKT) to adapt content to each student's gaps. It provides an AI tutor, mastery tracking, an[...]
 
 Key capabilities:
 - Adaptive practice and quiz generation (BKT-powered)
