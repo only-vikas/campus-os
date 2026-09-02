@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="./docs/media/desktop.png" alt="Campus OS Desktop" width="100%" />
+  
+  <h1>🎓 Campus OS</h1>
+  <p><strong>A Unified, Browser-Based Operating System for Student Lifecycle Management</strong></p>
 
-## Getting Started
+  <p>
+    <a href="#features--native-apps">Apps</a> •
+    <a href="#system-architecture">Architecture</a> •
+    <a href="#installation-guide">Installation</a> •
+    <a href="#tech-stack">Tech Stack</a>
+  </p>
+</div>
 
-First, run the development server:
+---
 
+## 📖 Overview
+
+**Campus OS** is a revolutionary web-based operating system designed to replicate a native desktop environment entirely within the browser. It unifies essential student lifecycle tools into a single, cohesive, glassmorphic workspace. From AI-driven interview preparation to a gamified learning engine, Campus OS transforms how students manage their education, careers, and finances.
+
+---
+
+## ✨ Features & Native Apps
+
+Campus OS comes pre-loaded with a suite of integrated applications running in a custom window manager with dock navigation and a unified file system.
+
+### 🧠 NovaMind (Learning Engine)
+A personalized Learning & Career Intelligence Engine utilizing Bayesian Knowledge Tracing (BKT) to adapt to your skill gaps. Features an AI Tutor, career trajectory predictions, and a comprehensive gamification (Badges & XP) system.
+<details>
+<summary>View NovaMind in Action</summary>
+
+![NovaMind Dashboard](./docs/media/novamind.png)
+<img src="./docs/media/novamind_demo.webp" width="100%" alt="NovaMind Demo Video" />
+</details>
+
+### 💼 Interview Prep
+AI-driven mock interviews with voice/text input, real-time evaluation, performance metrics, and actionable feedback to make you interview-ready.
+<details>
+<summary>View Interview Prep in Action</summary>
+
+![Interview Prep](./docs/media/interview_prep.png)
+<img src="./docs/media/interview_app.webp" width="100%" alt="Interview App Demo Video" />
+</details>
+
+### 📄 Resume Analyzer
+Upload your resume for ATS-style parsing, AI-based scoring, gap analysis, and a unified smart dashboard for placement readiness.
+<details>
+<summary>View Resume Analyzer in Action</summary>
+
+![Resume Analyzer](./docs/media/resume_app.png)
+</details>
+
+### 🏦 FinSack (Finance & Expense Tracker)
+A robust financial literacy suite featuring transaction logging, anomaly detection, AI budgeting, and investment simulations to build financial habits early.
+<details>
+<summary>View FinSack in Action</summary>
+
+![FinSack Dashboard](./docs/media/eduvault.png)
+<img src="./docs/media/eduvault_demo.webp" width="100%" alt="FinSack Demo Video" />
+</details>
+
+### 🔐 Unified Authentication
+Seamless login flow powered by Clerk, ensuring secure access to all applications and persisting session states across the OS ecosystem.
+<details>
+<summary>View Auth Flow in Action</summary>
+
+![Login Options](./docs/media/auth.png)
+<img src="./docs/media/auth_flow.webp" width="100%" alt="Auth Flow Demo Video" />
+</details>
+
+---
+
+## 🏛️ System Architecture
+
+Campus OS is built on a highly modular, 5-layer architecture designed for scalability, low latency, and heavy AI integration.
+
+### **Layer 1 — Desktop Shell & UI**
+- **Window Manager:** Drag, resize, minimize, maximize, and z-index management.
+- **Dock Navigation & Widgets:** App launching, global spotlight search, smart widgets (Weather, To-do), and OS-level notifications.
+
+### **Layer 2 — Native Application Modules**
+- Resume Analyzer • Interview Prep • FinSack (Expense Tracker) • Placement Portal • Code Review • Finance Edu • NovaMind (Learning Engine)
+
+### **Layer 3 — Shared Services & Intelligence**
+- **NOVA AI:** Agentic assistant powered by Gemini 1.5 Flash for context-aware tool calling and hyper-specific guidance.
+- **RAG Pipeline:** Document ingestion, MiniLM vector embeddings, and Pinecone vector search for grounded AI responses.
+- **Unified Auth & Progression:** Role-based access control (Clerk) and centralized gamification (XP, badges, leaderboards).
+
+### **Layer 4 — Backend API Services**
+- Built on **Next.js API Route Handlers** (RESTful architecture).
+- Dedicated micro-services for Code Scanning, Resume Parsing, Interview Audio, Finance Insights, and Learning Paths.
+
+### **Layer 5 — Data Layer & External APIs**
+- **Databases:** MongoDB Atlas (Persistent Storage), Pinecone (Vector DB), Upstash Redis (Session/Response Caching).
+- **External Integrations:** Cloudinary (Media), Gemini 1.5 (AI), Alpha Vantage (Live Market Data), YouTube Data API.
+
+---
+
+## 🚀 Installation Guide
+
+Get Campus OS up and running on your local machine in minutes.
+
+### Prerequisites
+- Node.js 18.x or higher
+- npm, pnpm, or yarn
+- Git
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/only-vikas/campus-os.git
+cd campus-os
+```
+
+### 2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Set up Environment Variables
+Duplicate the example environment file and add your API keys:
+```bash
+cp .env.example .env.local
+```
+*Required Keys:*
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` & `CLERK_SECRET_KEY`
+- `GEMINI_API_KEY` (Google AI Studio)
+- `PINECONE_API_KEY`
+- `MONGODB_URI`
+
+### 4. Run the Development Server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the OS.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend:** Next.js 14 (App Router), React, TypeScript, Tailwind CSS, Framer Motion
+- **Backend:** Next.js API Routes, Node.js
+- **Database & Caching:** MongoDB, Redis (Upstash), Pinecone
+- **Authentication:** Clerk
+- **AI & LLM:** Google Gemini 1.5 Flash, Ollama (Local Fallback)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🤝 Contribution Guidelines
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+We welcome contributions from the community to make Campus OS even better! 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Fork the Project**
+2. **Create your Feature Branch:** `git checkout -b feature/AmazingFeature`
+3. **Commit your Changes:** `git commit -m 'Add some AmazingFeature'`
+4. **Push to the Branch:** `git push origin feature/AmazingFeature`
+5. **Open a Pull Request**
 
-## Deploy on Vercel
+*Please ensure your code follows the existing style guidelines and runs without errors in the development environment.*
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+---
+<p align="center">
+  Built with ❤️ for students.
+</p>
