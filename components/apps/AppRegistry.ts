@@ -73,15 +73,15 @@ export const APP_REGISTRY: AppConfig[] = [
     minSize: { width: 1000, height: 700 },
   },
   {
-    id: 'learning',
-    name: 'Learning Engine',
-    icon: 'BookOpen',
-    color: '#60a5fa', // blue-400
-    description: 'Adaptive learning paths and course materials',
+    id: 'nova-mind',
+    name: 'NovaMind',
+    icon: '🧠',
+    color: '#a78bfa', // purple-400
+    description: "It doesn't just recommend. It understands. It evolves. It builds you.",
     category: 'learning',
-    defaultSize: { width: 800, height: 560 },
+    defaultSize: { width: 1100, height: 750 },
     defaultPosition: { x: 95, y: 68 },
-    minSize: { width: 500, height: 380 },
+    minSize: { width: 900, height: 600 },
   },
   {
     id: 'campus',
@@ -129,7 +129,7 @@ export const DOCK_APP_IDS = [
   'placement',
   'code-guard',
   'finsack',
-  'learning',
+  'nova-mind',
   'campus',
   'weather',
   'settings',

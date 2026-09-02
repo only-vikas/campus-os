@@ -17,7 +17,7 @@ const AppComponents: Record<string, React.LazyExoticComponent<React.ComponentTyp
   placement: lazy(() => import('@/components/apps/PlacementPortal')),
   'code-guard': lazy(() => import('@/components/apps/CodeGuard/CodeGuard')),
   finsack:   lazy(() => import('@/components/apps/FinSack/FinSack')),
-  learning:  lazy(() => import('@/components/apps/LearningEngine')),
+  'nova-mind': lazy(() => import('@/components/apps/NovaMind/NovaMind')),
   campus:    lazy(() => import('@/components/apps/CampusPortal')),
   settings:  lazy(() => import('@/components/apps/Settings')),
   weather:   lazy(() => import('@/components/apps/WeatherApp')),
