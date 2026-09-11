@@ -6,19 +6,23 @@
 // ============================================================
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Wifi, Battery, ChevronDown, UserCircle2 } from 'lucide-react';
+import { Wifi, Battery, ChevronDown, UserCircle2, Bell, Star } from 'lucide-react';
 import { useDesktopStore } from '@/stores/useDesktopStore';
 import { useWindowStore } from '@/stores/useWindowStore';
+import { useGamificationStore } from '@/stores/useGamificationStore';
 import { APP_MAP } from '@/components/apps/AppRegistry';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
+import AboutCampusOS from './AboutCampusOS';
 
 export default function TopBar() {
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const { lock, restart } = useDesktopStore();
   const { windows, activeWindowId } = useWindowStore();
+  const { xp, level, notifications } = useGamificationStore();
   const { isSignedIn, isLoaded } = useUser();
   const router = useRouter();
 
@@ -43,7 +47,7 @@ export default function TopBar() {
   const activeAppName = activeWindow ? (APP_MAP.get(activeWindow.appId)?.name ?? 'Campus OS') : 'Campus OS';
 
   const menuItems = [
-    { label: 'About Campus OS', action: () => {} },
+    { label: 'About Campus OS', action: () => { setMenuOpen(false); setAboutOpen(true); } },
     { label: '─────────────', action: () => {} },
     { label: 'Lock Screen', action: () => { setMenuOpen(false); lock(); } },
     { label: 'Restart', action: () => { setMenuOpen(false); restart(); } },
@@ -97,8 +101,28 @@ export default function TopBar() {
         <span className="text-[#94a3b8] text-sm font-medium">{activeAppName}</span>
       </div>
 
-      {/* Right: Status icons */}
+      {/* Right: Status icons & Gamification */}
       <div className="flex items-center gap-3 text-[#94a3b8]">
+        {/* Gamification Stats */}
+        <div className="hidden sm:flex items-center gap-2 mr-2">
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#1e293b]/50 border border-[#334155]/50">
+            <Star size={12} className="text-yellow-400 fill-yellow-400" />
+            <span className="text-xs font-bold text-yellow-400">Lvl {level}</span>
+          </div>
+          <div className="flex items-center gap-1 text-xs font-medium text-[#e2e8f0]">
+            <span className="text-[#94a3b8]">XP</span>
+            <span>{xp}</span>
+          </div>
+        </div>
+
+        {/* Notification Bell */}
+        <button className="relative flex items-center justify-center hover:text-white transition-colors mr-1">
+          <Bell className="w-4 h-4" />
+          {notifications.length > 0 && (
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-[#0a0f1e]"></span>
+          )}
+        </button>
+
         <Wifi className="w-3.5 h-3.5" />
         <Battery className="w-3.5 h-3.5" />
         <span className="text-xs font-medium text-[#e2e8f0]">{date}</span>
@@ -118,6 +142,8 @@ export default function TopBar() {
           )}
         </div>
       </div>
+      {/* About Campus OS overlay */}
+      <AboutCampusOS isOpen={aboutOpen} onClose={() => setAboutOpen(false)} />
     </div>
   );
 }

@@ -86,13 +86,13 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'campus',
     name: 'Campus Portal',
-    icon: 'GraduationCap',
-    color: '#a78bfa', // purple-400
-    description: 'Student profile, notices, timetable and attendance',
+    icon: 'Globe',
+    color: '#60a5fa', // blue-400
+    description: 'Student profile, grades, attendance, fees & registration',
     category: 'productivity',
-    defaultSize: { width: 920, height: 620 },
-    defaultPosition: { x: 60, y: 50 },
-    minSize: { width: 580, height: 440 },
+    defaultSize: { width: 1100, height: 750 },
+    defaultPosition: { x: 80, y: 50 },
+    minSize: { width: 900, height: 600 },
   },
   {
     id: 'weather',

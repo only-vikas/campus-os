@@ -1,268 +1,121 @@
-<div align="center">
-  <h1>🎓 Campus OS</h1>
-  <p><strong>A Unified, Browser-Based Operating System for Student Lifecycle Management</strong></p>
-  <p>
-    <a href="#showcase">Showcase</a> •
-    <a href="#features--native-apps">Apps</a> •
-    <a href="#system-architecture">Architecture</a> •
-    <a href="#installation-guide">Installation</a> •
-    <a href="#tech-stack">Tech Stack</a>
-  </p>
-</div>
+# 🎓 Campus OS
+**The Next-Generation AI-Powered Academic & Career Intelligence Ecosystem**
+
+![Campus OS Desktop](/public/screenshots/desktop.png)
+
+## Overview
+
+**Campus OS** is a browser-like, glassmorphic operating system built for the web. It unified academic ERP, placement tracking, financial literacy, and predictive AI into a single, beautifully animated workspace. 
+
+Instead of disjointed portals and dashboards, Campus OS provides students and administrators with a cohesive desktop experience featuring draggable windows, real-time widgets, and a gamified ecosystem.
+
+### 🌟 Key Features
+
+*   **Window Manager & Desktop Shell:** A full draggable, resizable windowing system built with Framer Motion and Zustand.
+*   **Gamification Engine:** Earn XP, level up, and unlock achievements by interacting with apps and completing tasks.
+*   **Cross-App Intelligence:** Data flows seamlessly between apps (e.g., Campus Portal grades sync with the Placement Portal).
+*   **AI Fallback Chain:** Uses a robust AI engine routing (OpenRouter -> Ollama -> Mock Data) for rate-limited, intelligent interactions.
 
 ---
 
-## 📖 Overview
+## 📱 The App Ecosystem
 
-Campus OS recreates a native desktop experience inside the browser and unifies key student tools — learning, career preparation, finance, and campus services — under a single windowed UI with [...]
+Campus OS is modular and extensible. Currently, it ships with the following flagship applications:
 
-This README has been reorganized so each feature is explained and immediately followed by its screenshots and captions. All original screenshots are preserved and placed where they provide the bes[...]
+### 1. 🧠 NovaMind (Learning Engine)
+*Predictive, adaptive learning & career intelligence engine.*
+- Analyzes skill gaps and recommends highly tailored learning paths.
+- **Preview:**  
+  ![NovaMind](/public/screenshots/novamind.png)
 
----
+### 2. 🏛️ Campus Portal (Student ERP)
+*Student profile, grades, attendance, fees & registration.*
+- Direct MongoDB integration syncing real student academic data.
+- Built-in tuition fee payment simulators and course registration.
+- **Preview:**  
+  ![Campus Portal](/public/screenshots/campus-portal.png)
 
-## 🎯 Showcase
+### 3. 💼 Placement Portal
+*Job listings, applications & placement tracking with AI matching.*
+- **Dual Views:** Student View (apply for jobs) and TPO View (manage drives).
+- **AI Ranking Engine:** Automatically analyzes resumes against job descriptions to assign a Match Score.
+- **Preview:**  
+  ![Placement Portal](/public/screenshots/placement-portal.png)
 
-A quick visual tour of Campus OS — untrimmed screenshots captured from the running UI. Each image is the original capture and is shown here to give an immediate sense of the overall environment [...]
+### 4. 🏗️ EduVault & FinSack
+*Your AI-powered financial companions for tracking, learning, and trading.*
+- Gamified financial literacy modules.
+- **Preview:**  
+  ![EduVault](/public/screenshots/eduvault.png)
 
-### Main Desktop Shell & Window Manager
+### 5. 🛡️ CodeGuard
+*AI-powered code analysis, security scanning & automated fixes.*
+- Drop your code in, get actionable AI code reviews instantly.
 
-<img width="1335" height="627" alt="Screenshot 2026-09-02 105936" src="https://github.com/user-attachments/assets/eef682fe-d752-45ea-85bb-5567f01fffd6" />
-
-*The main Campus OS desktop with windowed applications, taskbar, and system UI elements.*
-
----
-
-### Dashboard & System Overview
-
-<img width="1331" height="600" alt="Screenshot 2026-09-02 110007" src="https://github.com/user-attachments/assets/0750cb20-e8a7-473e-a2e2-5d40e54a3386" />
-
-*Dashboard view showing widgets, quick access apps, and system status information.*
-
----
-
-### Full-Screen Application View
-
-<img width="1915" height="665" alt="Screenshot 2026-08-14 015919" src="https://github.com/user-attachments/assets/41284f6e-6cb6-424f-afbb-5e8a80f98286" />
-
-*An application in full-screen mode with expanded workspace and detailed content area.*
-
----
-
-### Dock & Application Launcher
-
-<img width="1343" height="627" alt="Screenshot 2026-09-02 105841" src="https://github.com/user-attachments/assets/c0832b64-ab21-46e5-adab-986a0f4554b9" />
-
-*The dock at the bottom displaying active apps, pinned shortcuts, and quick launch menu.*
+### 6. 📄 Resume Analyzer & Interview Prep
+*AI-powered career tools.*
+- Automated resume parsing, scoring, and real-time mock interviews.
 
 ---
 
-### Multi-Window Workspace
+## 🚀 Installation & Usage
 
-<img width="1337" height="600" alt="Screenshot 2026-09-02 110103" src="https://github.com/user-attachments/assets/e6f0e2bf-77a2-4e26-9784-19e27f9022ae" />
+Follow these steps to run Campus OS locally.
 
-*Multiple windows open simultaneously, demonstrating window management and multitasking capabilities.*
+### Prerequisites
+- Node.js 18+ 
+- MongoDB Instance (Local or Atlas)
+- Clerk API Keys (for Auth)
 
----
-
-### Application Details & Notifications
-
-<img width="1347" height="605" alt="Screenshot 2026-09-02 110126" src="https://github.com/user-attachments/assets/5958d99f-3639-48e1-b600-41f8c12c6b33" />
-
-*Detailed view of an application interface with notification panel and system alerts.*
-
----
-
-### Global Search & Navigation
-
-<img width="1337" height="607" alt="Screenshot 2026-09-02 110201" src="https://github.com/user-attachments/assets/2a05fbb5-6d1e-4ca6-b89f-01ab8cc9faac" />
-
-*Global search functionality in action, showing unified search across all apps and services.*
-
----
-
-## ✨ Features & Native Apps
-
-Each app section below contains a short description, key capabilities, and the preserved screenshots/demo media that show the feature in action.
-
-### 🧠 NovaMind — Learning Engine
-
-NovaMind is a personalized learning and career intelligence engine that uses Bayesian Knowledge Tracing (BKT) to adapt content to each student's gaps. It provides an AI tutor, mastery tracking, an[...]
-
-Key capabilities:
-- Adaptive practice and quiz generation (BKT-powered)
-- Personalized career trajectory predictions and learning milestones
-- Progress dashboard with XP, badges, and mastery metrics
-
-Screenshots & demo:
-
-![NovaMind Dashboard](./docs/media/novamind.png)
-
-<img src="./docs/media/novamind_demo.webp" width="100%" alt="NovaMind Demo Video" />
-
-Caption: NovaMind dashboard showing mastery progress, recommended practice items, and predicted career trajectories.
-
----
-
-### 💼 Interview Prep
-
-AI-driven mock interviews with voice and text input, real-time evaluation, and structured feedback so students can rapidly improve interviewing skills.
-
-Key capabilities:
-- Live voice/text mock interviews with role-specific question sets
-- Real-time performance metrics (confidence, fluency, topic coverage)
-- Actionable feedback and focused practice recommendations
-
-Screenshots & demo:
-
-![Interview Prep](./docs/media/interview_prep.png)
-
-<img src="./docs/media/interview_app.webp" width="100%" alt="Interview App Demo Video" />
-
-Caption: Interview Prep UI with a mock interview panel and performance analytics.
-
----
-
-### 📄 Resume Analyzer
-
-Upload your resume for ATS-style parsing, automated scoring, gap analysis, and AI suggestions to improve structure and keyword matching for roles.
-
-Key capabilities:
-- Automatic section extraction (Experience, Education, Skills)
-- ATS score and suggestions tuned to job descriptions
-- Export cleaned and rescored resume versions
-
-Screenshots:
-
-![Resume Analyzer](./docs/media/resume_app.png)
-
-Caption: Resume Analyzer view showing parsed sections, ATS score, and suggested edits.
-
----
-
-### 🏦 FinSack — Finance & Expense Tracker
-
-FinSack is a financial literacy and expense-tracking suite for students with anomaly detection and AI-driven budgeting guidance.
-
-Key capabilities:
-- Transaction logging, categorization and visualization
-- Anomaly detection with alerts for unusual spending
-- Budget recommendations and simple investment simulations for learning
-
-Screenshots & demo:
-
-![FinSack Dashboard](./docs/media/eduvault.png)
-
-<img src="./docs/media/eduvault_demo.webp" width="100%" alt="FinSack Demo Video" />
-
-Caption: FinSack dashboard with transaction summary, budget recommendations, and savings visualizations.
-
----
-
-### 🔐 Unified Authentication
-
-Campus OS uses Clerk to provide secure, centralized authentication and session management across the entire OS.
-
-Key capabilities:
-- Single sign-on across all apps in the OS
-- Role-based access control and persistent session state
-- Support for email, OAuth providers, and SSO where configured
-
-Screenshots & demo:
-
-![Login Options](./docs/media/auth.png)
-
-<img src="./docs/media/auth_flow.webp" width="100%" alt="Auth Flow Demo Video" />
-
-Caption: Login and auth flow demonstrating how Clerk integrates into the OS.
-
----
-
-## 🏛️ System Architecture
-
-Campus OS is structured as a modular 5-layer architecture for scalability and AI integration:
-
-- Layer 1 — Desktop Shell & UI: Window manager, dock, global search, and widgets
-- Layer 2 — Native Application Modules: NovaMind, Resume Analyzer, Interview Prep, FinSack, Placement Portal, Code Review
-- Layer 3 — Shared Services & Intelligence: NOVA AI assistant, RAG pipeline (MiniLM embeddings → Pinecone), unified auth & gamification
-- Layer 4 — Backend API Services: Next.js API route handlers and microservices for parsing, audio, and finance insights
-- Layer 5 — Data Layer & External APIs: MongoDB Atlas, Pinecone, Upstash Redis, Cloudinary, Gemini 1.5, Alpha Vantage, YouTube Data API
-
-Further architecture diagrams and contributor notes live in the docs/ folder.
-
----
-
-## 🚀 Installation Guide
-
-Prerequisites:
-- Node.js 18.x or higher
-- npm, pnpm, or yarn
-- Git
-
-1. Clone the repository
-
+### 1. Clone & Install
 ```bash
-git clone https://github.com/only-vikas/campus-os.git
+git clone https://github.com/your-username/campus-os.git
 cd campus-os
-```
-
-2. Install dependencies
-
-```bash
 npm install
-# or
-yarn install
 ```
 
-3. Set up Environment Variables
+### 2. Environment Variables
+Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+MONGODB_URI=mongodb://localhost:27017/campus_os
+# Add AI keys if needed
+OPENROUTER_API_KEY=...
+```
 
+### 3. Seed Database (Optional)
+If you want to populate the MongoDB database with real student data:
 ```bash
-cp .env.example .env.local
+npx ts-node -r dotenv/config scripts/import-real-data.ts dotenv_config_path=.env.local
 ```
 
-Required keys:
-- NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY & CLERK_SECRET_KEY
-- GEMINI_API_KEY (Google AI Studio)
-- PINECONE_API_KEY
-- MONGODB_URI
-
-4. Run the development server
-
+### 4. Start Development Server
 ```bash
 npm run dev
-# or
-yarn dev
 ```
-
-Open http://localhost:3000 in your browser to view the OS.
+Open `http://localhost:3000` in your browser to boot up Campus OS!
 
 ---
 
 ## 🛠️ Tech Stack
 
-- Frontend: Next.js 14 (App Router), React, TypeScript, Tailwind CSS, Framer Motion
-- Backend: Next.js API Routes, Node.js
-- Database & Caching: MongoDB, Redis (Upstash), Pinecone
-- Authentication: Clerk
-- AI & LLM: Google Gemini 1.5 Flash, Ollama (local fallback)
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS + Glassmorphism
+- **Animations:** Framer Motion & GSAP
+- **State Management:** Zustand
+- **Database:** MongoDB
+- **Authentication:** Clerk
 
 ---
 
-## 🤝 Contribution Guidelines
+## 🎥 Video Demonstrations
 
-1. Fork the project
-2. Create your feature branch: `git checkout -b feature/AmazingFeature`
-3. Commit your changes: `git commit -m "Add some AmazingFeature"`
-4. Push to your branch: `git push origin feature/AmazingFeature`
-5. Open a Pull Request
+*Drop your testing videos here to showcase the OS in action.*
 
-Please follow existing code style and ensure the project runs in the dev environment before opening a PR.
+- [Full OS Walkthrough](/public/videos/walkthrough.mp4)
+- [AI Ranking Engine Demo](/public/videos/ai-rank.mp4)
 
 ---
-
-## 📜 License
-
-This project is licensed under the MIT License — see the `LICENSE` file for details.
-
----
-
-<p align="center">Built with ❤️ for students.</p>
+*Built with passion for the ultimate student experience.*

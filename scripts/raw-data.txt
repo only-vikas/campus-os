@@ -1,0 +1,698 @@
+Here is the extracted roll call data organized by division:
+
+---
+
+## 8th Semester 2022-23 — A Division
+
+**B. V. V. Sangha's Basaveshwar Engineering College (Autonomous), Bagalkot**
+**Department of Information Science and Engineering**
+
+| Roll No. | USN | Name |
+|---|---|---|
+| 1 | 2BA17IS027 | K Nandini |
+| 2 | 2BA17IS053 | Rani D D |
+| 3 | 2BA17IS075 | Vaishnavi Pujari |
+| 4 | 2BA18IS001 | Aishwarya B Sangapur |
+| 5 | 2BA18IS008 | Akshay S Halyal |
+| 6 | 2BA18IS047 | Prasad Kadapatti |
+| 7 | 2BA18IS062 | Shridhar S Naik |
+| 8 | 2BA18IS090 | Vinodkumar Poleshi |
+| 9 | 2BA19IS001 | Aachal S Hosmani |
+| 10 | 2BA19IS002 | Afak Makandar |
+| 11 | 2BA19IS003 | Aishwarya |
+| 12 | 2BA19IS004 | Aishwarya R Kannalli |
+| 13 | 2BA19IS005 | Akash V Malenni |
+| 14 | 2BA19IS006 | Akshata S Bakale |
+| 15 | 2BA19IS007 | Akshatha Godi |
+| 16 | 2BA19IS008 | AKSHAY M JOSHI |
+| 17 | 2BA19IS009 | Amaan Ali Tegginamani |
+| 18 | 2BA19IS011 | Amith A Tandur |
+| 19 | 2BA19IS012 | Amruta Math |
+| 20 | 2BA19IS013 | Anand Dundappanavar |
+| 21 | 2BA19IS014 | Anjana Prasad Umarji |
+| 22 | 2BA19IS015 | Anusha S Jali |
+| 23 | 2BA19IS016 | Anvita Sirdesai |
+| 24 | 2BA19IS017 | Apoorva Chiniwar |
+| 25 | 2BA19IS018 | Ashwini Andangouda Patil |
+| 26 | 2BA19IS019 | Ashwini Tengale |
+| 27 | 2BA19IS021 | Basayya hangaragi |
+| 28 | 2BA19IS022 | Bhagyashree patted |
+| 29 | 2BA19IS023 | Bharat Garade |
+| 30 | 2BA19IS024 | Boppudi Akhila |
+| 31 | 2BA19IS025 | Chaitra kolur |
+| 32 | 2BA19IS026 | Chetan Halkuri |
+| 33 | 2BA19IS027 | Daneshwari j chiniwal |
+| 34 | 2BA19IS028 | Darshan S Yadal |
+| 35 | 2BA19IS029 | Gayatri |
+| 36 | 2BA19iS030 | Harshavardhan |
+| 37 | 2BA19IS031 | Hema B Patil |
+| 38 | 2BA19IS032 | Kaveri Angadi |
+| 39 | 2BA19IS033 | Laxmi d shinde |
+| 40 | 2BA19IS034 | M VISHAL |
+| 41 | 2BA19IS035 | Madhav G Desai |
+| 42 | 2BA19IS036 | M sakib bangalur |
+| 43 | 2BA19IS037 | Mallikarjun R Jainapur |
+| 44 | 2BA19IS038 | Megha Hosur |
+| 45 | 2BA19IS039 | Muskan Hadimani |
+| 46 | 2BA19IS040 | Nayana budni |
+| 47 | 2BA19IS041 | Nikita N Shetti |
+| 48 | 2BA19IS042 | Nitish |
+| 49 | 2BA19IS043 | OM U TIKARE |
+| 50 | 2BA19IS044 | Pallavi.S Hanjagi |
+| 51 | 2BA19IS050 | Prajwal basavaraj hiremath |
+| 52 | 2BA19IS052 | Pranav A Huilgol |
+| 53 | 2BA19IS072 | Sujan.N.K |
+| 54 | 2BA19IS081 | Yashodha Y Yalagannavar |
+
+---
+
+## 8th Semester 2022-23 — B Division
+
+**B. V. V. Sangha's Basaveshwar Engineering College (Autonomous), Bagalkot**
+**Department of Information Science and Engineering**
+
+| Roll No. | USN | Name |
+|---|---|---|
+| 1 | 2BA19IS045 | Pooja B Mavinkai |
+| 2 | 2BA19IS046 | Pooja A Nandagaon |
+| 3 | 2BA19IS047 | Pooja B Ragi |
+| 4 | 2BA19IS048 | Poonam Ningangouda Patil |
+| 5 | 2BA19IS049 | Prachi |
+| 6 | 2BA19IS051 | Prajwal Basavaraj Majjigi |
+| 7 | 2BA19IS054 | Priyanka V Sooranagi |
+| 8 | 2BA19IS055 | Rajeshwari C Nadagoud |
+| 9 | 2BA19IS056 | Rajshekhar Basappa Patil |
+| 10 | 2BA19IS057 | Rashmi P Koti |
+| 11 | 2BA19IS058 | Rashmi S Angadi |
+| 12 | 2BA19IS059 | Samarth chattaraki |
+| 13 | 2BA19IS060 | Sameer H Deshapande |
+| 14 | 2BA19IS061 | Saniha Hunur |
+| 15 | 2BA19IS062 | Satish Kali |
+| 16 | 2BA19IS063 | Sharik Sameera .M. Mulla |
+| 17 | 2BA19IS064 | Shivani Bijapur |
+| 18 | 2BA19IS065 | Shreya Soratur |
+| 19 | 2BA19IS066 | Shreya b jana |
+| 20 | 2BA19IS067 | Sneha Irappa sidnal |
+| 21 | 2BA19IS068 | Sneha Patil |
+| 22 | 2BA19IS069 | Sneha goudar |
+| 23 | 2BA19IS070 | Spoorti urabhinavar |
+| 24 | 2BA19IS071 | Sreyas C Shetty |
+| 25 | 2BA19IS073 | Sushmametagudda |
+| 26 | 2BA19IS074 | Tejashwini Chigadolli |
+| 27 | 2BA19IS075 | Udayakumar M Hiremath |
+| 28 | 2BA19IS076 | Varun Y Koppad |
+| 29 | 2BA19IS077 | Venkatesh Javalagi |
+| 30 | 2BA19IS078 | Vidya A Murteli |
+| 31 | 2BA19IS079 | Vijaylaxmi L Koraddi |
+| 32 | 2BA19IS080 | Vinayak R Gotagunki |
+| 33 | 2BA20IS400 | Ashish chandrashekhar gunaki |
+| 34 | 2BA20IS401 | Chaitravati patil |
+| 35 | 2BA20IS402 | K madhushri |
+| 36 | 2BA20IS403 | Kaushik Mandali |
+| 37 | 2BA20IS404 | Kishan vadavadagi |
+| 38 | 2BA20IS405 | Megha m chavhan |
+| 39 | 2BA20IS407 | Sudha hebbalatti |
+| 40 | 2BA20IS409 | Veena neelanayak |
+| 41 | 2BA20IS410 | Venkatesh vinayak kulkarni |
+| 42 | 2BA20IS411 | Vinaya b patil |
+| 43 | 2BA16IS053 | Purohit Aneesh K |
+
+---
+
+**Summary:**
+- **A Division:** 54 students
+- **B Division:** 43 students
+- **Total:** 97 students
+
+Would you like me to convert this into a specific format (CSV, Excel, JSON, etc.) or perform any analysis on the data?
+
+
+Here is the placement data in plain text format:
+
+```
+USN              Name                                      Year    Company                                                          Salary
+2BA18IS029       Madhu Muttal                              2022    Wipro | Vodafone                                                 NA
+2BA18IS006       Akshata Basavaraj Kallolli                2021    Mphasis                                                          4 LPA
+2BA18IS063       Shrusti Bali                              2022    CitiusTech | Wipro | Infosys                                     5.50 LPA | NA | 3.6 LPA
+2BA17IS074       Vaishnavi Bhutada                         2022    Pentagon Space                                                   NA
+2BA18IS007       Akshata Patil                             2022    Wipro | Vrize | Infosys | Mphasis                                3.5 LPA | 4.5 LPA | 3.6 LPA | 4 LPA
+2BA18IS018       Bebimarayam M. Gove                       2022    Infosys | Cognizant                                              NA | 4.5 LPA
+2BA17IS033       Manjunath Huddar                          2022    Zensar                                                           NA
+2BA18IS052       Riya Revanasiddappa Shivsimpi             2022    Zensar                                                           NA
+2BA18IS002       Aishwarya K C                             2022    Persistent | Mphasis | Wipro | Hexaware Technologies | IBM     NA | 4 LPA | 3.5 CTC | NA | NA
+2BA18IS061       Shreya Majjagi                            2022    Wipro                                                            NA
+2BA18IS089       Vinayak Jeeragal                          2022    Wipro                                                            NA
+2BA18IS021       Darshan Pattanshetti                      2022    HCL | TCS                                                        NA
+2BA18IS057       Sanjana Prabhu Hosakeri                   2022    Accenture | Infosys | Cognizant                                  NA | NA | NA
+2BA17IS050       Priyanka Sthavaramath                     2021    Insystel                                                         NA
+2BA17IS052       Rakshita S kodekal                        2021    TCS                                                              3.3 LPA
+2BA17IS060       Shreeshail Talikoti                       2021    Bitwise                                                          3 CTC
+2BA17IS063       Sneha B Angadi                            2021    TCS                                                              3.3 LPA
+2BA17IS067       Supreeta M Gudagunti                      2021    TCS                                                              3.3 LPA
+2BA17IS072       Swati S Arakeri                           2021    Infosys                                                          NA
+2BA16IS002       Aishwarya Chiniwar                        2021    Sagarsoft                                                        NA
+2BA17IS026       Jotshna Kulkarni                          2021    Cognizant                                                        4.5 LPA
+2BA17IS011       Anusha A Kulkarni                         2021    NNT                                                              NA
+2BA16IS009       Anita Ullegaddi                           2020    TCS                                                              NA
+2BA16IS028       Kotresh S Hosalli                         2020    TCS                                                              NA
+2BA16IS033       Laxmi Shirahatti                          2020    TCS                                                              NA
+2BA16IS034       Madhusudan S Hebsur                       2020    TCS                                                              NA
+2BA16IS041       Nidhi M Mahalmani                         2020    TCS                                                              NA
+2BA16IS044       Parvati Belagali                          2020    TCS                                                              NA
+2BA16IS008       Akshata Kulkarni                          2020    Infosys                                                          NA
+2BA16IS011       Anupama Javalagi                          2020    Infosys                                                          NA
+2BA16IS040       Nasrulla M Kokani                         2020    Infosys                                                          NA
+2BA16IS062       Sanjan A Vadi                             2020    Hexaware | Infosys                                               NA
+2BA18IS008       Akshaya Halyal                            2023    Aggne                                                            4.5 LPA
+2BA18IS072       Suman Pattar                              2023    Teamlease                                                        NA
+2BA19IS048       Poonam Ningangouda Patil                  2023    Accenture                                                        4.6 LPA
+2BA20IS401       Hema Patil                                2023    Aggne                                                            3.6 LPA
+2BA16IS037       Manish Kumar                              2021    Girmiti Software                                                 NA
+2BA16IS090       Vijaykumar Hanasi                         2021    Redbot | Girmiti Software                                        NA | NA
+2BA17IS003       Aishwarya Bhairamatti                     2021    TCS                                                              3.3 LPA
+2BA17IS007       Akshata                                   2021    Vayavya Labs                                                     4.5 LPA
+2BA17IS008       Akshata Godakhindi                        2021    NNT | Girmiti Software                                           NA | NA
+2BA17IS009       Amogh B Viraktamath                       2021    Infosys | TCS                                                    NA | NA
+2BA17IS010       Amulya Venkatesh Hunasigidad              2021    Girmiti Software                                                 NA
+2BA17IS012       Anvitha Vijapur                           2021    Aggne | Insystel                                                 4.5 LPA | NA
+2BA17IS013       Aparna D                                  2021    Insystel                                                         NA
+2BA17IS014       Asha                                      2021    Girmiti Software                                                 NA
+2BA17IS015       Ashwini Halli                             2021    NNT                                                              NA
+2BA17IS016       Atharva kulkarni                          2021    TCS                                                              3.3 LPA
+2BA17IS017       Basavaraj Gulappagol                      2021    Girmiti Software                                                 NA
+2BA17IS019       Bhagyalaxmi Mallikarjun Otageri           2021    Girmiti Software                                                 NA
+2BA17IS020       Bhagyashree Awatageri                     2021    Insystel                                                         NA
+2BA17IS021       Bhagyawant Biradar                        2021    Cognizant                                                        4.5 LPA
+2BA17IS023       Janhavi S Mokshashi                       2021    NNT                                                              NA
+2BA17IS028       Kalpana subhas Hosamani                   2021    Girmiti Software                                                 NA
+2BA17IS029       Kalpita                                   2021    Girmiti Software                                                 NA
+2BA17IS030       Kaushal Anil Diwakar                      2021    TCS                                                              3.3 LPA
+2BA17IS031       Kishor Parvatikar                         2021    Cognizant | PLURIBUS | TCS                                       4.5 LPA | NA | 7 LPA
+2BA17IS032       Laxmee Medli                              2021    Girmiti Software                                                 NA
+2BA17IS034       Manjunath Pattanashetti                   2021    Girmiti Software | NNT                                           NA | NA
+2BA17IS035       Mrityunjay Palled                         2021    Girmiti Software | NNT                                           NA | NA
+2BA17IS038       Neeta S Biradar                           2021    TCS                                                              3.3 LPA
+2BA17IS039       Nidhi s Bengalore                         2021    HCL                                                              3.6 LPA
+2BA17IS040       Pallavi Mallikarjun Naik                  2021    Girmiti Software | Sagarsoft                                     NA | NA
+2BA17IS041       Parimala Chavadappanavar                  2021    Girmiti Software                                                 NA
+2BA17IS043       Poornima Bhavi                            2021    Insystel                                                         NA
+2BA17IS044       Pradeep P Guled                           2021    TCS                                                              NA
+2BA17IS047       Pratiksha P Chetana                       2021    TCS                                                              3.3 LPA
+2BA17IS048       Prathmesh Kalburgi                        2021    Infosys                                                          NA
+2BA17IS049       Pratima Deshpande                         2021    Infosys | NNT                                                    NA | NA
+2BA17IS051       Rakesh P Naik                             2021    Girmiti Software                                                 NA
+2BA17IS054       Renuka                                    2021    Girmiti Software                                                 NA
+2BA17IS060       Shreeshail Talikoti                       2021    Bitwise                                                          3 LPA
+2BA17IS061       Shreya Bali                               2021    Girmiti Software | Insystel                                      NA | NA
+2BA17IS062       Shrihari Kulkarni                         2021    NNT                                                              NA
+2BA17IS067       Supreeta Gudgunti                         2021    TCS                                                              3.3 LPA
+2BA17IS069       Suresh Angadi                             2021    Girmiti Software                                                 NA
+2BA17IS070       Sushma bhavi                              2021    Girmiti Software                                                 NA
+2BA17IS072       Swati Shivalingappa Arakeri               2021    Girmiti Software | Infosys                                       NA | NA
+2BA17IS073       Sweeti S V                                2021    Insystel                                                         NA
+2BA17IS076       Vidyashri Mudagal                         2021    Insystel                                                         NA
+2BA17IS078       Vijayalaxmi Bevoor                        2021    Insystel                                                         NA
+2BA17IS081       Yashashree Kabbin                         2021    Girmiti Software                                                 NA
+2BA17IS082       Anirudha Athani                           2021    Cognizant                                                        4.5 LPA
+2BA17IS083       Sahana                                    2021    Girmiti Software                                                 NA
+2BA17IS085       Shahreen Shaikh                           2021    Infosys                                                          3.6 LPA
+2BA18IS400       Allamaprabhu Yechli                       2021    Girmiti Software                                                 NA
+2BA18IS401       Neha Hemgire                             2021    Sagarsoft                                                        NA
+2BA15IS033       Laxmi S Yadahalli                         2022    Profound Edutech                                                 NA
+2BA16IS095       Shreeshail Shirur                         2022    QSpiders                                                         NA
+2BA17IS055       Sahana B Desai                            2022    Infosys                                                          NA
+2BA18IS003       Aishwarya Subhash Ghaniger                2022    Mphasis                                                          4 LPA
+2BA18IS004       Ajayakumar Goni                           2022    CitiusTech                                                       5.5 LPA
+2BA18IS005       Akash Adagond                             2022    Skolar | Infosys | Mphasis | TCS | Hexaware | Wipro             NA | NA | 4 LPA | NA | 4 LPA | NA
+2BA18IS006       Akshata Basavaraj Kallolli                2022    Mphasis | Innominds                                              4 LPA | 3 LPA
+2BA18IS009       Amogh Gudi                                2022    Mindtree | Vrize | TCS | Wipro | Infosys                        NA | 4.5 LPA | 3.3 LPA | NA | NA
+2BA18IS012       Anup Mahadev Jeeraga                      2022    Zensar | Tech Mahindra | Cognizant | Vrize | Mphasis            NA | 2.6 LPA | 4 LPA | 4.5 LPA | NA
+2BA18IS013       Anusha Anand Kulkarni                     2022    SIEMENS | Infosys | MSys Technologies                            5 LPA | NA | NA
+2BA18IS015       Apoorva Anil Kulkami                      2022    Kyndryl                                                          4.5 LPA
+2BA18IS019       Bhoomika Ankad                            2022    Persistent | Wipro                                              4.7 LPA | NA
+2BA18IS020       Chandrahas V A                            2022    GlobalShiksha                                                    3.1 LPA
+2BA18IS025       Karthik Manganahalli                      2022    CitiusTech                                                       5.50 LPA
+2BA18IS026       Kavya Kumar Sajjan                        2022    Accenture | Cognizant                                            NA | 4 LPA
+2BA18IS028       Krutika Veerappa Jigajinni                2022    TCS                                                              3.3 LPA
+2BA18IS030       Madhuri Manganahalli                      2022    MSys Technologies                                                NA
+2BA18IS035       Megha Navale                              2022    Cognizant                                                        4.5 LPA
+2BA18IS039       Nikhil Dayanand Kadadevar                 2022    TCS                                                              3.3 LPA
+2BA18IS040       Nikita Patil                              2022    Wipro                                                            3.5 LPA
+2BA18IS042       Pallavi Ankad                             2022    Cognizant                                                        4 LPA
+2BA18IS043       Bhaskar Patil                             2022    Wipro                                                            NA
+2BA18IS044       Pooja Wagge                               2022    Cognizant | TCS                                                  NA | 3.3 LPA
+2BA18IS048       Ramya Telsang                             2022    Hexaware | Wipro                                                 NA | NA
+2BA18IS049       Rashmi Kulkarni                           2022    Mphasis                                                          4 LPA
+2BA18IS051       Ritu Ravi Vernekar                        2022    Mphasis                                                          4 LPA
+2BA18IS053       Sagar Anant Rao                           2022    Accenture                                                        NA
+2BA18IS054       Sahana J Kuntoji                          2022    Accenture                                                        NA
+2BA18IS055       Samanta Manojkumar Patil                  2022    Mphasis                                                          4 LPA
+2BA18IS056       Sanjana Kalmesh Khanapur                  2022    Mphasis | Wipro                                                  4 LPA
+2BA18IS058       Shivaleela Basaradatti                    2022    Infosys                                                          NA
+2BA18IS059       Shivani                                   2022    Mphasis | Barracuda                                              NA | 8.4 LPA
+2BA18IS074       Vaishnavi Bhutada                         2022    Pentagon Space                                                   NA
+2BA18IS075       Sushma Majjagi                           2022    Css Corp                                                         2.5 LPA
+2BA18IS076       Sushma Tariwal                            2022    DataSuite InfoTech                                               NA
+2BA18IS077       Vijayalaxmi N Biradar                     2022    Pentagon Space                                                   NA
+2BA18IS078       Swati L Gundar                            2022    Cognizant | KodNest                                              4 LPA
+2BA18IS079       Tallam Veena Varshini                     2022    Kyndryl | Accenture                                              NA | NA
+2BA18IS080       Trupti Kulkarni                           2022    Cognizant | HCL                                                  NA | NA
+2BA18IS082       Upendr C Joshi                            2022    TCS | Cognizant | Vrize                                          7 LPA | 4 LPA | 7 LPA
+2BA18IS083       Vaidurya Prakash Bonageri                 2022    Kyndryl                                                          4 LPA
+2BA18IS084       Varun Hattikal                            2022    KodNest | Upskillz                                               NA | 2.2 LPA
+2BA18IS085       Vasudev Hanamanth Dambal                  2022    Tata Elxsi | Accenture                                           NA | NA
+2BA18IS086       Venugopal Hayagroov                       2022    Cognizant | Coditas Solutions | Clarivate                        4 LPA | 6 LPA | 5.5 LPA
+2BA18IS087       Vidya Kalmani                             2022    Vrize | Mphasis | Tata Elxsi                                     4.5 LPA | NA | 3.5 LPA
+2BA18IS088       Vidya S Shindhe                           2022    TCS | Cognizant                                                  3.3 LPA | 4 LPA
+2BA18IS092       Yogesh Jagadish Mahale                    2022    Accenture | Vrize | Cognizant                                    NA | 5 LPA | 3.5 LPA
+2BA18IS093       Arpitha Palled                            2022    Cognizant | Mphasis                                              4 LPA
+2BA18IS404       Priya Anand Vaidya                        2022    Quest                                                            3 LPA
+2BA20IS010       Apurva Jiigajinn                          2024    Excelr                                                           2.8 to 6 LPA
+2BA20IS049       Priyanka Biradar                          2024    KodNest                                                          NA
+2BA20IS008       Anushree                                  2024    Synechron                                                        4.5 LPA
+NOT FOUND        Nandini K                                 2024    Simplilearn                                                      4.8 LPA
+2BA20IS058       Sanjana Bomble                            2024    Andersen IT Solutions                                            6.8 LPA
+2BA21IS406       Vaishnavi Kulkarni                        2024    AIWOOX                                                           NA
+2BA19IS077       Venkatesh Javalagi                        2023    Urneeds                                                          2.4 LPA
+2BA18IS072       Suman Pattar                              2023    TeamLease                                                        3 LPA
+2BA19IS022       Bhagyashree Ravindra Patted               2023    Tech Mahindra                                                    3.2 LPA
+2BA19IS060       Sameer Deshpande                          2023    CONTINEO                                                         3.4 LPA
+2BA19IS031       Hema B Patil                              2023    Aggne                                                            3.6 LPA
+2BA18IS008       Akshaya Shashidhar Halyal                 2023    Aggne                                                            3.6 LPA
+2BA19IS005       Akash Malenni                             2023    Aggne                                                            3.6 LPA
+2BA19IS062       Satish Kali                               2023    Aggne                                                            3.6 LPA
+2BA20IS401       Chaitravati Patil                         2023    Rakuten                                                          4.5 LPA
+2BA19IS048       Poonam Ningangouda Patil                  2023    Accenture                                                        4.6 LPA
+2BA19IS071       Sreyas Chandrashekhar shetty              2023    Barracuda                                                        4.6 LPA
+2BA19IS057       Rashmi P. Koti                            2023    Cargill Business Services India                                  4.8 LPA
+2BA19IS027       Daneswari Chiniwal                        2023    GoK                                                              5 LPA
+2BA19IS038       Megha Hosur                               2023    ADVANCED BUSINESS & HEALTHCARE SOLUTIONS INDIA                   6.4 LPA
+2BA16IS052       Priyanka B Sajjan                         2020    TCS                                                              NA
+2BA16IS059       Sakshi C Nadagoudra                       2020    TCS                                                              NA
+2BA16IS085       Swati Burji                               2020    TCS                                                              NA
+2BA16IS093       Vijaylaxmi Talwade                        2020    TCS                                                              NA
+2BA16IS057       Revanasidda                               2020    TCS                                                              NA
+2BA16IS001       Abhishek Nagappanavar                     2020    SLK Software Services                                            NA
+2BA16IS023       Divya M Kadewadi                          2020    SLK Software Services                                            NA
+2BA16IS019       Chaitra Nagraj D                          2020    KodNest                                                          NA
+2BA16IS063       Sanjeev S Kulkarni                        2020    Global Edge                                                      NA
+2BA16IS088       Varun K Sunagar                           2020    Global Edge                                                      NA
+2BA16IS080       Suresh Darga                              2020    Global Edge                                                      NA
+2BA16IS066       Shashank A Karehonn                       2020    IBM                                                              NA
+2BA16IS072       Shruti Bhanvi                             2020    IBM                                                              NA
+2BA16IS082       Sushma R Kerakalamatti                    2020    Qspiders                                                         NA
+2BA16IS049       Prajwal N Deshpande                       2020    Cognizant | Wipro                                                NA
+2BA16IS012       Arpita M Kalburgi                         2020    Cognizant                                                        NA
+2BA16IS014       Ashwini Mandi                            2020    Sasken                                                           NA
+2BA16IS027       Komal P Badnikai                          2020    Sasken                                                           NA
+2BA16IS064       Sanmati Hunshikatti                       2020    Sasken                                                           NA
+2BA16IS073       Sneha Awaji                               2020    Sasken                                                           NA
+2BA16IS074       Sonal R Warkar                            2020    Sasken                                                           NA
+2BA16IS086       Tejashwini Ganiger                        2020    Karnataka State Remote Sensing Application                       NA
+2BA16IS024       Kavita Nidasheshi                         2020    TSInfo Technologies | IQVIA                                      NA
+2BA16IS084       Sushmita Pujar                            2020    TCS                                                              NA
+2BA16IS075       Spoorti Vandakudri                        2020    TCS                                                              NA
+2BA15IS009       Aishwarya Joshi                           2020    SkyclipIT                                                        NA
+2BA16IS029       Krishna Mutalik Desai                     2020    TCS                                                              NA
+2BA17IS402       Anand Illal                               2020    L & T                                                            NA
+2BA17IS406       Manthan Betageri                          2020    Test Yantra                                                      NA
+2BA16IS042       Nikita Maradur                            2020    Tech Mahindra                                                    NA
+2BA17IS007       Akhila Naik                               2020    Shashi Exports                                                   NA
+2BA17IS412       Vaishnavi Kulkarni                        2020    Terra Pay                                                        NA
+2BA15IS079       Tejashwini Ganganagoudar                  2020    Infinite                                                         NA
+2BA16IS081       Sushma Patil                              2020    NTT DaTa                                                         NA
+2BA16IS015       Bhagyashree Patil                         2020    NTT DaTa                                                         NA
+2BA16IS094       Vinayak Gavaroji                          2020    AJAPRO AI Technologies                                           NA
+2BA16IS069       Shreya Tapashetti                         2020    Accenture                                                        NA
+2BA16IS026       Keshav Desai                              2020    Mindtree                                                         NA
+2BA16IS036       Mallamma Patil                            2020    Amdocs                                                           NA
+2BA16IS058       Riyaben Patel                             2020    TCS                                                              NA
+2BA16IS031       Laxmi Angadi                              2020    CGI                                                              NA
+2BA16IS071       Shrinidhi Kulkarni                        2020    Tech Mahindra                                                    NA
+2BA16IS018       Bindushri Nagajjanavar                     2020    IQVIA                                                            NA
+2BA16IS055       Rashmi Malaji                             2020    IQVIA                                                            NA
+2BA15IS092       Chetan                                    2020    Capgemini                                                        NA
+2BA16IS043       P D Sarojini                              2020    Tech Mahindra                                                    NA
+2BA16IS017       Bhoomika Kolaki                           2020    CGI                                                              NA
+2BA16IS047       Pooja Chavan                              2020    L & T                                                            NA
+2BA16IS401       Amanullah Chimmagi                        2020    CGI                                                              NA
+2BA16IS013       Ashwini Badami                            2020    Cognizant                                                        NA
+2BA16IS405       Manjunath Bhovivaddar                     2020    IBM                                                              NA
+2BA16IS070       Shridhar K.                               2020    Tech Mahindra                                                    NA
+2BA15IS006       Aishwarya Dalabhanjan                     2020    G&M Global Solutions                                             NA
+2BA15IS039       Monica                                    2020    Deloitte                                                         NA
+```
+
+Here is the 8th Semester 2021-22 Roll Call data in plain text format:
+
+```
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester 2021-22
+A Division
+
+Sl. No.   USN              Name
+1.        2BA18IS002       Aishwarya K. C.
+2.        2BA18IS004       Ajayakumar Goni
+3.        2BA18IS005       Akash Adagond
+4.        2BA18IS006       Akshata B. Kallolli
+5.        2BA18IS007       Akshata R. Patil
+6.        2BA18IS009       Amogh Gudi
+7.        2BA18IS010       Anup Jeeragal
+8.        2BA18IS012       Anupama Vandal
+9.        2BA18IS013       Anusha A. Kulakarni
+10.       2BA18IS015       Apoorva A. Kulkarni
+11.       2BA18IS016       Ashwini F. Asuti
+12.       2BA18IS017       Basavaraj H. Biradara Patil
+13.       2BA18IS018       Bebimarayam M. Gove
+14.       2BA18IS019       Bhoomika M. Ankad
+15.       2BA18IS020       Chandrahas V. A.
+16.       2BA18IS021       Darshan Pattanshetti
+17.       2BA18IS022       Deepak B. Kamatad
+18.       2BA18IS023       Iranna Jamdar
+19.       2BA18IS024       Jyoti N. Ingalagi
+20.       2BA18IS025       Karthik Mangalahalli
+21.       2BA18IS026       Kavya K. Sajjan
+22.       2BA18IS028       Krutika Jigajinni
+23.       2BA18IS029       Madhu Muttal
+24.       2BA18IS030       Madhuri Manganahalli
+25.       2BA18IS032       Mallappa Antapur
+26.       2BA18IS033       Manasa Siddannavar
+27.       2BA18IS034       Manjunath Pol
+28.       2BA18IS035       Megha Navale
+29.       2BA18IS039       Nikhil Kadadevar
+30.       2BA18IS040       Nikita Patil
+31.       2BA18IS042       Pallavi N. Ankad
+32.       2BA18IS043       Patil Bhaskar Balasaheb
+33.       2BA18IS044       Pooja
+34.       2BA18IS093       Arpitha Palled
+
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester 2021-22
+B Division
+
+Sl. No.   USN              Name
+1.        2BA18IS003       Aishwarya S. Ghaniger
+2.        2BA18IS046       Prasad Balamkar
+3.        2BA18IS048       Ramya R. Telsang
+4.        2BA18IS049       Rashmi Kulkarni
+5.        2BA18IS050       Rashmi H. Huddar
+6.        2BA18IS051       Ritu R. Vernekar
+7.        2BA18IS052       Riya R. Shivsimpi
+8.        2BA18IS053       Sagar K
+9.        2BA18IS054       Sahana J. Kuntoji
+10.       2BA18IS055       Samanta Patil
+11.       2BA18IS056       Sanjana K. Khanapur
+12.       2BA18IS057       Sanjana P. Hosakeri
+13.       2BA18IS058       Shivaleela S. Basaraddi
+14.       2BA18IS059       Shivani Sansuddi
+15.       2BA18IS060       Shraddha Kalasad
+16.       2BA18IS061       Shreya Majjagi
+17.       2BA18IS063       Shrusti Bali
+18.       2BA18IS064       Shruti Hosur
+19.       2BA18IS067       Soumya R. Shiuvashimpi
+20.       2BA18IS068       Spoorti Burji
+21.       2BA18IS069       Srinivas Joshi
+22.       2BA18IS070       Srushti Shirur
+23.       2BA18IS071       Sujatha Patil
+24.       2BA18IS072       Suman C. Pattar
+25.       2BA18IS073       Sushant Nimbargi
+26.       2BA18IS074       Sushma Angadi
+27.       2BA18IS075       Sushma Majjagi
+28.       2BA18IS076       Sushma Tariwal
+29.       2BA18IS077       Sushmita V. Patil
+30.       2BA18IS078       Swati L. Gundar
+31.       2BA18IS079       Tallam Veena Varshini
+32.       2BA18IS080       Trupti Kulkarni
+33.       2BA18IS081       Umama Hussain
+34.       2BA18IS082       Upendr Joshi
+35.       2BA18IS083       Vaidurya P. Bonageri
+36.       2BA18IS084       Varun M. Hattikal
+37.       2BA18IS085       Vasudev H. Damabal
+38.       2BA18IS086       Venugopal
+39.       2BA18IS087       Vidya Kalmani
+40.       2BA18IS088       Vidya S. Shindhe
+41.       2BA18IS089       Vinayak Jeeragal
+42.       2BA18IS092       Yogesh J. Mahale
+43.       2BA19IS400       Girish Bhadrashetti
+44.       2BA19IS401       Jayalaxmi Gennur
+45.       2BA19IS402       Mallappa Bachanalli
+46.       2BA19IS403       Namrata Sonar
+47.       2BA19IS404       Priya A. Vaidya
+48.       2BA19IS405       Priyanka Sharma
+49.       2BA19IS406       Rashmi Kulkarni
+50.       2BA19IS407       Sangeeta Kambar
+51.       2BA19IS408       Shivani Suryavanshi
+52.       2BA19IS409       Sudha Gudagi
+53.       2BA19IS410       Sushmita Ambiger
+54.       2BA19IS411       Ummihabiba M. Gove
+
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester Parallel Batch 2021-22
+C Division
+
+Sl. No.   USN              Name
+1.        2BA15IS033       Laxmi S Yadahalli
+2.        2BA15IS056       Rahul Kulkarni
+3.        2BA16IS010       Ankita V. Putangar
+4.        2BA16IS021       Chidambar R. Gumaste
+5.        2BA16IS030       Lavanya
+6.        2BA16IS051       Priya.A.Rathod
+7.        2BA16IS067       Shilpa S. Rathoda
+8.        2BA16IS091       Vijaykumar S. Patil
+9.        2BA16IS095       Shrishail Shirur
+10.       2BA17IS033       Manjunath Huddar
+11.       2BA17IS055       Sahana Desai
+12.       2BA17IS065       Sourav Dodwad
+13.       2BA17IS068       Supriya M Dodamani
+14.       2BA17IS074       Vaishnavi Bhutada
+15.       2BA17IS077       Vjayalakshmi N. Biradar
+```
+
+Here is the 8th Semester 2020-21 Roll Call data in plain text format:
+
+```
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester 2020-21
+
+A Division
+
+Sl. No.   USN              Name
+1.        2BA17IS001       Abdur Rahman
+2.        2BA17IS002       Abhishek R Jadhav
+3.        2BA17IS003       Aishwarya Bhairamatti
+4.        2BA17IS004       Aishwarya Ankalagi
+5.        2BA17IS005       Akshata V Patil
+6.        2BA17IS007       Akshata P Petkar
+7.        2BA17IS008       Akshata R Godakhindi
+8.        2BA17IS009       Amogh B Viraktamath
+9.        2BA17IS010       Amulya V Hunasigidad
+10.       2BA17IS011       Anusha Kulkarni
+11.       2BA17IS012       Anvitha G Vijapur
+12.       2BA17IS013       Aparna D
+13.       2BA17IS014       Asha Sankanagoudra
+14.       2BA17IS015       Ashwini Halli
+15.       2BA17IS016       Atharva A Kulkarni
+16.       2BA17IS017       Basavaraj Gulappagol
+17.       2BA17IS018       Bhagya Aurangabad
+18.       2BA17IS019       Bhagyalaxmi M Otageri
+19.       2BA17IS020       Bhagyashree K A
+20.       2BA17IS021       Bhagyawant Biradar
+21.       2BA17IS023       Janhavi S Mokhashi
+22.       2BA17IS026       Jotshna Kulkarni
+23.       2BA17IS028       Kalpana S Hosamani
+24.       2BA17IS029       Kalpita Devanaganvi
+25.       2BA17IS030       Kaushal A Diwakar
+26.       2BA17IS031       Kishor Parvatikar
+27.       2BA17IS032       Laxmee Medli
+28.       2BA17IS034       Manjunath Pattanashetti
+29.       2BA17IS035       Mrityunjay A Palled
+30.       2BA17IS038       Neeta Biradar
+31.       2BA17IS039       Nidhi S Bengalore
+32.       2BA17IS040       Pallavi M Naik
+33.       2BA17IS041       Parimala C
+34.       2BA17IS042       Poornima Shirahatti
+35.       2BA17IS043       Poornima Bhavi
+36.       2BA17IS044       Pradeep P Guled
+37.       2BA17IS045       Prafulla M Hiremath
+38.       2BA17IS046       Prateek B Kadapatti
+39.       2BA17IS047       Prathiksha P Chetana
+40.       2BA17IS048       Prathmesh Kalburgi
+41.       2BA17IS049       Pratima Deshpande
+42.       2BA17IS050       Priyanka S Sthavaramath
+
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester 2020-21
+
+B Division
+
+Sl. No.   USN              Name
+1.        2BA15IS072       Somya Manohar
+2.        2BA16IS078       Sudharani Toravi
+3.        2BA16IS090       Vijaykumar Hanasi
+4.        2BA16IS412       Ramesh Pujar
+5.        2BA17IS051       Rakesh P Naik
+6.        2BA17IS052       Rakshita S Kodekal
+7.        2BA17IS054       Renuka
+8.        2BA17IS057       Sanketh K P
+9.        2BA17IS059       Shashank S Sunadholi
+10.       2BA17IS060       Shreeshail Talikoti
+11.       2BA17IS061       Shreya Bali
+12.       2BA17IS062       Shrihari Kulkarni
+13.       2BA17IS063       Sneha B Angadi
+14.       2BA17IS064       Souharda R Maishale
+15.       2BA17IS067       Supreeta Gudagunti
+16.       2BA17IS069       Suresh Angadi
+17.       2BA17IS070       Sushma Bhavi
+18.       2BA17IS072       Swati S Arakeri
+19.       2BA17IS073       Sweeti Vandure
+20.       2BA17IS076       Vidyashri Mudagal
+21.       2BA17IS078       Vijayalaxmi M Bevoor
+22.       2BA17IS080       Yamanoor Mabrumkar
+23.       2BA17IS081       Yashashree S Kabbin
+24.       2BA17IS082       Anirudh Athani
+25.       2BA17IS083       Sahana
+26.       2BA17IS084       Spoorthi A Kankanameli
+27.       2BA17IS085       Shahreen Shaikh
+28.       2BA18IS400       Allamaprabhu Yechhi
+29.       2BA18IS401       Neha S Hemgire
+
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester 2020-21
+
+C Division
+
+Sl. No.   USN              Name
+1.        2BA16IS037       Manish Kumar
+2.        2BA16IS002       Aishwarya Chiniwar
+3.        2BA15IS020       Basavannevva Dandinamath
+4.        2BA15IS025       Deepa Soraganvi
+5.        2BA15IS060       Sagar Patil
+6.        2BA16IS032       Laxmi Dhulakhed
+7.        2BA15IS410       Omkar K Talawar
+8.        2BA16IS056       Rashmi I. Bilebhavi
+9.        2BA17IS408       RAKSHIT KARKOLLI
+10.       2BA16IS083       Sushma S. Kudlannavar
+11.       2BA16IS412       Ramesh Pujar
+```
+
+Here is the 8th Semester 2019-20 Roll Call data in plain text format:
+
+```
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester Student List 2019-20
+
+A Division
+
+Sl. No.   USN              Name
+1.        2BA15IS009       Aishwarya Joshi
+2.        2BA15IS037       Manisha Ramesh Handi
+3.        2BA15IS042       Nikhita Vithal Latni
+4.        2BA15IS061       Sahana Ashok Patil
+5.        2BA15IS079       Tejashwini G Gangangoudar
+6.        2BA15IS092       Chetan
+7.        2BA16IS001       Abhishek Nagappanavar
+8.        2BA16IS005       Ajit Umesh Rathod
+9.        2BA16IS007       Akhila K Naik
+10.       2BA16IS008       Akshata Kulkarni
+11.       2BA16IS009       Anita Ullegaddi
+12.       2BA16IS011       Anupama Javalagi
+13.       2BA16IS012       Arpita M Kalburgi
+14.       2BA16IS013       Ashwini Badami
+15.       2BA16IS014       Ashwini Mandi
+16.       2BA16IS015       Baghyashree K Patil
+17.       2BA16IS017       Bhumika Kolaki
+18.       2BA16IS018       Bindushri S Nagajjanavar
+19.       2BA16IS019       Chaitra Nagraj D
+20.       2BA16IS020       Chandrashekar N Patil
+21.       2BA16IS023       Divya M Kadewadi
+22.       2BA16IS024       Kavita S Nidasheshi
+23.       2BA16IS025       Keerti S Padanur
+24.       2BA16IS026       Keshav G Desai
+25.       2BA16IS027       Komal P Badnikai
+26.       2BA16IS028       Kotresh S Hosalli
+27.       2BA16IS029       Krishna H Mutalikdesai
+28.       2BA16IS031       Laxmi A Angadi
+29.       2BA16IS033       Laxmi Shirahatti
+30.       2BA16IS034       Madhusudan S Hebsur
+31.       2BA16IS036       Mallamma Patil
+32.       2BA16IS038       Manjunath S Halakeri
+33.       2BA16IS039       Mariya Abidali Contractor
+34.       2BA16IS040       Nasrulla M Kokani
+35.       2BA16IS041       Nidhi M Mahalmani
+36.       2BA16IS042       Nikhita A Maradur
+37.       2BA16IS043       P D Sarojani
+38.       2BA16IS044       Parvati Belagali
+39.       2BA16IS047       Pooja Chavan
+40.       2BA16IS048       Prafulkumar C Shettar
+41.       2BA16IS049       Prajwal N Deshpande
+
+B. V. V. Sangha's
+Basaveshwar Engineering College (Autonomous), Bagalkot
+Department of Information Science and Engineering
+8th Semester Student List 2019-20
+
+B Division
+
+Sl. No.   USN              Name
+1.        2BA13IS063       Soumya A. Chippar
+2.        2BA15IS006       Aishwarya Dalabhanjan
+3.        2BA15IS039       Monica
+4.        2BA14IS019       K S Pallavi
+5.        2BA14IS023       Madhu
+6.        2BA16IS052       Priyanka B Sajjan
+7.        2BA16IS054       Raghavendra Samprati
+8.        2BA16IS055       Rashmi B Malaji
+9.        2BA16IS057       Revanasidda
+10.       2BA16IS058       Riyaben Patel
+11.       2BA16IS059       Sakshi C Nadagoudra
+12.       2BA16IS061       Sameena M Contractor
+13.       2BA16IS062       Sanjan A Vadi
+14.       2BA16IS063       Sanjeev S Kulkarni
+15.       2BA16IS064       Sanmati Hunshikatti
+16.       2BA16IS066       Shashank A Karehonn
+17.       2BA16IS068       Shreya Balli
+18.       2BA16IS069       Shreya B Tapashetti
+19.       2BA16IS070       Shridhar K
+20.       2BA16IS071       Shrinidhi P Kulkarni
+21.       2BA16IS072       Shruti Bhanvi
+22.       2BA16IS073       Sneha Awaji
+23.       2BA16IS074       Sonal R Warkar
+24.       2BA16IS075       Spoorti C Vandakudari
+25.       2BA16IS077       Sudharani
+26.       2BA16IS080       Suresh Darga
+27.       2BA16IS081       Sushma
+28.       2BA16IS082       Sushma R Kerakalamatti
+29.       2BA16IS084       Sushmita Pujar
+30.       2BA16IS085       Swati Burji
+31.       2BA16IS086       Tejashwini Ganiger
+32.       2BA16IS087       Trupti M Pattankudi
+33.       2BA16IS088       Varun K Sunagar
+34.       2BA16IS093       Vijaylaxmi
+35.       2BA16IS094       Vinayak S Gavaroji
+36.       2BA17IS400       Akshay Malaghan
+37.       2BA17IS401       Amanullah Chimmalagi
+38.       2BA17IS402       Anand Ilal
+39.       2BA17IS403       Bhuvaneshwari Ukkali
+40.       2BA17IS404       Jayashri Kuri
+41.       2BA17IS405       M. B. Bhovivaddar
+42.       2BA17IS406       Manthan Betageri
+43.       2BA17IS407       Neela Dashamani
+44.       2BA17IS409       R. S. Revadi
+45.       2BA17IS410       Shankar
+46.       2BA17IS411       Tejashwini
+47.       2BA17IS412       Vaishnavi Kulkarni
+```
