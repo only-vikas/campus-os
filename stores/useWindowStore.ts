@@ -38,6 +38,23 @@ export const useWindowStore = create<WindowStoreState>((set, get) => ({
       if (existing.isMinimized) get().restoreWindow(existing.id);
       return existing.id;
     }
+    // Fit window within current viewport if running in browser
+    let finalSize = { ...size };
+    let finalPosition = { ...position };
+    if (typeof window !== 'undefined') {
+      const maxW = Math.max(320, window.innerWidth - 40);
+      const maxH = Math.max(260, window.innerHeight - 80);
+      finalSize.width = Math.min(finalSize.width, maxW);
+      finalSize.height = Math.min(finalSize.height, maxH);
+
+      if (finalPosition.x + finalSize.width > window.innerWidth - 10) {
+        finalPosition.x = Math.max(10, window.innerWidth - finalSize.width - 20);
+      }
+      if (finalPosition.y + finalSize.height > window.innerHeight - 50) {
+        finalPosition.y = Math.max(10, Math.floor((window.innerHeight - finalSize.height - 60) / 2));
+      }
+    }
+
     const newWindow: WindowState = {
       id,
       appId,
@@ -46,8 +63,8 @@ export const useWindowStore = create<WindowStoreState>((set, get) => ({
       isMaximized: false,
       isFullMaximized: false,
       isFocused: true,
-      position,
-      size,
+      position: finalPosition,
+      size: finalSize,
       zIndex: ++zCounter,
     };
     set((s) => ({

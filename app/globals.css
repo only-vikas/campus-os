@@ -93,6 +93,28 @@ html, body, #__next {
   background: rgba(245, 158, 11, 0.8);
 }
 
+/* ── Interview Prep Visible Scrollbar ───────────────────────── */
+.interview-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(96, 165, 250, 0.7) rgba(15, 23, 42, 0.7);
+}
+.interview-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.interview-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 6px;
+}
+.interview-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(96, 165, 250, 0.7);
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.8);
+}
+.interview-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(96, 165, 250, 0.95);
+}
+
 /* ── Window Traffic Light Buttons ───────────────────────────── */
 .btn-close   { background: #ff5f57; }
 .btn-min     { background: #febc2e; }

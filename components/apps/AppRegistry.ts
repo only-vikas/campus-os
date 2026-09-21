@@ -24,9 +24,9 @@ export const APP_REGISTRY: AppConfig[] = [
     color: '#60a5fa', // blue-400
     description: 'AI-powered mock interviews with real-time feedback',
     category: 'career',
-    defaultSize: { width: 1200, height: 800 },
-    defaultPosition: { x: 60, y: 40 },
-    minSize: { width: 1000, height: 700 },
+    defaultSize: { width: 980, height: 580 },
+    defaultPosition: { x: 70, y: 35 },
+    minSize: { width: 680, height: 420 },
   },
   {
     id: 'edu-vault',
@@ -42,7 +42,7 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'placement',
     name: 'Placement Portal',
-    icon: 'Briefcase',
+    icon: '💼',
     color: '#fbbf24', // amber-400
     description: 'Job listings, applications and placement tracking',
     category: 'career',
@@ -86,7 +86,7 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'campus',
     name: 'Campus Portal',
-    icon: 'Globe',
+    icon: '🎓',
     color: '#60a5fa', // blue-400
     description: 'Student profile, grades, attendance, fees & registration',
     category: 'productivity',

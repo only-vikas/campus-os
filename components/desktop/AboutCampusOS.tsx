@@ -28,11 +28,11 @@ const APPS = [
   { name: 'Resume Analyzer', icon: <FileText size={28} />, color: '#60a5fa', desc: 'AI-powered resume analysis & optimization with multi-format support' },
   { name: 'Interview Prep', icon: <Mic size={28} />, color: '#60a5fa', desc: 'AI mock interviews with real-time feedback & performance analytics' },
   { name: 'EduVault', icon: <span className="text-2xl">🏗️</span>, color: '#34d399', desc: 'Your AI-powered financial companion for tracking & learning' },
-  { name: 'Placement Portal', icon: <Briefcase size={28} />, color: '#fbbf24', desc: 'Job listings, applications & placement tracking with AI matching' },
+  { name: 'Placement Portal', icon: <span className="text-2xl">💼</span>, color: '#fbbf24', desc: 'Job listings, applications & placement tracking with AI matching' },
   { name: 'CodeGuard', icon: <Shield size={28} />, color: '#fbbf24', desc: 'AI-powered code analysis, security scanning & automated fixes' },
   { name: 'FinSack', icon: <Landmark size={28} />, color: '#10b981', desc: 'Complete financial literacy OS — learn, simulate, trade' },
   { name: 'NovaMind', icon: <Brain size={28} />, color: '#a78bfa', desc: 'Predictive, adaptive learning & career intelligence engine' },
-  { name: 'Campus Portal', icon: <GraduationCap size={28} />, color: '#a78bfa', desc: 'Student profile, grades, attendance, fees & registration' },
+  { name: 'Campus Portal', icon: <span className="text-2xl">🎓</span>, color: '#a78bfa', desc: 'Student profile, grades, attendance, fees & registration' },
   { name: 'Weather', icon: <CloudSun size={28} />, color: '#fbbf24', desc: 'Real-time weather with city search across India' },
 ];
 

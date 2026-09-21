@@ -211,172 +211,202 @@ export default function SetupScreen() {
   };
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="flex flex-col items-center min-h-full p-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-6"
-        >
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-[#60a5fa] to-[#a78bfa] mb-3">
-            <Mic className="text-white" size={22} />
-          </div>
-          <h1 className="text-xl font-bold text-[#e2e8f0]">AI Mock Interview</h1>
-          <p className="text-[#94a3b8] text-xs mt-1 max-w-md">
-            Practice with an AI interviewer that adapts to your resume and job description.
-          </p>
-          {/* AI Status */}
-          <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border mt-2 ${
-            ollamaStatus === 'connected' ? 'bg-[#34d399]/10 text-[#34d399] border-[#34d399]/20' :
-            ollamaStatus === 'disconnected' ? 'bg-[#fbbf24]/10 text-[#fbbf24] border-[#fbbf24]/20' :
-            'bg-[#94a3b8]/10 text-[#94a3b8] border-[#94a3b8]/20'
-          }`}>
-            {ollamaStatus === 'connected' ? <><Server size={10} /> Local AI Ready</> :
-             ollamaStatus === 'disconnected' ? <><Cloud size={10} /> Cloud AI Active</> :
-             <><RefreshCw size={10} className="animate-spin" /> Checking AI...</>}
-          </div>
-        </motion.div>
+    <div className="flex flex-col h-full overflow-hidden bg-[#0a0f1e]">
+      {/* Scrollable Content Container with visible scrollbar */}
+      <div className="flex-1 overflow-y-auto interview-scrollbar px-6 py-5">
+        <div className="flex flex-col items-center min-h-full max-w-xl mx-auto pb-4">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-5"
+          >
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-[#60a5fa] to-[#a78bfa] mb-2.5 shadow-md shadow-[#60a5fa]/20">
+              <Mic className="text-white" size={22} />
+            </div>
+            <h1 className="text-xl font-bold text-[#e2e8f0]">AI Mock Interview</h1>
+            <p className="text-[#94a3b8] text-xs mt-1 max-w-md">
+              Practice with an AI interviewer that adapts to your resume and job description.
+            </p>
+            {/* AI Status */}
+            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border mt-2 ${
+              ollamaStatus === 'connected' ? 'bg-[#34d399]/10 text-[#34d399] border-[#34d399]/20' :
+              ollamaStatus === 'disconnected' ? 'bg-[#fbbf24]/10 text-[#fbbf24] border-[#fbbf24]/20' :
+              'bg-[#94a3b8]/10 text-[#94a3b8] border-[#94a3b8]/20'
+            }`}>
+              {ollamaStatus === 'connected' ? <><Server size={10} /> Local AI Ready</> :
+               ollamaStatus === 'disconnected' ? <><Cloud size={10} /> Cloud AI Active</> :
+               <><RefreshCw size={10} className="animate-spin" /> Checking AI...</>}
+            </div>
+          </motion.div>
 
-        {/* Step bar */}
-        <StepBar current={step} total={3} />
+          {/* Step bar */}
+          <StepBar current={step} total={3} />
 
-        {/* Step content */}
-        <div className="w-full max-w-xl">
-          <AnimatePresence mode="wait">
+          {/* Step content */}
+          <div className="w-full">
+            <AnimatePresence mode="wait">
 
-            {/* ---- STEP 0: Interview Type ---- */}
-            {step === 0 && (
-              <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <div className="grid grid-cols-2 gap-3 mb-4">
-                  {INTERVIEW_TYPES.map((item, i) => (
-                    <motion.button
-                      key={item.type}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0, transition: { delay: i * 0.07 } }}
-                      onClick={() => setSelectedType(item.type)}
-                      className={`relative p-5 rounded-2xl border text-left transition-all duration-200 ${
-                        selectedType === item.type
-                          ? 'border-[var(--sel)] bg-[var(--sel)]/10 shadow-lg'
-                          : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155] hover:bg-[#1e293b]/40'
-                      }`}
-                      style={{ '--sel': item.color } as React.CSSProperties}
-                    >
-                      <div className="flex items-center gap-2 mb-2" style={{ color: item.color }}>
-                        {item.icon}
-                        <span className="font-semibold text-sm text-[#e2e8f0]">{item.label}</span>
-                      </div>
-                      <p className="text-xs text-[#64748b] leading-relaxed">{item.desc}</p>
-                      {selectedType === item.type && (
-                        <motion.div layoutId="sel-ring" className="absolute inset-0 rounded-2xl border-2" style={{ borderColor: item.color }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} />
-                      )}
-                    </motion.button>
-                  ))}
-                </div>
-
-                {/* Company */}
-                <div className="relative mb-5">
-                  <Building2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#475569]" />
-                  <input
-                    type="text"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Target company (optional) — e.g. Google, Startup..."
-                    className="w-full pl-9 pr-4 py-3 rounded-xl bg-[#1e293b]/60 border border-[#334155] text-sm text-[#e2e8f0] placeholder-[#475569] focus:outline-none focus:border-[#60a5fa] transition-colors"
-                  />
-                </div>
-
-                <button onClick={handleNext} disabled={!canProceedStep0} className={`w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm ${canProceedStep0 ? 'bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white hover:scale-[1.01]' : 'bg-[#1e293b] text-[#475569] cursor-not-allowed'} transition-all`}>
-                  Next: Upload Documents <ArrowRight size={16} />
-                </button>
-              </motion.div>
-            )}
-
-            {/* ---- STEP 1: Documents ---- */}
-            {step === 1 && (
-              <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                <p className="text-xs text-[#94a3b8] text-center mb-4">
-                  Upload your resume and the job description. The AI will tailor every question to the overlap between them.
-                </p>
-                <DocUpload
-                  label="Job Description"
-                  value={jdTextLocal}
-                  onText={setJdTextLocal}
-                  placeholder="Paste the job description here..."
-                />
-                <DocUpload
-                  label="Your Resume"
-                  value={resumeTextLocal}
-                  onText={setResumeTextLocal}
-                  placeholder="Paste your resume text here..."
-                />
-                {(!jdTextLocal || !resumeTextLocal) && (
-                  <p className="text-[10px] text-[#64748b] text-center">
-                    💡 Adding both files gives 10× better, personalized questions. You can skip for generic practice.
-                  </p>
-                )}
-                <div className="flex gap-3 mt-4">
-                  <button onClick={handleBack} className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#1e293b] text-[#94a3b8] text-sm font-medium hover:bg-[#334155] transition-colors">
-                    <ArrowLeft size={16} /> Back
-                  </button>
-                  <button onClick={handleNext} className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white text-sm font-semibold hover:scale-[1.01] transition-all">
-                    Next: Choose Mode <ArrowRight size={16} />
-                  </button>
-                </div>
-              </motion.div>
-            )}
-
-            {/* ---- STEP 2: Mode + Persona ---- */}
-            {step === 2 && (
-              <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
-
-                {/* Mode selector */}
-                <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Interview Mode</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <motion.button
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => setSelectedMode('speech')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${selectedMode === 'speech' ? 'border-[#60a5fa] bg-[#60a5fa]/10' : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155]'}`}
-                    >
-                      <Mic size={20} className={`mb-2 ${selectedMode === 'speech' ? 'text-[#60a5fa]' : 'text-[#475569]'}`} />
-                      <p className="text-sm font-semibold text-[#e2e8f0]">Speech Mode</p>
-                      <p className="text-[10px] text-[#64748b] mt-1 leading-relaxed">AI speaks questions. Answer by voice or type. Most realistic experience.</p>
-                    </motion.button>
-                    <motion.button
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => setSelectedMode('writing')}
-                      className={`p-4 rounded-2xl border text-left transition-all ${selectedMode === 'writing' ? 'border-[#a78bfa] bg-[#a78bfa]/10' : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155]'}`}
-                    >
-                      <Keyboard size={20} className={`mb-2 ${selectedMode === 'writing' ? 'text-[#a78bfa]' : 'text-[#475569]'}`} />
-                      <p className="text-sm font-semibold text-[#e2e8f0]">Writing Mode</p>
-                      <p className="text-[10px] text-[#64748b] mt-1 leading-relaxed">Questions appear as text. Strictly text-only responses. No voice.</p>
-                    </motion.button>
+              {/* ---- STEP 0: Interview Type ---- */}
+              {step === 0 && (
+                <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {INTERVIEW_TYPES.map((item, i) => (
+                      <motion.button
+                        key={item.type}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0, transition: { delay: i * 0.07 } }}
+                        onClick={() => setSelectedType(item.type)}
+                        className={`relative p-4 sm:p-5 rounded-2xl border text-left transition-all duration-200 ${
+                          selectedType === item.type
+                            ? 'border-[var(--sel)] bg-[var(--sel)]/10 shadow-lg'
+                            : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155] hover:bg-[#1e293b]/40'
+                        }`}
+                        style={{ '--sel': item.color } as React.CSSProperties}
+                      >
+                        <div className="flex items-center gap-2 mb-1.5" style={{ color: item.color }}>
+                          {item.icon}
+                          <span className="font-semibold text-sm text-[#e2e8f0]">{item.label}</span>
+                        </div>
+                        <p className="text-xs text-[#64748b] leading-relaxed">{item.desc}</p>
+                        {selectedType === item.type && (
+                          <motion.div layoutId="sel-ring" className="absolute inset-0 rounded-2xl border-2" style={{ borderColor: item.color }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} />
+                        )}
+                      </motion.button>
+                    ))}
                   </div>
-                </div>
 
-                {/* Persona selector */}
-                <div>
-                  <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-3">Choose Your Interviewer</p>
-                  <AvatarPicker selected={selectedPersona} onSelect={setSelectedPersona} />
-                </div>
+                  {/* Company */}
+                  <div className="relative mb-4">
+                    <Building2 size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#475569]" />
+                    <input
+                      type="text"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      placeholder="Target company (optional) — e.g. Google, Startup..."
+                      className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-[#1e293b]/60 border border-[#334155] text-sm text-[#e2e8f0] placeholder-[#475569] focus:outline-none focus:border-[#60a5fa] transition-colors"
+                    />
+                  </div>
+                </motion.div>
+              )}
 
-                <div className="flex gap-3">
-                  <button onClick={handleBack} className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#1e293b] text-[#94a3b8] text-sm font-medium hover:bg-[#334155] transition-colors">
-                    <ArrowLeft size={16} /> Back
-                  </button>
-                  <motion.button
-                    whileTap={{ scale: 0.97 }}
-                    onClick={handleStart}
-                    disabled={!canStart}
-                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm ${canStart ? 'bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white shadow-lg shadow-[#60a5fa]/20 hover:scale-[1.01]' : 'bg-[#1e293b] text-[#475569] cursor-not-allowed'} transition-all`}
-                  >
-                    <Sparkles size={16} /> Start Interview <ArrowRight size={16} />
-                  </motion.button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {/* ---- STEP 1: Documents ---- */}
+              {step === 1 && (
+                <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                  <p className="text-xs text-[#94a3b8] text-center mb-2">
+                    Upload your resume and the job description. The AI will tailor every question to the overlap between them.
+                  </p>
+                  <DocUpload
+                    label="Job Description"
+                    value={jdTextLocal}
+                    onText={setJdTextLocal}
+                    placeholder="Paste the job description here..."
+                  />
+                  <DocUpload
+                    label="Your Resume"
+                    value={resumeTextLocal}
+                    onText={setResumeTextLocal}
+                    placeholder="Paste your resume text here..."
+                  />
+                  {(!jdTextLocal || !resumeTextLocal) && (
+                    <p className="text-[10px] text-[#64748b] text-center">
+                      💡 Adding both files gives 10× better, personalized questions. You can skip for generic practice.
+                    </p>
+                  )}
+                </motion.div>
+              )}
+
+              {/* ---- STEP 2: Mode + Persona ---- */}
+              {step === 2 && (
+                <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-5">
+                  {/* Mode selector */}
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-2.5">Interview Mode</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => setSelectedMode('speech')}
+                        className={`p-4 rounded-2xl border text-left transition-all ${selectedMode === 'speech' ? 'border-[#60a5fa] bg-[#60a5fa]/10' : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155]'}`}
+                      >
+                        <Mic size={20} className={`mb-2 ${selectedMode === 'speech' ? 'text-[#60a5fa]' : 'text-[#475569]'}`} />
+                        <p className="text-sm font-semibold text-[#e2e8f0]">Speech Mode</p>
+                        <p className="text-[10px] text-[#64748b] mt-1 leading-relaxed">AI speaks questions. Answer by voice or type. Most realistic experience.</p>
+                      </motion.button>
+                      <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => setSelectedMode('writing')}
+                        className={`p-4 rounded-2xl border text-left transition-all ${selectedMode === 'writing' ? 'border-[#a78bfa] bg-[#a78bfa]/10' : 'border-[#1e293b] bg-[#0f172a]/60 hover:border-[#334155]'}`}
+                      >
+                        <Keyboard size={20} className={`mb-2 ${selectedMode === 'writing' ? 'text-[#a78bfa]' : 'text-[#475569]'}`} />
+                        <p className="text-sm font-semibold text-[#e2e8f0]">Writing Mode</p>
+                        <p className="text-[10px] text-[#64748b] mt-1 leading-relaxed">Questions appear as text. Strictly text-only responses. No voice.</p>
+                      </motion.button>
+                    </div>
+                  </div>
+
+                  {/* Persona selector */}
+                  <div>
+                    <p className="text-xs font-semibold text-[#94a3b8] uppercase tracking-wider mb-2.5">Choose Your Interviewer</p>
+                    <AvatarPicker selected={selectedPersona} onSelect={setSelectedPersona} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+
+      {/* Persistent Bottom Action Bar — Always Visible in ALL stages */}
+      <div className="flex-shrink-0 border-t border-[#1e293b] bg-[#0a0f1e]/95 backdrop-blur-md px-6 py-3.5 shadow-2xl z-20">
+        <div className="max-w-xl mx-auto flex items-center justify-between gap-3">
+          {step > 0 ? (
+            <button
+              onClick={handleBack}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1e293b] text-[#94a3b8] text-sm font-medium hover:bg-[#334155] hover:text-white transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={16} /> Back
+            </button>
+          ) : (
+            <div />
+          )}
+
+          {step === 0 && (
+            <button
+              onClick={handleNext}
+              disabled={!canProceedStep0}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                canProceedStep0
+                  ? 'bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white shadow-lg shadow-[#60a5fa]/25 hover:scale-[1.02] active:scale-[0.98]'
+                  : 'bg-[#1e293b] text-[#475569] cursor-not-allowed opacity-60'
+              }`}
+            >
+              Next: Upload Documents <ArrowRight size={16} />
+            </button>
+          )}
+
+          {step === 1 && (
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white text-sm font-semibold shadow-lg shadow-[#60a5fa]/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+            >
+              Next: Choose Mode <ArrowRight size={16} />
+            </button>
+          )}
+
+          {step === 2 && (
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={handleStart}
+              disabled={!canStart}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-sm transition-all cursor-pointer ${
+                canStart
+                  ? 'bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] text-white shadow-lg shadow-[#60a5fa]/25 hover:scale-[1.02]'
+                  : 'bg-[#1e293b] text-[#475569] cursor-not-allowed opacity-60'
+              }`}
+            >
+              <Sparkles size={16} /> Start Interview <ArrowRight size={16} />
+            </motion.button>
+          )}
         </div>
       </div>
     </div>

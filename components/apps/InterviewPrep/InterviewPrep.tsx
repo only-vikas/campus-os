@@ -22,7 +22,7 @@ export default function InterviewPrep() {
     'interview';
 
   return (
-    <div className="h-full bg-[#0a0f1e] text-[#e2e8f0] overflow-y-auto scrollbar-thin relative">
+    <div className="h-full bg-[#0a0f1e] text-[#e2e8f0] overflow-hidden relative">
       <AnimatePresence mode="wait">
         {view === 'setup' && (
           <motion.div
