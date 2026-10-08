@@ -3,6 +3,8 @@
 
 ![Campus OS Desktop](/public/screenshots/desktop.png)
 
+**Live Application:** [https://campus-os-o7kz.onrender.com](https://campus-os-o7kz.onrender.com)
+
 ## Overview
 
 **Campus OS** is a browser-like, glassmorphic operating system built for the web. It unified academic ERP, placement tracking, financial literacy, and predictive AI into a single, beautifully animated workspace. 
@@ -33,7 +35,8 @@ Campus OS is modular and extensible. Currently, it ships with the following flag
 - Direct MongoDB integration syncing real student academic data.
 - Built-in tuition fee payment simulators and course registration.
 - **Preview:**  
-  ![Campus Portal](/public/screenshots/campus-portal.png)
+  ![Campus Portal Profile](/public/screenshots/campus-portal.png)
+  ![Campus Portal Attendance](/public/screenshots/campus-portal-attendance.png)
 
 ### 3. 💼 Placement Portal
 *Job listings, applications & placement tracking with AI matching.*
@@ -51,6 +54,8 @@ Campus OS is modular and extensible. Currently, it ships with the following flag
 ### 5. 🛡️ CodeGuard
 *AI-powered code analysis, security scanning & automated fixes.*
 - Drop your code in, get actionable AI code reviews instantly.
+- **Preview:**
+  ![CodeGuard](/public/screenshots/codeguard.png)
 
 ### 6. 📄 Resume Analyzer & Interview Prep
 *AI-powered career tools.*
