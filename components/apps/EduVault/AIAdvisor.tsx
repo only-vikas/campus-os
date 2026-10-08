@@ -7,15 +7,15 @@ import { Sparkles, Bot, AlertTriangle, Send, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AIAdvisor() {
-  const { transactions } = useEduVaultStore();
+  const { transactions, chatHistory, addChatMessage } = useEduVaultStore();
   const [summary, setSummary] = useState('');
   const [anomalies, setAnomalies] = useState<any[]>([]);
   const [status, setStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
   const [chatInput, setChatInput] = useState('');
-  const [chatHistory, setChatHistory] = useState<{role: 'user' | 'ai', content: string}[]>([]);
   const [isChatLoading, setIsChatLoading] = useState(false);
+  const [chatStatus, setChatStatus] = useState('');
 
   const handleAnalyze = async () => {
     setIsLoading(true);
@@ -42,16 +42,18 @@ export default function AIAdvisor() {
 
     const question = chatInput.trim();
     setChatInput('');
-    setChatHistory(prev => [...prev, { role: 'user', content: question }]);
+    addChatMessage({ role: 'user', content: question });
     setIsChatLoading(true);
+    setChatStatus('Initializing AI...');
 
     try {
-      const answer = await askFinancialQuestion(question);
-      setChatHistory(prev => [...prev, { role: 'ai', content: answer }]);
+      const answer = await askFinancialQuestion(question, (msg) => setChatStatus(msg));
+      addChatMessage({ role: 'ai', content: answer });
     } catch (error) {
-      setChatHistory(prev => [...prev, { role: 'ai', content: 'Sorry, I am having trouble connecting to the AI engine right now.' }]);
+      addChatMessage({ role: 'ai', content: 'Sorry, I am having trouble connecting to the AI engine right now.' });
     } finally {
       setIsChatLoading(false);
+      setChatStatus('');
     }
   };
 
@@ -141,8 +143,13 @@ export default function AIAdvisor() {
           )}
           {isChatLoading && (
             <div className="flex justify-start">
-              <div className="bg-[#1e293b] text-[#e2e8f0] p-3 rounded-xl rounded-tl-none flex items-center gap-2">
-                <Loader2 size={14} className="animate-spin" /> Thinking...
+              <div className="bg-[#1e293b] text-[#e2e8f0] p-3 rounded-xl rounded-tl-none flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <Loader2 size={14} className="animate-spin" /> Thinking...
+                </div>
+                {chatStatus && (
+                  <span className="text-[10px] text-[#34d399] uppercase tracking-wider">{chatStatus}</span>
+                )}
               </div>
             </div>
           )}

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
+const OPENROUTER_API_KEY =
+  process.env.OPENROUTER_API_KEY ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
+  '';
 const MODEL = 'nvidia/nemotron-3-super-120b-a12b:free';
 
 const SYSTEM_PROMPT = `You are Nova, an expert AI learning tutor embedded in NovaMind (Campus OS).
@@ -45,7 +49,7 @@ export async function POST(req: NextRequest) {
           ],
           stream: false,
         }),
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(2000),
       });
       if (ollamaRes.ok) {
         const data = await ollamaRes.json();

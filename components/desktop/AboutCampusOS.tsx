@@ -73,6 +73,29 @@ function useCounter(target: number, duration: number = 2000, trigger: boolean = 
   return count;
 }
 
+function StatCard({ stat, index, statsVisible }: { stat: { label: string; value: number; suffix: string }; index: number; statsVisible: boolean }) {
+  const count = useCounter(stat.value, 2000, statsVisible);
+  return (
+    <motion.div
+      key={stat.label}
+      className="glass rounded-2xl p-6 text-center group hover:scale-105 transition-transform duration-300 cursor-default"
+      initial={{ opacity: 0, y: 40, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.15, duration: 0.6 }}
+      whileHover={{
+        boxShadow: '0 0 40px rgba(96,165,250,0.15)',
+        borderColor: 'rgba(96,165,250,0.3)',
+      }}
+    >
+      <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent mb-2">
+        {count}{stat.suffix}
+      </div>
+      <div className="text-sm text-[#94a3b8] font-medium">{stat.label}</div>
+    </motion.div>
+  );
+}
+
 // ── Particle background ─────────────────────────────────────────
 function ParticleField() {
   return (
@@ -354,28 +377,9 @@ export default function AboutCampusOS({ isOpen, onClose }: AboutCampusOSProps) {
                 </motion.h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  {STATS.map((stat, i) => {
-                    const count = useCounter(stat.value, 2000, statsVisible);
-                    return (
-                      <motion.div
-                        key={stat.label}
-                        className="glass rounded-2xl p-6 text-center group hover:scale-105 transition-transform duration-300 cursor-default"
-                        initial={{ opacity: 0, y: 40, scale: 0.9 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.15, duration: 0.6 }}
-                        whileHover={{
-                          boxShadow: '0 0 40px rgba(96,165,250,0.15)',
-                          borderColor: 'rgba(96,165,250,0.3)',
-                        }}
-                      >
-                        <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#60a5fa] to-[#a78bfa] bg-clip-text text-transparent mb-2">
-                          {count}{stat.suffix}
-                        </div>
-                        <div className="text-sm text-[#94a3b8] font-medium">{stat.label}</div>
-                      </motion.div>
-                    );
-                  })}
+                  {STATS.map((stat, i) => (
+                    <StatCard key={stat.label} stat={stat} index={i} statsVisible={statsVisible} />
+                  ))}
                 </div>
               </div>
             </section>

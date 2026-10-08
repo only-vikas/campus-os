@@ -19,12 +19,18 @@ export interface Budget {
   amount: number;
 }
 
+export interface ChatMessage {
+  role: 'user' | 'ai';
+  content: string;
+}
+
 interface EduVaultState {
   transactions: Transaction[];
   budgets: Budget[];
   categories: string[];
   xp: number;
   unlockedBadges: string[];
+  chatHistory: ChatMessage[];
   
   // Actions
   addTransaction: (tx: Omit<Transaction, 'id'>) => void;
@@ -37,12 +43,16 @@ interface EduVaultState {
   // Gamification Actions
   addXP: (amount: number) => void;
   unlockBadge: (badgeId: string) => void;
+  
+  // Chat Actions
+  addChatMessage: (msg: ChatMessage) => void;
 }
 
 const DEFAULT_CATEGORIES = [
   'Food', 'Transport', 'Education', 'Housing', 'Subscriptions', 
   'Entertainment', 'Health', 'Shopping', 'Internet', 'Stationery', 
-  'Laundry', 'Sports', 'Gifts', 'Savings', 'Other'
+  'Laundry', 'Sports', 'Gifts', 'Savings', 'Other',
+  'Salary', 'Freelance', 'Agriculture'
 ];
 
 export const useEduVaultStore = create<EduVaultState>()(
@@ -53,6 +63,7 @@ export const useEduVaultStore = create<EduVaultState>()(
       categories: DEFAULT_CATEGORIES,
       xp: 0,
       unlockedBadges: [],
+      chatHistory: [],
 
       addXP: (amount) => set((state) => ({ xp: state.xp + amount })),
       
@@ -61,6 +72,8 @@ export const useEduVaultStore = create<EduVaultState>()(
           ? state.unlockedBadges 
           : [...state.unlockedBadges, badgeId]
       })),
+
+      addChatMessage: (msg) => set((state) => ({ chatHistory: [...state.chatHistory, msg] })),
 
       addTransaction: (tx) => set((state) => {
         // Award 10 XP for logging an expense, 20 XP for logging an income/savings

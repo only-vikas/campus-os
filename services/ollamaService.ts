@@ -18,7 +18,8 @@ export async function queryOllama(
         prompt: prompt,
         stream: false,
         format: expectJson ? 'json' : undefined
-      })
+      }),
+      signal: AbortSignal.timeout(2500)
     });
     
     if (res.ok) {
@@ -36,6 +37,7 @@ export async function queryOllama(
   // 2. Fallback to OpenRouter chain
   for (let i = 0; i < AI_CONFIGS.length; i++) {
     const config = AI_CONFIGS[i];
+    if (!config.apiKey) continue;
     try {
       onProgress?.(`Falling back to Cloud AI (${config.name})...`);
       

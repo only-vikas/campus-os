@@ -9,24 +9,30 @@ interface AIConfig {
   name: string;
 }
 
+const defaultKey =
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
+  process.env.OPENROUTER_API_KEY ||
+  "";
+
 export const AI_CONFIGS: AIConfig[] = [
   {
-    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 || "",
+    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 || defaultKey,
     model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
     name: "nemotron-nano-reasoning"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_2 || "",
+    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_2 || defaultKey,
     model: "google/gemma-4-26b-a4b-it:free",
     name: "gemma-4-26b"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_3 || "",
+    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_3 || defaultKey,
     model: "openai/gpt-oss-20b:free",
     name: "gpt-oss-20b"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_4 || "",
+    apiKey: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_4 || defaultKey,
     model: "liquid/lfm-2.5-2.6b:free",
     name: "lfm-2.5-2.6b"
   }

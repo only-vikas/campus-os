@@ -9,25 +9,32 @@ interface AIConfig {
   name: string;
 }
 
+const defaultKey =
+  process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_PRO_API_KEY ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
+  process.env.OPENROUTER_API_KEY ||
+  "";
+
 // Ordered strictly by performance priority
 const AI_CONFIGS: AIConfig[] = [
   {
-    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_PRO_API_KEY || "",
+    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_PRO_API_KEY || defaultKey,
     model: "google/lyria-3-pro-preview",
     name: "lyria-3-pro"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_GEMMA_31B_API_KEY || "",
+    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_GEMMA_31B_API_KEY || defaultKey,
     model: "google/gemma-4-31b-it:free",
     name: "gemma-4-31b"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_CLIP_API_KEY || "",
+    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_CLIP_API_KEY || defaultKey,
     model: "google/lyria-3-clip-preview",
     name: "lyria-3-clip"
   },
   {
-    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_DOTS_NOTE_API_KEY || "",
+    apiKey: process.env.NEXT_PUBLIC_CODEGUARD_DOTS_NOTE_API_KEY || defaultKey,
     model: "dots-studio/dots-3-note-preview:free",
     name: "dots-3-note"
   }

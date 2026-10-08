@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || '';
+const OPENROUTER_API_KEY =
+  process.env.OPENROUTER_API_KEY ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 ||
+  process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
+  '';
 const MODEL = 'nvidia/nemotron-3-super-120b-a12b:free';
 
 const SYSTEM_PROMPT = `You are NovaMind, an advanced AI learning coach built into Campus OS.
@@ -54,7 +58,7 @@ Create a 5-milestone path with projects. Focus on skill gaps and fill them progr
           prompt: `${SYSTEM_PROMPT}\n\n${userPrompt}`,
           stream: false,
         }),
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(2000),
       });
       if (ollamaRes.ok) {
         const data = await ollamaRes.json();

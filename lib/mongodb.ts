@@ -1,14 +1,16 @@
 import { MongoClient } from 'mongodb'
 
-const uri = process.env.MONGODB_URI!
+const uri = process.env.MONGODB_URI || ''
 const options = {}
 
 let client: MongoClient
 let clientPromise: Promise<MongoClient>
 
-if (process.env.NODE_ENV === 'development') {
+if (!uri) {
+  clientPromise = Promise.reject(new Error('MONGODB_URI is not set in environment variables.'))
+} else if (process.env.NODE_ENV === 'development') {
   // In development, use a global variable so the client isn't re-created on every reload
-  let globalWithMongo = global as typeof globalThis & {
+  const globalWithMongo = global as typeof globalThis & {
     _mongoClientPromise?: Promise<MongoClient>
   }
   
