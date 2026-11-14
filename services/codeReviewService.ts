@@ -20,18 +20,18 @@ const defaultKey =
 const AI_CONFIGS: AIConfig[] = [
   {
     apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_PRO_API_KEY || defaultKey,
-    model: "google/lyria-3-pro-preview",
-    name: "lyria-3-pro"
+    model: "cohere/north-mini-code:free",
+    name: "cohere-north-code"
   },
   {
     apiKey: process.env.NEXT_PUBLIC_CODEGUARD_GEMMA_31B_API_KEY || defaultKey,
-    model: "google/gemma-4-31b-it:free",
-    name: "gemma-4-31b"
+    model: "nvidia/nemotron-3.5-lightning:free",
+    name: "nemotron-3.5-lightning"
   },
   {
     apiKey: process.env.NEXT_PUBLIC_CODEGUARD_LYRIA_CLIP_API_KEY || defaultKey,
-    model: "google/lyria-3-clip-preview",
-    name: "lyria-3-clip"
+    model: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    name: "nemotron-nano-reasoning"
   },
   {
     apiKey: process.env.NEXT_PUBLIC_CODEGUARD_DOTS_NOTE_API_KEY || defaultKey,

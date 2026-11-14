@@ -1,6 +1,7 @@
 import React from 'react';
-import { Bug, CheckCircle, GitCompare } from 'lucide-react';
+import { Bug, CheckCircle, GitCompare, Cpu } from 'lucide-react';
 import { useCodeGuardStore } from '@/stores/useCodeGuardStore';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 import IssueCard from './IssueCard';
 
 function ShieldIcon(props: any) {
@@ -13,6 +14,7 @@ function ShieldIcon(props: any) {
 
 export default function AnalysisPanel() {
   const { analysisResult, isAnalyzing, viewMode, setViewMode, error, warning } = useCodeGuardStore();
+  const activeAI = useDesktopStore((s) => s.activeAI);
 
   if (error) {
     return (
@@ -43,7 +45,13 @@ export default function AnalysisPanel() {
             <ShieldIcon className="w-10 h-10 text-amber-500 animate-pulse" />
           </div>
         </div>
-        <p className="text-lg font-medium animate-pulse">Analyzing Code...</p>
+        <div className="text-center">
+          <p className="text-lg font-medium animate-pulse text-amber-300">Analyzing Code...</p>
+          <div className="flex items-center justify-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-cyan-300">
+            <Cpu size={12} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+            <span>{activeAI.statusText || 'Querying AI Engine...'}</span>
+          </div>
+        </div>
         {warning && (
           <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400 text-sm max-w-xs text-center">
             {warning}
@@ -91,7 +99,13 @@ export default function AnalysisPanel() {
       {/* Score Dashboard */}
       <div className="flex items-center justify-between bg-slate-800/80 backdrop-blur-md border border-slate-700 rounded-xl p-6 shadow-sm mx-1">
         <div>
-          <h2 className="text-2xl font-bold text-slate-100 mb-1">Analysis Score</h2>
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-2xl font-bold text-slate-100">Analysis Score</h2>
+            <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-900 border border-slate-700 text-[10px] font-mono text-slate-300">
+              <Cpu size={10} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+              <span>{activeAI.provider === 'local-ollama' ? `Local: ${activeAI.modelName}` : activeAI.provider === 'cloud-openrouter' ? `Cloud: ${activeAI.modelName}` : 'AI Engine'}</span>
+            </div>
+          </div>
           <p className="text-slate-400 text-sm">Based on {analysisResult.issues.length} detected issues</p>
         </div>
         <div className="relative w-24 h-24 flex-shrink-0">

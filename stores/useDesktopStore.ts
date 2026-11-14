@@ -16,6 +16,16 @@ export type AccentColor = 'blue' | 'purple' | 'emerald';
 
 export type OllamaModel = 'deepseek-r1:1.5b' | 'mistral' | 'llama3.1';
 
+export type AIProvider = 'local-ollama' | 'cloud-openrouter' | 'idle';
+
+export interface ActiveAIState {
+  provider: AIProvider;
+  modelName: string;
+  statusText: string;
+  isGenerating: boolean;
+  lastUsedTimestamp: number;
+}
+
 interface DesktopState {
   isBooting: boolean;
   isLocked: boolean;
@@ -26,7 +36,9 @@ interface DesktopState {
   quoteVersion: number;       // Incremented on lock/unlock/restart to trigger new quote
   weatherCity: string | null; // null = auto-detect
   ollamaModel: OllamaModel;
+  activeAI: ActiveAIState;
   // Actions
+  setActiveAI: (ai: Partial<ActiveAIState>) => void;
   finishBoot: () => void;
   unlock: () => void;
   lock: () => void;
@@ -54,6 +66,22 @@ export const useDesktopStore = create<DesktopState>()(
       quoteVersion: 0,
       weatherCity: null,
       ollamaModel: 'deepseek-r1:1.5b',
+      activeAI: {
+        provider: 'idle',
+        modelName: 'deepseek-r1:1.5b (Local) / nemotron-3.5 (Cloud)',
+        statusText: 'AI Engine Ready',
+        isGenerating: false,
+        lastUsedTimestamp: 0,
+      },
+
+      setActiveAI: (ai) =>
+        set((s) => ({
+          activeAI: {
+            ...s.activeAI,
+            ...ai,
+            lastUsedTimestamp: Date.now(),
+          },
+        })),
 
       finishBoot: () => set({ isBooting: false }),
       unlock: () => {
@@ -93,6 +121,13 @@ export const useDesktopStore = create<DesktopState>()(
           quoteVersion: 0,
           weatherCity: null,
           ollamaModel: 'deepseek-r1:1.5b',
+          activeAI: {
+            provider: 'idle',
+            modelName: 'deepseek-r1:1.5b (Local) / nemotron-3.5 (Cloud)',
+            statusText: 'AI Engine Ready',
+            isGenerating: false,
+            lastUsedTimestamp: 0,
+          },
         });
       },
     }),

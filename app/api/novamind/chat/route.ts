@@ -5,7 +5,13 @@ const OPENROUTER_API_KEY =
   process.env.NEXT_PUBLIC_OPENROUTER_API_KEY_1 ||
   process.env.NEXT_PUBLIC_OPENROUTER_API_KEY ||
   '';
-const MODEL = 'nvidia/nemotron-3-super-120b-a12b:free';
+
+const FALLBACK_MODELS = [
+  'nvidia/nemotron-3.5-lightning:free',
+  'cohere/north-mini-code:free',
+  'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
+  'liquid/lfm-3-1.7b:free',
+];
 
 const SYSTEM_PROMPT = `You are Nova, an expert AI learning tutor embedded in NovaMind (Campus OS).
 
@@ -36,7 +42,7 @@ export async function POST(req: NextRequest) {
       ? `${SYSTEM_PROMPT}\n\nUser context:\n- Career goal: ${context.careerGoal}\n- Skill levels: ${JSON.stringify(context.topSkills)}`
       : SYSTEM_PROMPT;
 
-    // 1. Try Ollama first
+    // 1. Try Ollama first (tight 2.5s timeout)
     try {
       const ollamaRes = await fetch('http://localhost:11434/api/chat', {
         method: 'POST',
@@ -49,14 +55,16 @@ export async function POST(req: NextRequest) {
           ],
           stream: false,
         }),
-        signal: AbortSignal.timeout(2000),
+        signal: AbortSignal.timeout(2500),
       });
       if (ollamaRes.ok) {
         const data = await ollamaRes.json();
         const content = data.message?.content || '';
-        if (content) return NextResponse.json({ content, provider: 'ollama' });
+        if (content) return NextResponse.json({ content, provider: 'ollama', model: 'deepseek-r1:1.5b (Local)' });
       }
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through to cloud fallback */
+    }
 
     // 2. Fallback: OpenRouter
     if (!OPENROUTER_API_KEY) {
@@ -66,30 +74,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'system', content: systemWithContext },
-          ...messages,
-        ],
-        max_tokens: 1024,
-        temperature: 0.7,
-      }),
-    });
+    for (const model of FALLBACK_MODELS) {
+      try {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'http://localhost:3000',
+            'X-Title': 'Campus OS NovaMind',
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: 'system', content: systemWithContext },
+              ...messages,
+            ],
+            max_tokens: 1024,
+            temperature: 0.7,
+          }),
+          signal: AbortSignal.timeout(15000),
+        });
 
-    if (!res.ok) {
-      return NextResponse.json({ error: 'AI provider error' }, { status: 502 });
+        if (res.ok) {
+          const data = await res.json();
+          const content = data.choices?.[0]?.message?.content;
+          if (content) {
+            return NextResponse.json({ content, provider: 'openrouter', model });
+          }
+        }
+      } catch {
+        continue;
+      }
     }
 
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content || 'No response generated.';
-    return NextResponse.json({ content, provider: 'openrouter' });
+    return NextResponse.json({ error: 'All AI models failed to respond' }, { status: 502 });
   } catch (err) {
     console.error('NovaMind tutor error:', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });

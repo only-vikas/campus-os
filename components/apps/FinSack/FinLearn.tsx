@@ -8,10 +8,11 @@
 import { useState, useCallback } from 'react';
 import {
   BookOpen, Play, CheckCircle2, ChevronRight, Sparkles,
-  Loader2, Star, ArrowLeft, ExternalLink,
+  Loader2, Star, ArrowLeft, ExternalLink, Cpu, RefreshCw, AlertCircle
 } from 'lucide-react';
 import { strategies, categoryInfo } from '@/data/finsack/strategies';
 import { useFinSackStore } from '@/stores/useFinSackStore';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 import type { Strategy, StrategyCategory } from '@/types/finsack';
 
 export default function FinLearn() {
@@ -21,7 +22,9 @@ export default function FinLearn() {
   const [notes, setNotes] = useState<string>('');
   const [loadingNotes, setLoadingNotes] = useState(false);
   const [loadingVideo, setLoadingVideo] = useState(false);
-  const { completedLessons, completeLesson, addXp } = useFinSackStore();
+  const { completedLessons, completeLesson, addXp, cachedNotes, cacheNotes } = useFinSackStore();
+  const activeAI = useDesktopStore((s) => s.activeAI);
+  const setActiveAI = useDesktopStore((s) => s.setActiveAI);
 
   const isLessonComplete = (id: string) => completedLessons.includes(id);
   const filteredStrategies = strategies.filter((s) => s.category === selectedCategory);
@@ -44,32 +47,61 @@ export default function FinLearn() {
     }
   }, []);
 
-  // Fetch AI Notes
-  const fetchNotes = useCallback(async (strategy: Strategy) => {
+  // Fetch AI Notes with store caching and active AI engine reporting
+  const fetchNotes = useCallback(async (strategy: Strategy, forceRefresh: boolean = false) => {
+    if (!forceRefresh && cachedNotes && cachedNotes[strategy.id]) {
+      setNotes(cachedNotes[strategy.id]);
+      return;
+    }
+
     setLoadingNotes(true);
     setNotes('');
+    setActiveAI({ isGenerating: true, statusText: 'Generating FinSack strategy notes...' });
+
     try {
       const res = await fetch('/api/finsack/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: strategy.aiPrompt, strategyId: strategy.id }),
       });
+
       if (res.ok) {
         const data = await res.json();
-        setNotes(data.content);
+        const content = data.content || '';
+        setNotes(content);
+        if (cacheNotes) cacheNotes(strategy.id, content);
+
         if (!completedLessons.includes(strategy.id)) {
           completeLesson(strategy.id);
           addXp(strategy.xpReward);
         }
+
+        if (data.provider === 'ollama') {
+          setActiveAI({
+            provider: 'local-ollama',
+            modelName: data.model || 'deepseek-r1:1.5b (Local)',
+            statusText: `Local Ollama: ${data.model || 'deepseek-r1:1.5b'}`,
+            isGenerating: false,
+          });
+        } else {
+          setActiveAI({
+            provider: 'cloud-openrouter',
+            modelName: `${data.model || 'nemotron-3.5'} (Cloud)`,
+            statusText: `Cloud: ${data.model || 'nemotron-3.5'}`,
+            isGenerating: false,
+          });
+        }
       } else {
         setNotes('*Failed to generate notes. Please try again.*');
+        setActiveAI({ isGenerating: false });
       }
     } catch {
       setNotes('*Failed to generate notes. Please try again.*');
+      setActiveAI({ isGenerating: false });
     } finally {
       setLoadingNotes(false);
     }
-  }, [completedLessons, completeLesson, addXp]);
+  }, [completedLessons, completeLesson, addXp, cachedNotes, cacheNotes, setActiveAI]);
 
   // Open strategy
   const openStrategy = useCallback((strategy: Strategy) => {
@@ -137,25 +169,60 @@ export default function FinLearn() {
 
           {/* Notes pane */}
           <div className="w-1/2 flex flex-col">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[rgba(51,65,85,0.4)] bg-[rgba(15,23,42,0.4)]">
-              <Sparkles size={14} className="text-[#22d3ee]" />
-              <span className="text-xs font-medium text-[#94a3b8]">AI-Generated Notes</span>
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-[rgba(51,65,85,0.4)] bg-[rgba(15,23,42,0.4)]">
+              <div className="flex items-center gap-2">
+                <Sparkles size={14} className="text-[#22d3ee]" />
+                <span className="text-xs font-semibold text-[#e2e8f0]">AI Strategy Notes</span>
+                <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-cyan-400">
+                  <Cpu size={10} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+                  <span>{activeAI.provider === 'local-ollama' ? 'Local Engine' : activeAI.provider === 'cloud-openrouter' ? 'Cloud Fallback' : 'AI Active'}</span>
+                </div>
+              </div>
+              <button
+                disabled={loadingNotes}
+                onClick={() => fetchNotes(selectedStrategy, true)}
+                className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium text-[#94a3b8] hover:text-[#e2e8f0] hover:bg-white/5 transition-colors disabled:opacity-50"
+                title="Regenerate strategy notes"
+              >
+                <RefreshCw size={12} className={loadingNotes ? 'animate-spin text-cyan-400' : ''} />
+                <span>{loadingNotes ? 'Generating...' : 'Regenerate'}</span>
+              </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
               {loadingNotes ? (
                 <div className="flex flex-col items-center justify-center h-full gap-2 text-[#94a3b8]">
-                  <Loader2 size={24} className="animate-spin" />
-                  <span className="text-sm">Generating notes with Nova AI...</span>
+                  <Loader2 size={24} className="animate-spin text-cyan-400" />
+                  <span className="text-sm font-medium">Generating notes with Nova AI...</span>
+                  <span className="text-xs text-[#64748b] font-mono">Checking Ollama & Cloud Fallbacks</span>
+                </div>
+              ) : notes && notes.includes('Failed to generate notes') ? (
+                <div className="flex flex-col items-center justify-center h-full p-6 text-center space-y-3">
+                  <AlertCircle size={28} className="text-amber-400" />
+                  <p className="text-sm text-slate-300">Notes generation timed out or could not connect.</p>
+                  <button
+                    onClick={() => fetchNotes(selectedStrategy, true)}
+                    className="px-4 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 text-xs font-semibold border border-cyan-500/30 transition-colors flex items-center gap-1.5"
+                  >
+                    <RefreshCw size={12} /> Retry Notes Generation
+                  </button>
                 </div>
               ) : notes ? (
                 <div className="space-y-2 text-sm text-[#cbd5e1] leading-relaxed">
                   {notes.split('\n').map((line, i) => {
-                    if (line.startsWith('# ')) return <h3 key={i} className="text-base font-bold text-[#e2e8f0] mt-4 mb-1">{line.replace(/^#+\s*/, '')}</h3>;
-                    if (line.startsWith('## ')) return <h4 key={i} className="text-sm font-semibold text-[#22d3ee] mt-3 mb-1">{line.replace(/^#+\s*/, '')}</h4>;
-                    if (line.startsWith('- ')) return <p key={i} className="pl-3 text-sm">• {line.replace(/^-\s*/, '')}</p>;
-                    if (line.startsWith('**')) return <p key={i} className="font-semibold text-[#e2e8f0]">{line.replace(/\*\*/g, '')}</p>;
-                    if (line.trim() === '') return <br key={i} />;
-                    return <p key={i}>{line}</p>;
+                    if (line.startsWith('# ')) return <h3 key={i} className="text-base font-bold text-[#e2e8f0] mt-4 mb-2">{line.replace(/^#+\s*/, '')}</h3>;
+                    if (line.startsWith('## ')) return <h4 key={i} className="text-sm font-semibold text-[#22d3ee] mt-3 mb-1.5 flex items-center gap-1.5">{line.replace(/^#+\s*/, '')}</h4>;
+                    if (line.startsWith('- ') || line.startsWith('* ')) {
+                      const raw = line.replace(/^[-*]\s*/, '');
+                      return (
+                        <p key={i} className="pl-3 text-sm text-[#cbd5e1] leading-relaxed">
+                          • <span dangerouslySetInnerHTML={{ __html: raw.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>') }} />
+                        </p>
+                      );
+                    }
+                    if (line.trim() === '') return <div key={i} className="h-1.5" />;
+                    return (
+                      <p key={i} className="text-sm text-[#cbd5e1] leading-relaxed" dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>') }} />
+                    );
                   })}
                 </div>
               ) : (

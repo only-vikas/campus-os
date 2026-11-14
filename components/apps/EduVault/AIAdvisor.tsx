@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useEduVaultStore } from '@/stores/useEduVaultStore';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 import { generateFinancialSummary, checkAnomalies, askFinancialQuestion } from '@/services/financeService';
-import { Sparkles, Bot, AlertTriangle, Send, Loader2 } from 'lucide-react';
+import { Sparkles, Bot, AlertTriangle, Send, Loader2, Cpu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AIAdvisor() {
   const { transactions, chatHistory, addChatMessage } = useEduVaultStore();
+  const activeAI = useDesktopStore((s) => s.activeAI);
   const [summary, setSummary] = useState('');
   const [anomalies, setAnomalies] = useState<any[]>([]);
   const [status, setStatus] = useState('');
@@ -111,11 +113,18 @@ export default function AIAdvisor() {
 
       {/* Right: Ask Vault (Chat) */}
       <div className="w-full md:w-1/2 bg-[#0f172a] rounded-xl border border-[#1e293b] flex flex-col overflow-hidden">
-        <div className="p-4 border-b border-[#1e293b] bg-[#0a0f1e]/80">
-          <h3 className="text-lg font-bold text-[#f8fafc] flex items-center gap-2">
-            <Bot className="text-[#60a5fa]" size={20} /> Ask Vault
-          </h3>
-          <p className="text-xs text-[#94a3b8]">Your personal AI financial coach</p>
+        <div className="p-4 border-b border-[#1e293b] bg-[#0a0f1e]/80 flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-bold text-[#f8fafc] flex items-center gap-2">
+              <Bot className="text-[#60a5fa]" size={20} /> Ask Vault
+            </h3>
+            <p className="text-xs text-[#94a3b8]">Your personal AI financial coach</p>
+          </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#181C24] border border-white/10 text-[11px] font-mono">
+            <span className={`w-1.5 h-1.5 rounded-full ${activeAI.isGenerating ? 'bg-cyan-400 animate-ping' : activeAI.provider === 'local-ollama' ? 'bg-emerald-400' : 'bg-violet-400'}`} />
+            <Cpu size={12} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+            <span className="text-white/80">{activeAI.statusText || 'AI Ready'}</span>
+          </div>
         </div>
         
         <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin">

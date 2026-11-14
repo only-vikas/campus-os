@@ -14,6 +14,7 @@ interface FinSackState {
   streak: number;
   completedLessons: string[];
   lastActiveDate: string;
+  cachedNotes: Record<string, string>;
 
   // UI
   activeTab: FinSackTab;
@@ -26,6 +27,7 @@ interface FinSackState {
   addXp: (amount: number) => void;
   completeLesson: (strategyId: string) => void;
   isLessonComplete: (strategyId: string) => boolean;
+  cacheNotes: (strategyId: string, notes: string) => void;
   addChatMessage: (msg: FinSackChatMessage) => void;
   clearChat: () => void;
 }
@@ -44,6 +46,7 @@ export const useFinSackStore = create<FinSackState>()(
       streak: 1,
       completedLessons: [],
       lastActiveDate: new Date().toISOString().slice(0, 10),
+      cachedNotes: {},
       activeTab: 'dashboard',
       chatMessages: [WELCOME_MSG],
 
@@ -61,6 +64,11 @@ export const useFinSackStore = create<FinSackState>()(
       isLessonComplete: (strategyId) =>
         get().completedLessons.includes(strategyId),
 
+      cacheNotes: (strategyId, notes) =>
+        set((s) => ({
+          cachedNotes: { ...s.cachedNotes, [strategyId]: notes },
+        })),
+
       addChatMessage: (msg) =>
         set((s) => ({ chatMessages: [...s.chatMessages, msg] })),
 
@@ -74,6 +82,7 @@ export const useFinSackStore = create<FinSackState>()(
         streak: state.streak,
         completedLessons: state.completedLessons,
         lastActiveDate: state.lastActiveDate,
+        cachedNotes: state.cachedNotes,
       }),
     }
   )

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useResumeAnalyzerStore } from '@/stores/useResumeAnalyzerStore';
-import { Target, AlertTriangle, CheckCircle, Brain, LayoutDashboard } from 'lucide-react';
+import { useDesktopStore } from '@/stores/useDesktopStore';
+import { Target, AlertTriangle, CheckCircle, Brain, LayoutDashboard, Cpu } from 'lucide-react';
 
 const containerVariants: any = {
   hidden: { opacity: 0 },
@@ -17,6 +18,7 @@ const itemVariants: any = {
 
 export default function BentoDashboard() {
   const { sessions, activeSessionId, isAnalyzing, analysisProgress } = useResumeAnalyzerStore();
+  const activeAI = useDesktopStore((s) => s.activeAI);
   const session = sessions.find((s) => s.id === activeSessionId);
   const analysis = session?.analysis;
 
@@ -48,6 +50,10 @@ export default function BentoDashboard() {
     >
       {/* Cell 1: Radial Match Score */}
       <motion.div variants={itemVariants} className="glass rounded-2xl p-6 flex flex-col items-center justify-center text-center col-span-1">
+        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#181C24] border border-white/10 text-[10px] font-mono mb-3">
+          <Cpu size={10} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+          <span className="text-white/80">{activeAI.provider === 'local-ollama' ? `Local: ${activeAI.modelName}` : activeAI.provider === 'cloud-openrouter' ? `Cloud: ${activeAI.modelName}` : 'AI Engine Active'}</span>
+        </div>
         <h3 className="text-[#94a3b8] text-sm font-medium mb-4 flex items-center gap-2" title="AI-generated ATS score based on structure analysis">
           <Target size={16} /> AI-Generated ATS Score
         </h3>

@@ -5,8 +5,9 @@
 // ============================================================
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, Send, Loader2, Trash2, Sparkles, BookOpen } from 'lucide-react';
+import { Bot, User, Send, Loader2, Trash2, Sparkles, BookOpen, Cpu } from 'lucide-react';
 import { useNovaMindStore } from '@/stores/useNovaMindStore';
+import { useDesktopStore } from '@/stores/useDesktopStore';
 import type { NovaMindChatMessage } from '@/types/novamind';
 
 const SUGGESTED_PROMPTS = [
@@ -38,6 +39,8 @@ function renderContent(content: string): React.ReactNode[] {
 
 export default function AITutor() {
   const { tutorMessages, addTutorMessage, clearTutorChat, skillMastery, userProfile } = useNovaMindStore();
+  const activeAI = useDesktopStore((s) => s.activeAI);
+  const setActiveAI = useDesktopStore((s) => s.setActiveAI);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -57,6 +60,7 @@ export default function AITutor() {
     addTutorMessage(userMsg);
     setInput('');
     setIsLoading(true);
+    setActiveAI({ isGenerating: true, statusText: 'Nova AI reasoning...' });
 
     try {
       // Build context from top known skills
@@ -80,15 +84,32 @@ export default function AITutor() {
       if (res.ok) {
         const data = await res.json();
         addTutorMessage({ role: 'assistant', content: data.content || 'No response.', timestamp: Date.now() });
+        if (data.provider === 'ollama') {
+          setActiveAI({
+            provider: 'local-ollama',
+            modelName: data.model || 'deepseek-r1:1.5b (Local)',
+            statusText: `Local Ollama (${data.model || 'deepseek-r1:1.5b'})`,
+            isGenerating: false,
+          });
+        } else {
+          setActiveAI({
+            provider: 'cloud-openrouter',
+            modelName: `${data.model || 'nemotron-3.5'} (Cloud)`,
+            statusText: `Cloud: ${data.model || 'nemotron-3.5'}`,
+            isGenerating: false,
+          });
+        }
       } else {
         addTutorMessage({ role: 'assistant', content: '⚠️ Could not reach Nova AI. Please check your connection.', timestamp: Date.now() });
+        setActiveAI({ isGenerating: false });
       }
     } catch {
       addTutorMessage({ role: 'assistant', content: '⚠️ Network error. Is Ollama running locally?', timestamp: Date.now() });
+      setActiveAI({ isGenerating: false });
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, tutorMessages, addTutorMessage, skillMastery, userProfile]);
+  }, [input, isLoading, tutorMessages, addTutorMessage, skillMastery, userProfile, setActiveAI]);
 
   return (
     <div className="flex flex-col h-full bg-[rgba(5,5,15,0.5)]">
@@ -101,18 +122,40 @@ export default function AITutor() {
           <div>
             <p className="text-sm font-semibold text-[#e2e8f0]">Nova AI Tutor</p>
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse" />
-              <p className="text-[10px] text-[#475569]">Nemotron 120B • Skill-aware</p>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  activeAI.isGenerating
+                    ? 'bg-cyan-400 animate-ping'
+                    : activeAI.provider === 'local-ollama'
+                    ? 'bg-[#22c55e]'
+                    : 'bg-violet-400'
+                }`}
+              />
+              <p className="text-[10px] font-mono text-[#94a3b8]">
+                {activeAI.isGenerating
+                  ? 'Generating response...'
+                  : activeAI.provider === 'local-ollama'
+                  ? `Local: ${activeAI.modelName}`
+                  : activeAI.provider === 'cloud-openrouter'
+                  ? `Cloud: ${activeAI.modelName}`
+                  : 'Ollama / OpenRouter Fallback'}
+              </p>
             </div>
           </div>
         </div>
-        <button
-          onClick={clearTutorChat}
-          className="w-8 h-8 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.04)] border border-[rgba(51,65,85,0.4)] text-[#475569] hover:text-[#e2e8f0] hover:bg-[rgba(255,255,255,0.08)] transition-all"
-          title="Clear chat"
-        >
-          <Trash2 size={13} />
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-slate-300">
+            <Cpu size={10} className={activeAI.provider === 'local-ollama' ? 'text-emerald-400' : 'text-violet-400'} />
+            <span>{activeAI.provider === 'local-ollama' ? 'Local Engine' : 'Cloud Fallback'}</span>
+          </div>
+          <button
+            onClick={clearTutorChat}
+            className="w-8 h-8 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.04)] border border-[rgba(51,65,85,0.4)] text-[#475569] hover:text-[#e2e8f0] hover:bg-[rgba(255,255,255,0.08)] transition-all"
+            title="Clear chat"
+          >
+            <Trash2 size={13} />
+          </button>
+        </div>
       </div>
 
       {/* Messages */}

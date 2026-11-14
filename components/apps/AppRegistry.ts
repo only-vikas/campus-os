@@ -1,7 +1,7 @@
 // ============================================================
 // Campus OS — App Registry
 // Central configuration for all apps in the OS
-// To add a new app: just add an entry here.
+// Theme: Deep Space Academy Accents
 // ============================================================
 import { AppConfig } from '@/types/app';
 
@@ -10,7 +10,7 @@ export const APP_REGISTRY: AppConfig[] = [
     id: 'resume',
     name: 'Resume Analyzer',
     icon: 'FileText',
-    color: '#60a5fa', // blue-400
+    color: '#F472B6', // Pink — creativity, standout
     description: 'AI-powered resume analysis and optimization',
     category: 'career',
     defaultSize: { width: 800, height: 560 },
@@ -21,7 +21,7 @@ export const APP_REGISTRY: AppConfig[] = [
     id: 'interview',
     name: 'Interview Prep',
     icon: 'Mic',
-    color: '#60a5fa', // blue-400
+    color: '#38BDF8', // Sky Blue — clarity, confidence
     description: 'AI-powered mock interviews with real-time feedback',
     category: 'career',
     defaultSize: { width: 980, height: 580 },
@@ -31,8 +31,8 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'edu-vault',
     name: 'EduVault',
-    icon: '🏗️',
-    color: '#34d399', // emerald-400
+    icon: 'Wallet',
+    color: '#34D399', // Emerald — wealth, growth
     description: 'Track. Learn. Grow. Your AI-powered financial companion.',
     category: 'finance',
     defaultSize: { width: 1100, height: 750 },
@@ -42,8 +42,8 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'placement',
     name: 'Placement Portal',
-    icon: '💼',
-    color: '#fbbf24', // amber-400
+    icon: 'Briefcase',
+    color: '#FB923C', // Orange — opportunity, career
     description: 'Job listings, applications and placement tracking',
     category: 'career',
     defaultSize: { width: 860, height: 580 },
@@ -53,8 +53,8 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'code-guard',
     name: 'CodeGuard',
-    icon: 'Shield',
-    color: '#fbbf24', // amber-400
+    icon: 'ShieldCheck',
+    color: '#A78BFA', // Violet — precision, security
     description: 'AI-powered code analysis and automated fixes',
     category: 'productivity',
     defaultSize: { width: 1200, height: 800 },
@@ -65,7 +65,7 @@ export const APP_REGISTRY: AppConfig[] = [
     id: 'finsack',
     name: 'FinSack',
     icon: 'Landmark',
-    color: '#10b981', // emerald-500
+    color: '#F59E0B', // Amber — markets, trading
     description: 'Learn. Simulate. Trade. The complete financial literacy OS.',
     category: 'finance',
     defaultSize: { width: 1200, height: 800 },
@@ -75,8 +75,8 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'nova-mind',
     name: 'NovaMind',
-    icon: '🧠',
-    color: '#a78bfa', // purple-400
+    icon: 'BrainCircuit',
+    color: '#22D3EE', // Cyan — knowledge, digital intelligence
     description: "It doesn't just recommend. It understands. It evolves. It builds you.",
     category: 'learning',
     defaultSize: { width: 1100, height: 750 },
@@ -86,8 +86,8 @@ export const APP_REGISTRY: AppConfig[] = [
   {
     id: 'campus',
     name: 'Campus Portal',
-    icon: '🎓',
-    color: '#60a5fa', // blue-400
+    icon: 'GraduationCap',
+    color: '#6366F1', // Indigo — authority, campus core
     description: 'Student profile, grades, attendance, fees & registration',
     category: 'productivity',
     defaultSize: { width: 1100, height: 750 },
@@ -98,7 +98,7 @@ export const APP_REGISTRY: AppConfig[] = [
     id: 'weather',
     name: 'Weather',
     icon: 'CloudSun',
-    color: '#fbbf24', // amber-400
+    color: '#F59E0B', // Amber
     description: 'Real-time weather with city search across India',
     category: 'utility',
     defaultSize: { width: 600, height: 560 },
@@ -109,7 +109,7 @@ export const APP_REGISTRY: AppConfig[] = [
     id: 'settings',
     name: 'Settings',
     icon: 'Settings',
-    color: '#94a3b8', // slate-400
+    color: '#94A3B8', // Slate — configuration
     description: 'Customize your Campus OS experience',
     category: 'system',
     defaultSize: { width: 720, height: 520 },
